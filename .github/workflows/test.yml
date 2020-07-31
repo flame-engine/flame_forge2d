@@ -17,4 +17,3 @@ jobs:
       - run: flutter --version
       - run: flutter pub get
       - run: ./scripts/lint.sh
-      - run: flutter test
