@@ -1,10 +1,10 @@
 import 'dart:ui';
 
 import 'package:box2d_flame/box2d.dart' hide Timer;
-import 'package:flame/box2d/viewport.dart';
 import 'package:flame/components/component.dart';
 
 import 'box2d_game.dart';
+import 'viewport.dart';
 
 abstract class BodyComponent extends Component {
   static const maxPolygonVertices = 10;
