@@ -23,10 +23,9 @@ class Ball extends BodyComponent {
   final double _radius = 5.0;
   Vector2 _position;
 
-  Ball(Vector2 position, Box2DGame box2d) : super(box2d) {
+  Ball(this._position, Box2DGame box2d) : super(box2d) {
     originalPaint = _randomPaint();
     currentPaint = originalPaint;
-    _position = viewport.getScreenToWorld(position);
   }
 
   Paint _randomPaint() {
@@ -45,6 +44,7 @@ class Ball extends BodyComponent {
   Body createBody() {
     final CircleShape shape = CircleShape();
     shape.radius = _radius;
+    Vector2 worldPosition = viewport.getScreenToWorld(_position);
 
     final fixtureDef = FixtureDef()
       ..shape = shape
@@ -55,7 +55,7 @@ class Ball extends BodyComponent {
     final bodyDef = BodyDef()
       // To be able to determine object in collision
       ..setUserData(this)
-      ..position = _position
+      ..position = worldPosition
       ..type = BodyType.DYNAMIC;
 
     return world.createBody(bodyDef)..createFixtureFromFixtureDef(fixtureDef);
@@ -129,7 +129,7 @@ class BallWallContactCallback extends ContactCallback<Ball, Wall> {
   }
 
   @override
-  void end(Ball ball1, Wall wall, Contact contact) {}
+  void end(Ball ball, Wall wall, Contact contact) {}
 }
 
 class MyGame extends Box2DGame with TapDetector {
