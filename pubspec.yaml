@@ -8,8 +8,15 @@ environment:
   flutter: ">=1.17.0 <2.0.0"
 
 dependencies:
-  flame: '>=0.23.0 <1.0.0'
-  box2d_flame: ^0.4.6
+  flame:
+    git:
+      url: git@github.com:flame-engine/flame.git
+      ref: v1.0.0
+  box2d_flame:
+    git:
+      url: git@github.com:flame-engine/box2d.dart.git
+      ref: spydon.dart-standard
+
   flutter:
     sdk: flutter
 

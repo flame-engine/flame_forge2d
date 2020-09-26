@@ -1,7 +1,8 @@
 import 'dart:ui';
 
-import 'package:box2d_flame/box2d.dart' hide Timer;
+import 'package:box2d_flame/box2d.dart' hide Timer, Vector2;
 import 'package:flame/components/component.dart';
+import 'package:flame/extensions/vector2.dart';
 
 import 'box2d_game.dart';
 import 'viewport.dart';
@@ -62,10 +63,10 @@ abstract class BodyComponent extends Component {
 
   void _renderChain(Canvas canvas, Fixture fixture) {
     final ChainShape chainShape = fixture.getShape();
-    final List<Vector2> vertices = Vec2Array().get(chainShape.getVertexCount());
+    final List<Vector2> vertices = List<Vector2>(chainShape.getVertexCount());
 
     for (int i = 0; i < chainShape.getVertexCount(); ++i) {
-      body.getWorldPointToOut(chainShape.getVertex(i), vertices[i]);
+      vertices[i] = body.getWorldPoint(chainShape.getVertex(i));
       vertices[i] = viewport.getWorldToScreen(vertices[i]);
     }
 
@@ -87,10 +88,10 @@ abstract class BodyComponent extends Component {
   void _renderCircle(Canvas canvas, Fixture fixture) {
     var center = Vector2.zero();
     final CircleShape circle = fixture.getShape();
-    body.getWorldPointToOut(circle.p, center);
+    center = body.getWorldPoint(circle.position);
     center = viewport.getWorldToScreen(center);
     renderCircle(
-        canvas, Offset(center.x, center.y), circle.radius * viewport.scale);
+        canvas, center.toOffset(), circle.radius * viewport.scale);
   }
 
   void renderCircle(Canvas canvas, Offset center, double radius) {
@@ -102,10 +103,10 @@ abstract class BodyComponent extends Component {
   void _renderPolygon(Canvas canvas, Fixture fixture) {
     final PolygonShape polygon = fixture.getShape();
     assert(polygon.count <= maxPolygonVertices);
-    final List<Vector2> vertices = Vec2Array().get(polygon.count);
+    final List<Vector2> vertices = List<Vector2>(polygon.count);
 
     for (int i = 0; i < polygon.count; ++i) {
-      body.getWorldPointToOut(polygon.vertices[i], vertices[i]);
+      vertices[i] = body.getWorldPoint(polygon.vertices[i]);
       vertices[i] = viewport.getWorldToScreen(vertices[i]);
     }
 

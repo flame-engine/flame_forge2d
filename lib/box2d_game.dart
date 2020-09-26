@@ -3,10 +3,9 @@ import 'dart:ui';
 import 'package:box2d_flame/box2d.dart' hide Timer;
 import 'package:flame/game/base_game.dart';
 
-// TODO: alias can be removed once viewport is removed from flame
-import 'viewport.dart' as box2d;
 import 'body_component.dart';
 import 'contact_callbacks.dart';
+import 'viewport.dart';
 
 class Box2DGame extends BaseGame {
   static final Vector2 defaultGravity = Vector2(0.0, -10.0);
@@ -15,7 +14,7 @@ class Box2DGame extends BaseGame {
   final int positionIterations = 10;
 
   World world;
-  box2d.Viewport viewport;
+  Viewport viewport;
 
   final ContactCallbacks _contactCallbacks = ContactCallbacks();
 
@@ -28,7 +27,7 @@ class Box2DGame extends BaseGame {
     gravity ??= defaultGravity;
     world = World(gravity);
     world.setContactListener(_contactCallbacks);
-    viewport = box2d.Viewport(dimensions, scale);
+    viewport = Viewport(dimensions, scale);
   }
 
   @override
@@ -38,7 +37,7 @@ class Box2DGame extends BaseGame {
   }
 
   @override
-  void resize(Size size) {
+  void resize(Vector2 size) {
     super.resize(size);
     viewport.resize(size);
   }

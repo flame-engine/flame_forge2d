@@ -1,3 +1,3 @@
-# Flame Box2D example
+# Box2D Simple
 
-Simple project to showcase the usage of flame_box2d
+A simple Flame game showcasing how to use box2d together with flame.
