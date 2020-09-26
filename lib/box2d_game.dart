@@ -10,16 +10,12 @@ import 'contact_callbacks.dart';
 
 class Box2DGame extends BaseGame {
   static final Vector2 defaultGravity = Vector2(0.0, -10.0);
-  static const int defaultWorldPoolSize = 100;
-  static const int defaultWorldPoolContainerSize = 10;
-  static const int defaultVelocityIterations = 10;
-  static const int defaultPositionIterations = 10;
   static const double defaultScale = 1.0;
+  final int velocityIterations = 10;
+  final int positionIterations = 10;
 
   World world;
   box2d.Viewport viewport;
-  final int velocityIterations = defaultVelocityIterations;
-  final int positionIterations = defaultPositionIterations;
 
   final ContactCallbacks _contactCallbacks = ContactCallbacks();
 
@@ -30,9 +26,7 @@ class Box2DGame extends BaseGame {
   }) {
     dimensions ??= window.physicalSize;
     gravity ??= defaultGravity;
-    final pool =
-        DefaultWorldPool(defaultWorldPoolSize, defaultWorldPoolContainerSize);
-    world = World.withPool(gravity, pool);
+    world = World(gravity);
     world.setContactListener(_contactCallbacks);
     viewport = box2d.Viewport(dimensions, scale);
   }
