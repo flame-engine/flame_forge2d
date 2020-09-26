@@ -9,7 +9,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flame: '>=0.23.0 <1.0.0'
+  flame:
+    git:
+      url: git@github.com:flame-engine/flame.git
+      ref: v1.0.0
   flame_box2d:
     path: ../../
 

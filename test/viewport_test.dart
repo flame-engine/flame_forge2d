@@ -1,10 +1,13 @@
 import 'dart:ui';
 
-import 'package:flame/box2d/viewport.dart';
+import 'package:box2d_flame/box2d.dart';
 import 'package:test/test.dart';
 
+import '../lib/viewport.dart';
+
 void main() {
-  final viewport = Viewport(const Size(100.0, 100.0), 1.0);
+  final size = Vector2.all(100);
+  final viewport = Viewport(size, 1.0);
 
   group('getCenterHorizontalScreenPercentage', () {
     test('center starts in the middle', () {

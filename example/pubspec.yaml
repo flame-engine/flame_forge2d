@@ -1,19 +1,21 @@
-name: example
-description: Simple project to showcase the usage of flame_box2d
-
-publish_to: 'none'
+name: box2d
+description: Flame sample game showcasing the structure for box2d games
 
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
-  flame: 0.24.0
-  flame_box2d:
-    path: ../
   flutter:
     sdk: flutter
+  flame:
+    git:
+      url: git@github.com:flame-engine/flame.git
+      ref: v1.0.0
+  flame_box2d:
+    path: ../
 
-flutter:
-  uses-material-design: false
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flame/anchor.dart';
-import 'package:flame/components/component.dart';
+import 'package:flame/components/sprite_component.dart';
 import 'package:flame/sprite.dart';
 
 import 'body_component.dart';
