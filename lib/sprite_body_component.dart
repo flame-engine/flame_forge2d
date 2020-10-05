@@ -5,7 +5,7 @@ import 'package:flame/components/sprite_component.dart';
 import 'package:flame/sprite.dart';
 
 import 'body_component.dart';
-import 'box2d_game.dart';
+import 'forge2d_game.dart';
 
 abstract class SpriteBodyComponent extends BodyComponent {
   SpriteComponent spriteComponent;
@@ -18,7 +18,7 @@ abstract class SpriteBodyComponent extends BodyComponent {
     Sprite sprite,
     this.width,
     this.height,
-    Box2DGame game,
+    Forge2DGame game,
   ) : super(game) {
     spriteComponent = SpriteComponent.fromSprite(width, height, sprite)
       ..anchor = Anchor.center;

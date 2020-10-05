@@ -13,7 +13,7 @@ dependencies:
     git:
       url: git@github.com:flame-engine/flame.git
       ref: v1.0.0
-  flame_box2d:
+  flame_forge2d:
     path: ../
 
 dev_dependencies:

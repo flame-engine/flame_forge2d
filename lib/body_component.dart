@@ -1,16 +1,16 @@
 import 'dart:ui';
 
-import 'package:box2d_flame/box2d.dart' hide Timer, Vector2;
+import 'package:forge2d/forge2d.dart' hide Timer, Vector2;
 import 'package:flame/components/component.dart';
 import 'package:flame/extensions/vector2.dart';
 
-import 'box2d_game.dart';
+import 'forge2d_game.dart';
 import 'viewport.dart';
 
 abstract class BodyComponent extends Component {
   static const maxPolygonVertices = 10;
 
-  final Box2DGame game;
+  final Forge2DGame game;
   Body body;
   bool _shouldRemove = false;
 

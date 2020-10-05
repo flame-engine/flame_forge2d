@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:box2d_flame/box2d.dart';
+import 'package:forge2d/forge2d.dart';
 import 'package:test/test.dart';
 
 import '../lib/viewport.dart';

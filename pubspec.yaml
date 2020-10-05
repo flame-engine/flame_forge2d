@@ -12,7 +12,7 @@ dependencies:
     git:
       url: git@github.com:flame-engine/flame.git
       ref: v1.0.0
-  box2d_flame:
+  forge2d:
     git:
       url: git@github.com:flame-engine/forge2d.git
       ref: spydon.dart-standard
