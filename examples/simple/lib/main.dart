@@ -1,10 +1,10 @@
 import 'dart:math' as math;
 
-import 'package:box2d_flame/box2d.dart';
+import 'package:forge2d/forge2d.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/palette.dart';
-import 'package:flame_box2d/body_component.dart';
-import 'package:flame_box2d/box2d_game.dart';
+import 'package:flame_forge2d/body_component.dart';
+import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -21,10 +21,10 @@ class MyPlanet extends BodyComponent {
   double totalTime = 0;
   // Creates a BodyComponent that renders a red circle (with a black moving
   // pulsating circle on the inside) that can interact with other body
-  // components that are added to the same Box2DGame/Box2DComponent.
+  // components that are added to the same Forge2DGame/Forge2DComponent.
   // After 20 seconds the circle will be removed, to show that we don't get
   // any concurrent modification exceptions.
-  MyPlanet(Box2DGame game) : super(game);
+  MyPlanet(Forge2DGame game) : super(game);
 
   @override
   Body createBody() {
@@ -72,7 +72,7 @@ class MyPlanet extends BodyComponent {
   }
 }
 
-class MyGame extends Box2DGame {
+class MyGame extends Forge2DGame {
   MyGame() : super(scale: 4.0, gravity: Vector2.zero()) {
     add(MyPlanet(this));
   }

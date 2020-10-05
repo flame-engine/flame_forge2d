@@ -1,9 +1,9 @@
-import 'package:box2d_flame/box2d.dart';
+import 'package:forge2d/forge2d.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/gestures.dart';
 import 'package:flame/sprite.dart';
-import 'package:flame_box2d/box2d_game.dart';
-import 'package:flame_box2d/sprite_body_component.dart';
+import 'package:flame_forge2d/forge2d_game.dart';
+import 'package:flame_forge2d/sprite_body_component.dart';
 import 'package:flutter/material.dart';
 
 import 'boundaries.dart';
@@ -17,7 +17,7 @@ void main() async {
 class Ship extends SpriteBodyComponent {
   final Vector2 _position;
 
-  Ship(this._position, Box2DGame game)
+  Ship(this._position, Forge2DGame game)
       : super(Sprite('ship.png'), 10, 15, game);
 
   @override
@@ -45,7 +45,7 @@ class Ship extends SpriteBodyComponent {
   }
 }
 
-class MyGame extends Box2DGame with TapDetector {
+class MyGame extends Forge2DGame with TapDetector {
   MyGame() : super(scale: 4.0, gravity: Vector2(0, -10.0)) {
     final boundaries = createBoundaries(this);
     boundaries.forEach(add);

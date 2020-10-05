@@ -1,13 +1,13 @@
 import 'dart:ui';
 
-import 'package:box2d_flame/box2d.dart' hide Timer;
+import 'package:forge2d/forge2d.dart' hide Timer;
 import 'package:flame/game/base_game.dart';
 
 import 'body_component.dart';
 import 'contact_callbacks.dart';
 import 'viewport.dart';
 
-class Box2DGame extends BaseGame {
+class Forge2DGame extends BaseGame {
   static final Vector2 defaultGravity = Vector2(0.0, -10.0);
   static const double defaultScale = 1.0;
   final int velocityIterations = 10;
@@ -18,7 +18,7 @@ class Box2DGame extends BaseGame {
 
   final ContactCallbacks _contactCallbacks = ContactCallbacks();
 
-  Box2DGame({
+  Forge2DGame({
     dimensions,
     Vector2 gravity,
     double scale = defaultScale,

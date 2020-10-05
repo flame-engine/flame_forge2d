@@ -1,12 +1,12 @@
 import 'dart:math' as math;
 
-import 'package:box2d_flame/box2d.dart';
+import 'package:forge2d/forge2d.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/gestures.dart';
 import 'package:flame/palette.dart';
-import 'package:flame_box2d/body_component.dart';
-import 'package:flame_box2d/box2d_game.dart';
-import 'package:flame_box2d/contact_callbacks.dart';
+import 'package:flame_forge2d/body_component.dart';
+import 'package:flame_forge2d/forge2d_game.dart';
+import 'package:flame_forge2d/contact_callbacks.dart';
 import 'package:flutter/material.dart';
 
 import 'boundaries.dart';
@@ -23,7 +23,7 @@ class Ball extends BodyComponent {
   final double _radius = 5.0;
   Vector2 _position;
 
-  Ball(this._position, Box2DGame box2d) : super(box2d) {
+  Ball(this._position, Forge2DGame forge2d) : super(forge2d) {
     originalPaint = _randomPaint();
     currentPaint = originalPaint;
   }
@@ -89,7 +89,7 @@ class Ball extends BodyComponent {
 }
 
 class WhiteBall extends Ball {
-  WhiteBall(Vector2 position, Box2DGame game) : super(position, game) {
+  WhiteBall(Vector2 position, Forge2DGame game) : super(position, game) {
     originalPaint = BasicPalette.white.paint;
     currentPaint = originalPaint;
   }
@@ -132,7 +132,7 @@ class BallWallContactCallback extends ContactCallback<Ball, Wall> {
   void end(Ball ball, Wall wall, Contact contact) {}
 }
 
-class MyGame extends Box2DGame with TapDetector {
+class MyGame extends Forge2DGame with TapDetector {
   MyGame() : super(scale: 4.0, gravity: Vector2(0, -10.0)) {
     final boundaries = createBoundaries(this);
     boundaries.forEach(add);
