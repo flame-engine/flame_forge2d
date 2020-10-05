@@ -1,6 +1,6 @@
-# Flame Box2d
+# Flame Forge2D (Port of Box2D)
 
-Package to add Box2d support for the Flame game engine
+Package to add Forge2D (our port of Box2D) support for the Flame game engine
 
 More on https://flame-engine.org/docs/box2d.md
 
