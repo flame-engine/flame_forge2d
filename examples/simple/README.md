@@ -1,3 +1,3 @@
-# Box2D Simple
+# Forge2D Simple
 
-A simple Flame game showcasing how to use box2d together with flame.
+A simple Flame game showcasing how to use Forge2D (box2d) together with flame.

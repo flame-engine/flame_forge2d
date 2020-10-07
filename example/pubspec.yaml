@@ -1,5 +1,5 @@
-name: box2d
-description: Flame sample game showcasing the structure for box2d games
+name: forge2d_sample
+description: Flame sample game showcasing the structure for forge2d games
 
 version: 1.0.0+1
 
