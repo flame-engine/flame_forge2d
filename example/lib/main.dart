@@ -11,11 +11,11 @@ void main() async {
   dashbook.storiesOf('Flame and Forge2D').decorator(CenterDecorator())
     ..add(
       'Contact Callbacks',
-          (DashbookContext ctx) => ContactCallbacksSample().widget,
+      (DashbookContext ctx) => ContactCallbacksSample().widget,
     )
     ..add(
       'Sprite Bodies',
-          (DashbookContext ctx) => SpriteBodySample().widget,
+      (DashbookContext ctx) => SpriteBodySample().widget,
     );
 
   runApp(dashbook);

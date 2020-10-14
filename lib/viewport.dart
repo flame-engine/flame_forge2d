@@ -10,8 +10,7 @@ class Viewport extends ViewportTransform {
   @override
   double scale;
 
-  Viewport(this.size, this.scale)
-      : super(size / 2, size / 2, scale);
+  Viewport(this.size, this.scale) : super(size / 2, size / 2, scale);
 
   double worldAlignBottom(double height) => -(size.x / 2 / scale) + height;
 
@@ -64,9 +63,7 @@ class Viewport extends ViewportTransform {
       final focus = size.x / 2 - temp.x;
 
       if (focus.abs() > margin) {
-        x = size.x / 2 +
-            (position.x * scale) +
-            (focus > 0 ? margin : -margin);
+        x = size.x / 2 + (position.x * scale) + (focus > 0 ? margin : -margin);
       }
     }
 
@@ -77,9 +74,7 @@ class Viewport extends ViewportTransform {
       final focus = size.y / 2 - temp.y;
 
       if (focus.abs() > margin) {
-        y = size.y / 2 +
-            (position.y * scale) +
-            (focus < 0 ? margin : -margin);
+        y = size.y / 2 + (position.y * scale) + (focus < 0 ? margin : -margin);
       }
     }
 
