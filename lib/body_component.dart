@@ -18,6 +18,8 @@ abstract class BodyComponent extends Component {
     body = createBody();
   }
 
+  /// You should create the [Body] in this method when you extend
+  /// the BodyComponent, or use the withBody factory.
   Body createBody();
 
   World get world => game.world;
@@ -32,7 +34,8 @@ abstract class BodyComponent extends Component {
   bool destroy() => _shouldRemove;
 
   @override
-  void update(double t) {
+  void update(double dt) {
+    super.update(dt);
     // usually all update will be handled by the world physics
   }
 
