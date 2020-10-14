@@ -16,7 +16,8 @@ class Ball extends BodyComponent {
   final double radius;
   Vector2 _position;
 
-  Ball(this._position, Forge2DGame forge2d, {this.radius = 5.0}) : super(forge2d) {
+  Ball(this._position, Forge2DGame forge2d, {this.radius = 5.0})
+      : super(forge2d) {
     originalPaint = _randomPaint();
     currentPaint = originalPaint;
   }
