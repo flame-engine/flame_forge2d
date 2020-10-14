@@ -9,10 +9,10 @@ import 'package:flutter/material.dart' hide Image;
 
 import 'boundaries.dart';
 
-class Ship extends SpriteBodyComponent {
+class Pizza extends SpriteBodyComponent {
   final Vector2 _position;
 
-  Ship(this._position, Image image, Forge2DGame game)
+  Pizza(this._position, Image image, Forge2DGame game)
       : super(Sprite(image), Vector2(10, 15), game);
 
   @override
@@ -41,7 +41,7 @@ class Ship extends SpriteBodyComponent {
 }
 
 class SpriteBodySample extends Forge2DGame with TapDetector {
-  Image _shipImage;
+  Image _pizzaImage;
 
   SpriteBodySample() : super(scale: 4.0, gravity: Vector2(0, -10.0)) {
     final boundaries = createBoundaries(this);
@@ -50,7 +50,7 @@ class SpriteBodySample extends Forge2DGame with TapDetector {
 
   @override
   Future<void> onLoad() async {
-    _shipImage = await images.load('ship.png');
+    _pizzaImage = await images.load('pizza.png');
   }
 
   @override
@@ -58,6 +58,6 @@ class SpriteBodySample extends Forge2DGame with TapDetector {
     super.onTapDown(details);
     final Vector2 position =
         Vector2(details.globalPosition.dx, details.globalPosition.dy);
-    add(Ship(position, _shipImage, this));
+    add(Pizza(position, _pizzaImage, this));
   }
 }
