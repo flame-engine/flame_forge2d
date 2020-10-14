@@ -90,8 +90,7 @@ abstract class BodyComponent extends Component {
     final CircleShape circle = fixture.getShape();
     center = body.getWorldPoint(circle.position);
     center = viewport.getWorldToScreen(center);
-    renderCircle(
-        canvas, center.toOffset(), circle.radius * viewport.scale);
+    renderCircle(canvas, center.toOffset(), circle.radius * viewport.scale);
   }
 
   void renderCircle(Canvas canvas, Offset center, double radius) {
