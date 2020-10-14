@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:forge2d/forge2d.dart';
-import 'package:flame/flame.dart';
 import 'package:flame/gestures.dart';
 import 'package:flame/palette.dart';
 import 'package:flame_forge2d/body_component.dart';
@@ -10,12 +9,6 @@ import 'package:flame_forge2d/contact_callbacks.dart';
 import 'package:flutter/material.dart';
 
 import 'boundaries.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Flame.util.fullScreen();
-  runApp(MyGame().widget);
-}
 
 class Ball extends BodyComponent {
   Paint originalPaint, currentPaint;
@@ -132,8 +125,8 @@ class BallWallContactCallback extends ContactCallback<Ball, Wall> {
   void end(Ball ball, Wall wall, Contact contact) {}
 }
 
-class MyGame extends Forge2DGame with TapDetector {
-  MyGame() : super(scale: 4.0, gravity: Vector2(0, -10.0)) {
+class ContactCallbacksSample extends Forge2DGame with TapDetector {
+  ContactCallbacksSample() : super(scale: 4.0, gravity: Vector2(0, -10.0)) {
     final boundaries = createBoundaries(this);
     boundaries.forEach(add);
     addContactCallback(BallContactCallback());
