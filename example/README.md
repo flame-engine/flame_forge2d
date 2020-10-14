@@ -1,3 +1,3 @@
-# Forge2D Simple
+# Forge2D Samples
 
-A simple Flame game showcasing how to use Forge2D (box2d) together with flame.
+A dashbook showcasing some samples of how to use Forge2D (box2d) together with Flame.

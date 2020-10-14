@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:forge2d/forge2d.dart' hide Timer;
 import 'package:flame/game/base_game.dart';
+import 'package:flame/extensions/size.dart';
 
 import 'body_component.dart';
 import 'contact_callbacks.dart';
@@ -19,15 +20,15 @@ class Forge2DGame extends BaseGame {
   final ContactCallbacks _contactCallbacks = ContactCallbacks();
 
   Forge2DGame({
-    dimensions,
+    Vector2 viewportSize,
     Vector2 gravity,
     double scale = defaultScale,
   }) {
-    dimensions ??= window.physicalSize;
+    viewportSize ??= window.physicalSize.toVector2();
     gravity ??= defaultGravity;
     world = World(gravity);
     world.setContactListener(_contactCallbacks);
-    viewport = Viewport(dimensions, scale);
+    viewport = Viewport(viewportSize, scale);
   }
 
   @override

@@ -1,5 +1,5 @@
-name: forge2d_sample
-description: Flame sample game showcasing the structure for forge2d games
+name: forge2d_samples
+description: Flame Forge2D (box2d) samples
 
 version: 1.0.0+1
 
@@ -9,13 +9,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flame:
-    git:
-      url: git@github.com:flame-engine/flame.git
-      ref: v1.0.0
   flame_forge2d:
     path: ../
+  dashbook: ^0.0.8
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter:
+  assets:
+    - assets/images/ship.png
