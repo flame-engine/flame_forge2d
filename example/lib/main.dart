@@ -4,6 +4,7 @@ import 'package:dashbook/dashbook.dart';
 import './sprite_body_sample.dart';
 import './contact_callbacks_sample.dart';
 import './domino_sample.dart';
+import 'blob_sample.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,8 +12,12 @@ void main() async {
 
   dashbook.storiesOf('Flame with Forge2D').decorator(TopDecorator())
     ..add(
-      'Water/Particle system',
-          (DashbookContext ctx) => DominoSample().widget,
+      'Blob sample',
+      (DashbookContext ctx) => BlobSample().widget,
+    )
+    ..add(
+      'Domino sample',
+      (DashbookContext ctx) => DominoSample().widget,
     )
     ..add(
       'Contact Callbacks',
