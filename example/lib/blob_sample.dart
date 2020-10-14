@@ -72,8 +72,8 @@ class FallingBox extends BodyComponent {
   final Vector2 position;
 
   FallingBox(
-      Forge2DGame game,
-      this.position,
+    Forge2DGame game,
+    this.position,
   ) : super(game);
 
   @override
@@ -81,8 +81,7 @@ class FallingBox extends BodyComponent {
     BodyDef bodyDef = BodyDef()
       ..type = BodyType.DYNAMIC
       ..position = position;
-    PolygonShape shape = PolygonShape()
-      ..setAsBoxXY(2, 4);
+    PolygonShape shape = PolygonShape()..setAsBoxXY(2, 4);
     Body body = world.createBody(bodyDef);
     body.createFixtureFromShape(shape, 1.0);
     return body;
