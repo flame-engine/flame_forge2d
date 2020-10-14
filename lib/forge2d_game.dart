@@ -64,8 +64,6 @@ class Forge2DGame extends BaseGame {
     component.remove();
   }
 
-  void initializeWorld() {}
-
   void addContactCallback(ContactCallback callback) {
     _contactCallbacks.register(callback);
   }

@@ -3,12 +3,17 @@ import 'package:dashbook/dashbook.dart';
 
 import './sprite_body_sample.dart';
 import './contact_callbacks_sample.dart';
+import './domino_sample.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final dashbook = Dashbook();
 
-  dashbook.storiesOf('Flame and Forge2D').decorator(CenterDecorator())
+  dashbook.storiesOf('Flame with Forge2D').decorator(TopDecorator())
+    ..add(
+      'Water/Particle system',
+          (DashbookContext ctx) => DominoSample().widget,
+    )
     ..add(
       'Contact Callbacks',
       (DashbookContext ctx) => ContactCallbacksSample().widget,
@@ -19,4 +24,14 @@ void main() async {
     );
 
   runApp(dashbook);
+}
+
+class TopDecorator extends Decorator {
+  @override
+  Widget decorate(Widget child) {
+    return Align(
+      child: child,
+      alignment: Alignment.topCenter,
+    );
+  }
 }
