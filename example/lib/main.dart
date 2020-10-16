@@ -2,6 +2,7 @@ import 'package:dashbook/dashbook.dart';
 import 'package:flame/extensions/size.dart';
 import 'package:flame/extensions/vector2.dart';
 import 'package:flutter/material.dart';
+import 'package:forge2d_samples/circle_stress_sample.dart';
 
 import './sprite_body_sample.dart';
 import './contact_callbacks_sample.dart';
@@ -15,6 +16,10 @@ void main() async {
   Vector2 ctxSize(DashbookContext ctx) => ctx.constraints.biggest.toVector2();
 
   dashbook.storiesOf('Flame with Forge2D').decorator(TopDecorator())
+    ..add(
+      'Circle stress sample',
+          (DashbookContext ctx) => CircleStressSample(ctxSize(ctx)).widget,
+    )
     ..add(
       'Blob sample',
       (DashbookContext ctx) => BlobSample(ctxSize(ctx)).widget,
