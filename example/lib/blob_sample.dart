@@ -89,8 +89,13 @@ class FallingBox extends BodyComponent {
 }
 
 class BlobSample extends Forge2DGame with TapDetector {
-  BlobSample() : super(scale: 8.0, gravity: Vector2(0, -10.0)) {
-    // TODO: Fix bug with sleeping bodies midair
+  BlobSample(Vector2 viewportSize)
+      : super(
+          scale: 8.0,
+          gravity: Vector2(0, -10.0),
+        ) {
+    viewport.resize(viewportSize);
+    // TODO: Fix bug with sleeping bodies mid-air
     world.setAllowSleep(false);
     final boundaries = createBoundaries(this);
     boundaries.forEach(add);

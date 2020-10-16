@@ -8,7 +8,7 @@ import 'package:flame_forge2d/viewport.dart';
 
 List<Wall> createBoundaries(Forge2DGame game) {
   final Viewport viewport = game.viewport;
-  final Vector2 screenSize = Vector2(viewport.width, viewport.height);
+  final Vector2 screenSize = viewport.size / viewport.scale;
   final Vector2 topLeft = (screenSize / 2) * -1;
   final Vector2 bottomRight = screenSize / 2;
   final Vector2 topRight = Vector2(bottomRight.x, topLeft.y);

@@ -54,7 +54,12 @@ class DominoBrick extends BodyComponent {
 }
 
 class DominoSample extends Forge2DGame with TapDetector {
-  DominoSample() : super(scale: 8.0, gravity: Vector2(0, -10.0)) {
+  DominoSample(Vector2 viewportSize)
+      : super(
+          scale: 8.0,
+          gravity: Vector2(0, -10.0),
+        ) {
+    viewport.resize(viewportSize);
     // TODO: Fix bug with sleeping bodies midair
     world.setAllowSleep(false);
     final boundaries = createBoundaries(this);

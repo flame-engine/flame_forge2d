@@ -43,7 +43,12 @@ class Pizza extends SpriteBodyComponent {
 class SpriteBodySample extends Forge2DGame with TapDetector {
   Image _pizzaImage;
 
-  SpriteBodySample() : super(scale: 4.0, gravity: Vector2(0, -10.0)) {
+  SpriteBodySample(Vector2 viewportSize)
+      : super(
+          scale: 4.0,
+          gravity: Vector2(0, -10.0),
+        ) {
+    viewport.resize(viewportSize);
     final boundaries = createBoundaries(this);
     boundaries.forEach(add);
   }
