@@ -9,7 +9,12 @@ import 'balls.dart';
 import 'boundaries.dart';
 
 class ContactCallbacksSample extends Forge2DGame with TapDetector {
-  ContactCallbacksSample() : super(scale: 4.0, gravity: Vector2(0, -10.0)) {
+  ContactCallbacksSample(Vector2 viewportSize)
+      : super(
+          scale: 4.0,
+          gravity: Vector2(0, -10.0),
+        ) {
+    viewport.resize(viewportSize);
     final boundaries = createBoundaries(this);
     boundaries.forEach(add);
     addContactCallback(BallContactCallback());
