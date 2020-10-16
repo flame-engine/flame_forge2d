@@ -64,7 +64,6 @@ class DominoSample extends Forge2DGame with TapDetector {
     world.setAllowSleep(false);
     final boundaries = createBoundaries(this);
     boundaries.forEach(add);
-    //add(Floor(this));
 
     for (int i = 0; i < 8; i++) {
       final position = Vector2(0.0, -30.0 + 5 * i);
