@@ -16,26 +16,26 @@ class CirlcleShuffler extends BodyComponent {
   Body createBody() {
     var bd = BodyDef()
       ..type = BodyType.DYNAMIC
-      ..position = Vector2(0.0, -30.0);
-    int numPieces = 5;
+      ..position = Vector2(0.0, -25.0);
+    double numPieces = 5;
     double radius = 6.0;
     var body = world.createBody(bd);
 
     for (int i = 0; i < numPieces; i++) {
-      double xPos = radius * cos(2 * pi * (i / numPieces.toDouble()));
-      double yPos = radius * sin(2 * pi * (i / numPieces.toDouble()));
+      double xPos = radius * cos(2 * pi * (i / numPieces));
+      double yPos = radius * sin(2 * pi * (i / numPieces));
 
-      var cd = CircleShape()
+      var shape = CircleShape()
         ..radius = 1.2
         ..position.setValues(xPos, yPos);
 
-      final fd = FixtureDef()
-        ..shape = cd
+      final fixtureDef = FixtureDef()
+        ..shape = shape
         ..density = 50.0
         ..friction = .1
         ..restitution = .9;
 
-      body.createFixtureFromFixtureDef(fd);
+      body.createFixture(fixtureDef);
     }
     // Create an empty ground body.
     var bodyDef = BodyDef();
@@ -52,6 +52,34 @@ class CirlcleShuffler extends BodyComponent {
   }
 }
 
+class CornerRamp extends BodyComponent {
+  CornerRamp(Forge2DGame game) : super(game);
+
+  @override
+  Body createBody() {
+    final ChainShape shape = ChainShape();
+    List<Vector2> vertices =
+    [
+      Vector2.zero(),
+      Vector2(20, 20),
+      Vector2(35, 35),
+    ];
+    shape.createChain(vertices);
+
+    final fixtureDef = FixtureDef()
+      ..shape = shape
+      ..restitution = 0.0
+      ..friction = 0.1;
+
+    final bodyDef = BodyDef()
+      ..setUserData(this) // To be able to determine object in collision
+      ..position = Vector2.zero()
+      ..type = BodyType.STATIC;
+
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
+  }
+}
+
 class CircleStressSample extends Forge2DGame with TapDetector {
   CircleStressSample(Vector2 viewportSize)
       : super(
@@ -63,17 +91,8 @@ class CircleStressSample extends Forge2DGame with TapDetector {
     world.setAllowSleep(false);
     final boundaries = createBoundaries(this);
     boundaries.forEach(add);
-
     add(CirlcleShuffler(this));
-
-    final Random random = Random();
-    for (int j = 0; j < 8; j++) {
-      for (int i = 0; i < 20; i++) {
-        Vector2 position = Vector2(20.0 * i, 30.0 * j);
-        Ball ball = Ball(position, this, radius: random.nextDouble());
-        add(ball);
-      }
-    }
+    add(CornerRamp(this));
   }
 
   @override
@@ -81,6 +100,11 @@ class CircleStressSample extends Forge2DGame with TapDetector {
     super.onTapDown(details);
     final Vector2 screenPosition =
     Vector2(details.globalPosition.dx, details.globalPosition.dy);
-    add(Ball(screenPosition, this, radius: 1.0));
+    final Random random = Random();
+    List.generate(15, (i) {
+      final Vector2 randomVector =
+        (Vector2.random() - Vector2.all(-0.5)).normalized();
+      add(Ball(screenPosition + randomVector, this, radius: random.nextDouble()));
+    });
   }
 }

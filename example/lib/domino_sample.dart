@@ -27,7 +27,7 @@ class Platform extends BodyComponent {
     BodyDef bd = BodyDef();
     bd.position = position;
     final body = world.createBody(bd);
-    return body..createFixtureFromFixtureDef(fd);
+    return body..createFixture(fd);
   }
 }
 
@@ -49,7 +49,7 @@ class DominoBrick extends BodyComponent {
     bd.position = position;
 
     fd.friction = .5;
-    return world.createBody(bd)..createFixtureFromFixtureDef(fd);
+    return world.createBody(bd)..createFixture(fd);
   }
 }
 

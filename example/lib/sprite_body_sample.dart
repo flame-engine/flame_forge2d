@@ -36,7 +36,7 @@ class Pizza extends SpriteBodyComponent {
     bodyDef.position = viewport.getScreenToWorld(_position);
     bodyDef.angle = (_position.x + _position.y) / 2 * 3.14;
     bodyDef.type = BodyType.DYNAMIC;
-    return world.createBody(bodyDef)..createFixtureFromFixtureDef(fixtureDef);
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 

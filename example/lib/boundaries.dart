@@ -51,6 +51,6 @@ class Wall extends BodyComponent {
       ..position = Vector2.zero()
       ..type = BodyType.STATIC;
 
-    return world.createBody(bodyDef)..createFixtureFromFixtureDef(fixtureDef);
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }

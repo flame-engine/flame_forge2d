@@ -62,7 +62,7 @@ class BlobPart extends BodyComponent {
     fixtureDef.shape = shape;
     fixtureDef.density = 1.0;
     fixtureDef.filter.groupIndex = -2;
-    body.createFixtureFromFixtureDef(fixtureDef);
+    body.createFixture(fixtureDef);
     jointDef.addBody(body);
     return body;
   }
