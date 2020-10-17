@@ -52,7 +52,7 @@ class Ball extends BodyComponent {
       ..position = worldPosition
       ..type = BodyType.DYNAMIC;
 
-    return world.createBody(bodyDef)..createFixtureFromFixtureDef(fixtureDef);
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 
   @override
