@@ -30,7 +30,7 @@ void main() async {
     )
     ..add(
       'Circle stress sample',
-          (DashbookContext ctx) => CircleStressSample(ctxSize(ctx)).widget,
+      (DashbookContext ctx) => CircleStressSample(ctxSize(ctx)).widget,
     )
     ..add(
       'Sprite Bodies',
