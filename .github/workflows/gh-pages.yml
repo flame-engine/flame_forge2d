@@ -13,5 +13,5 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: 'beta'
-      - run: cd examples
+      - run: cd example
       - uses: erickzanardo/flutter-gh-pages@v1
