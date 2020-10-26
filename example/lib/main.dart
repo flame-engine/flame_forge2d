@@ -17,10 +17,6 @@ void main() async {
 
   dashbook.storiesOf('Flame with Forge2D').decorator(TopDecorator())
     ..add(
-      'Circle stress sample',
-          (DashbookContext ctx) => CircleStressSample(ctxSize(ctx)).widget,
-    )
-    ..add(
       'Blob sample',
       (DashbookContext ctx) => BlobSample(ctxSize(ctx)).widget,
     )
@@ -31,6 +27,10 @@ void main() async {
     ..add(
       'Contact Callbacks',
       (DashbookContext ctx) => ContactCallbacksSample(ctxSize(ctx)).widget,
+    )
+    ..add(
+      'Circle stress sample',
+          (DashbookContext ctx) => CircleStressSample(ctxSize(ctx)).widget,
     )
     ..add(
       'Sprite Bodies',

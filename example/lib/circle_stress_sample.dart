@@ -58,13 +58,12 @@ class CornerRamp extends BodyComponent {
   @override
   Body createBody() {
     final ChainShape shape = ChainShape();
-    List<Vector2> vertices =
-    [
+    List<Vector2> vertices = [
       Vector2.zero(),
       Vector2(20, 20),
       Vector2(35, 35),
     ];
-    shape.createChain(vertices);
+    shape.createLoop(vertices);
 
     final fixtureDef = FixtureDef()
       ..shape = shape
@@ -72,7 +71,6 @@ class CornerRamp extends BodyComponent {
       ..friction = 0.1;
 
     final bodyDef = BodyDef()
-      ..setUserData(this) // To be able to determine object in collision
       ..position = Vector2.zero()
       ..type = BodyType.STATIC;
 
@@ -99,12 +97,13 @@ class CircleStressSample extends Forge2DGame with TapDetector {
   void onTapDown(TapDownDetails details) {
     super.onTapDown(details);
     final Vector2 screenPosition =
-    Vector2(details.globalPosition.dx, details.globalPosition.dy);
+        Vector2(details.globalPosition.dx, details.globalPosition.dy);
     final Random random = Random();
     List.generate(15, (i) {
       final Vector2 randomVector =
-        (Vector2.random() - Vector2.all(-0.5)).normalized();
-      add(Ball(screenPosition + randomVector, this, radius: random.nextDouble()));
+          (Vector2.random() - Vector2.all(-0.5)).normalized();
+      add(Ball(screenPosition + randomVector, this,
+          radius: random.nextDouble()));
     });
   }
 }

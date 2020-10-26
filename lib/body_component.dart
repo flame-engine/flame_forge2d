@@ -9,12 +9,15 @@ import 'viewport.dart';
 
 abstract class BodyComponent extends Component {
   static const maxPolygonVertices = 10;
+  static const defaultColor = const Color.fromARGB(255, 255, 255, 255);
 
   final Forge2DGame game;
   Body body;
   bool _shouldRemove = false;
+  Color color;
+  Paint get paint => Paint()..color = color;
 
-  BodyComponent(this.game) {
+  BodyComponent(this.game, {this.color = defaultColor}) {
     body = createBody();
   }
 
@@ -82,8 +85,6 @@ abstract class BodyComponent extends Component {
   }
 
   void renderChain(Canvas canvas, List<Offset> points) {
-    final Paint paint = Paint()
-      ..color = const Color.fromARGB(255, 255, 255, 255);
     final path = Path()..addPolygon(points, true);
     canvas.drawPath(path, paint);
   }
@@ -97,8 +98,6 @@ abstract class BodyComponent extends Component {
   }
 
   void renderCircle(Canvas canvas, Offset center, double radius) {
-    final Paint paint = Paint()
-      ..color = const Color.fromARGB(255, 255, 255, 255);
     canvas.drawCircle(center, radius, paint);
   }
 
@@ -122,8 +121,6 @@ abstract class BodyComponent extends Component {
 
   void renderPolygon(Canvas canvas, List<Offset> points) {
     final path = Path()..addPolygon(points, true);
-    final Paint paint = Paint()
-      ..color = const Color.fromARGB(255, 255, 255, 255);
     canvas.drawPath(path, paint);
   }
 }
