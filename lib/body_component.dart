@@ -69,15 +69,15 @@ abstract class BodyComponent extends Component {
 
   void _renderChain(Canvas canvas, Fixture fixture) {
     final ChainShape chainShape = fixture.getShape();
-    final List<Vector2> vertices = List<Vector2>(chainShape.getVertexCount());
+    final List<Vector2> vertices = List<Vector2>(chainShape.vertexCount);
 
-    for (int i = 0; i < chainShape.getVertexCount(); ++i) {
+    for (int i = 0; i < chainShape.vertexCount; ++i) {
       vertices[i] = body.getWorldPoint(chainShape.getVertex(i));
       vertices[i] = viewport.getWorldToScreen(vertices[i]);
     }
 
     final List<Offset> points = [];
-    for (int i = 0; i < chainShape.getVertexCount(); i++) {
+    for (int i = 0; i < chainShape.vertexCount; i++) {
       points.add(Offset(vertices[i].x, vertices[i].y));
     }
 
