@@ -10,11 +10,11 @@ environment:
 dependencies:
   flame:
     git:
-      url: git@github.com:flame-engine/flame.git
+      url: https://github.com/flame-engine/flame.git
       ref: v1.0.0
   forge2d:
     git:
-      url: git@github.com:flame-engine/forge2d.git
+      url: https://github.com/flame-engine/forge2d.git
       ref: spydon.dart-standard
 
   flutter:
