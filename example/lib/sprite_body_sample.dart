@@ -1,32 +1,27 @@
-import 'package:box2d_flame/box2d.dart';
-import 'package:flame/flame.dart';
+import 'dart:ui';
+
+import 'package:forge2d/forge2d.dart';
 import 'package:flame/gestures.dart';
 import 'package:flame/sprite.dart';
-import 'package:flame_box2d/box2d_game.dart';
-import 'package:flame_box2d/sprite_body_component.dart';
-import 'package:flutter/material.dart';
+import 'package:flame_forge2d/forge2d_game.dart';
+import 'package:flame_forge2d/sprite_body_component.dart';
+import 'package:flutter/material.dart' hide Image;
 
 import 'boundaries.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Flame.util.fullScreen();
-  runApp(MyGame().widget);
-}
-
-class Ship extends SpriteBodyComponent {
+class Pizza extends SpriteBodyComponent {
   final Vector2 _position;
 
-  Ship(this._position, Box2DGame game)
-      : super(Sprite('ship.png'), 10, 15, game);
+  Pizza(this._position, Image image, Forge2DGame game)
+      : super(Sprite(image), Vector2(10, 15), game);
 
   @override
   Body createBody() {
     final PolygonShape shape = PolygonShape();
 
-    final v1 = Vector2(0, height / 2);
-    final v2 = Vector2(width / 2, -height / 2);
-    final v3 = Vector2(-width / 2, -height / 2);
+    final v1 = Vector2(0, size.y / 2);
+    final v2 = Vector2(size.x / 2, -size.y / 2);
+    final v3 = Vector2(-size.x / 2, -size.y / 2);
     final vertices = [v1, v2, v3];
     shape.set(vertices, vertices.length);
 
@@ -41,14 +36,26 @@ class Ship extends SpriteBodyComponent {
     bodyDef.position = viewport.getScreenToWorld(_position);
     bodyDef.angle = (_position.x + _position.y) / 2 * 3.14;
     bodyDef.type = BodyType.DYNAMIC;
-    return world.createBody(bodyDef)..createFixtureFromFixtureDef(fixtureDef);
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 
-class MyGame extends Box2DGame with TapDetector {
-  MyGame() : super(scale: 4.0, gravity: Vector2(0, -10.0)) {
+class SpriteBodySample extends Forge2DGame with TapDetector {
+  Image _pizzaImage;
+
+  SpriteBodySample(Vector2 viewportSize)
+      : super(
+          scale: 4.0,
+          gravity: Vector2(0, -10.0),
+        ) {
+    viewport.resize(viewportSize);
     final boundaries = createBoundaries(this);
     boundaries.forEach(add);
+  }
+
+  @override
+  Future<void> onLoad() async {
+    _pizzaImage = await images.load('pizza.png');
   }
 
   @override
@@ -56,6 +63,6 @@ class MyGame extends Box2DGame with TapDetector {
     super.onTapDown(details);
     final Vector2 position =
         Vector2(details.globalPosition.dx, details.globalPosition.dy);
-    add(Ship(position, this));
+    add(Pizza(position, _pizzaImage, this));
   }
 }

@@ -1,3 +1,3 @@
-# Flame Box2D example
+# Forge2D Samples
 
-Simple project to showcase the usage of flame_box2d
+A dashbook showcasing some samples of how to use Forge2D (box2d) together with Flame.

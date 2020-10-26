@@ -1,26 +1,25 @@
 import 'dart:ui';
 
 import 'package:flame/anchor.dart';
-import 'package:flame/components/component.dart';
+import 'package:flame/components/sprite_component.dart';
+import 'package:flame/extensions/vector2.dart';
 import 'package:flame/sprite.dart';
 
 import 'body_component.dart';
-import 'box2d_game.dart';
+import 'forge2d_game.dart';
 
 abstract class SpriteBodyComponent extends BodyComponent {
   SpriteComponent spriteComponent;
-  final double width;
-  final double height;
+  Vector2 size;
 
-  /// Make sure that your [width] and [height] of the sprite
-  /// matches the bounding rectangle of the body created by createBody()
+  /// Make sure that the [size] of the sprite matches the bounding shape of the
+  /// body that is create in createBody()
   SpriteBodyComponent(
     Sprite sprite,
-    this.width,
-    this.height,
-    Box2DGame game,
+    this.size,
+    Forge2DGame game,
   ) : super(game) {
-    spriteComponent = SpriteComponent.fromSprite(width, height, sprite)
+    spriteComponent = SpriteComponent.fromSprite(size, sprite)
       ..anchor = Anchor.center;
   }
 
@@ -34,8 +33,7 @@ abstract class SpriteBodyComponent extends BodyComponent {
       final screenPosition = viewport.getWorldToScreen(body.position);
       spriteComponent
         ..angle = -body.getAngle()
-        ..width = width * viewport.scale
-        ..height = height * viewport.scale
+        ..size = size * viewport.scale
         ..x = screenPosition.x
         ..y = screenPosition.y;
 

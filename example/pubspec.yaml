@@ -1,19 +1,22 @@
-name: example
-description: Simple project to showcase the usage of flame_box2d
-
-publish_to: 'none'
+name: forge2d_samples
+description: Flame Forge2D (box2d) samples
 
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
-  flame: 0.24.0
-  flame_box2d:
-    path: ../
   flutter:
+    sdk: flutter
+  flame_forge2d:
+    path: ../
+  dashbook: ^0.0.9
+
+dev_dependencies:
+  flutter_test:
     sdk: flutter
 
 flutter:
-  uses-material-design: false
+  assets:
+    - assets/images/pizza.png

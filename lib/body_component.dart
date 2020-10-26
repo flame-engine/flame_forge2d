@@ -1,22 +1,28 @@
 import 'dart:ui';
 
-import 'package:box2d_flame/box2d.dart' hide Timer;
+import 'package:forge2d/forge2d.dart' hide Timer, Vector2;
 import 'package:flame/components/component.dart';
+import 'package:flame/extensions/vector2.dart';
 
-import 'box2d_game.dart';
+import 'forge2d_game.dart';
 import 'viewport.dart';
 
 abstract class BodyComponent extends Component {
   static const maxPolygonVertices = 10;
+  static const defaultColor = const Color.fromARGB(255, 255, 255, 255);
 
-  final Box2DGame game;
+  final Forge2DGame game;
   Body body;
   bool _shouldRemove = false;
+  Color color;
+  Paint get paint => Paint()..color = color;
 
-  BodyComponent(this.game) {
+  BodyComponent(this.game, {this.color = defaultColor}) {
     body = createBody();
   }
 
+  /// You should create the [Body] in this method when you extend
+  /// the BodyComponent, or use the withBody factory.
   Body createBody();
 
   World get world => game.world;
@@ -31,7 +37,8 @@ abstract class BodyComponent extends Component {
   bool destroy() => _shouldRemove;
 
   @override
-  void update(double t) {
+  void update(double dt) {
+    super.update(dt);
     // usually all update will be handled by the world physics
   }
 
@@ -62,15 +69,15 @@ abstract class BodyComponent extends Component {
 
   void _renderChain(Canvas canvas, Fixture fixture) {
     final ChainShape chainShape = fixture.getShape();
-    final List<Vector2> vertices = Vec2Array().get(chainShape.getVertexCount());
+    final List<Vector2> vertices = List<Vector2>(chainShape.vertexCount);
 
-    for (int i = 0; i < chainShape.getVertexCount(); ++i) {
-      body.getWorldPointToOut(chainShape.getVertex(i), vertices[i]);
+    for (int i = 0; i < chainShape.vertexCount; ++i) {
+      vertices[i] = body.getWorldPoint(chainShape.getVertex(i));
       vertices[i] = viewport.getWorldToScreen(vertices[i]);
     }
 
     final List<Offset> points = [];
-    for (int i = 0; i < chainShape.getVertexCount(); i++) {
+    for (int i = 0; i < chainShape.vertexCount; i++) {
       points.add(Offset(vertices[i].x, vertices[i].y));
     }
 
@@ -78,8 +85,6 @@ abstract class BodyComponent extends Component {
   }
 
   void renderChain(Canvas canvas, List<Offset> points) {
-    final Paint paint = Paint()
-      ..color = const Color.fromARGB(255, 255, 255, 255);
     final path = Path()..addPolygon(points, true);
     canvas.drawPath(path, paint);
   }
@@ -87,25 +92,22 @@ abstract class BodyComponent extends Component {
   void _renderCircle(Canvas canvas, Fixture fixture) {
     var center = Vector2.zero();
     final CircleShape circle = fixture.getShape();
-    body.getWorldPointToOut(circle.p, center);
+    center = body.getWorldPoint(circle.position);
     center = viewport.getWorldToScreen(center);
-    renderCircle(
-        canvas, Offset(center.x, center.y), circle.radius * viewport.scale);
+    renderCircle(canvas, center.toOffset(), circle.radius * viewport.scale);
   }
 
   void renderCircle(Canvas canvas, Offset center, double radius) {
-    final Paint paint = Paint()
-      ..color = const Color.fromARGB(255, 255, 255, 255);
     canvas.drawCircle(center, radius, paint);
   }
 
   void _renderPolygon(Canvas canvas, Fixture fixture) {
     final PolygonShape polygon = fixture.getShape();
     assert(polygon.count <= maxPolygonVertices);
-    final List<Vector2> vertices = Vec2Array().get(polygon.count);
+    final List<Vector2> vertices = List<Vector2>(polygon.count);
 
     for (int i = 0; i < polygon.count; ++i) {
-      body.getWorldPointToOut(polygon.vertices[i], vertices[i]);
+      vertices[i] = body.getWorldPoint(polygon.vertices[i]);
       vertices[i] = viewport.getWorldToScreen(vertices[i]);
     }
 
@@ -119,8 +121,6 @@ abstract class BodyComponent extends Component {
 
   void renderPolygon(Canvas canvas, List<Offset> points) {
     final path = Path()..addPolygon(points, true);
-    final Paint paint = Paint()
-      ..color = const Color.fromARGB(255, 255, 255, 255);
     canvas.drawPath(path, paint);
   }
 }
