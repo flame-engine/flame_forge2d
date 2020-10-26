@@ -1,15 +1,22 @@
-name: flame_box2d
-description: Box2D support for the Flame game engine. This uses the box2d.dart package and provides wrappers and components to be used inside Flame.
+name: flame_forge2d
+description: Forge2D (Box2D) support for the Flame game engine. This uses the forge2d package and provides wrappers and components to be used inside Flame.
 version: 0.0.1
-homepage: https://github.com/flame-engine/flame_box2d
+homepage: https://github.com/flame-engine/flame_forge2d
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
   flutter: ">=1.17.0 <2.0.0"
 
 dependencies:
-  flame: '>=0.23.0 <1.0.0'
-  box2d_flame: ^0.4.6
+  flame:
+    git:
+      url: https://github.com/flame-engine/flame.git
+      ref: v1.0.0
+  forge2d:
+    git:
+      url: https://github.com/flame-engine/forge2d.git
+      ref: spydon.dart-standard
+
   flutter:
     sdk: flutter
 
