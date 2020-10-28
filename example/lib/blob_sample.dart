@@ -116,7 +116,7 @@ class BlobSample extends Forge2DGame with TapDetector {
   void onTapDown(TapDownDetails details) {
     super.onTapDown(details);
     final Vector2 screenPosition =
-        Vector2(details.globalPosition.dx, details.globalPosition.dy);
+        Vector2(details.localPosition.dx, details.localPosition.dy);
     final Vector2 worldPosition = viewport.getScreenToWorld(screenPosition);
     add(FallingBox(this, worldPosition));
   }
