@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:forge2d/forge2d.dart';
 import 'package:flame/palette.dart';
 import 'package:flame_forge2d/body_component.dart';
-import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame_forge2d/viewport.dart';
 
 List<Wall> createBoundaries(Viewport viewport) {
