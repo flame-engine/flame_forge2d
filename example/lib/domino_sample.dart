@@ -10,7 +10,7 @@ import 'boundaries.dart';
 class Platform extends BodyComponent {
   final Vector2 position;
 
-  Platform(Forge2DGame game, this.position) : super(game);
+  Platform(this.position);
 
   @override
   Body createBody() {
@@ -29,7 +29,7 @@ class Platform extends BodyComponent {
 class DominoBrick extends BodyComponent {
   final Vector2 position;
 
-  DominoBrick(Forge2DGame game, this.position) : super(game);
+  DominoBrick(this.position);
 
   @override
   Body createBody() {
@@ -55,14 +55,12 @@ class DominoSample extends Forge2DGame with TapDetector {
           gravity: Vector2(0, -10.0),
         ) {
     viewport.resize(viewportSize);
-    // TODO: Fix bug with sleeping bodies midair
-    world.setAllowSleep(false);
-    final boundaries = createBoundaries(this);
+    final boundaries = createBoundaries(viewport);
     boundaries.forEach(add);
 
     for (int i = 0; i < 8; i++) {
       final position = Vector2(0.0, -30.0 + 5 * i);
-      add(Platform(this, position));
+      add(Platform(position));
     }
 
     final numberOfRows = 10;
@@ -71,7 +69,7 @@ class DominoSample extends Forge2DGame with TapDetector {
       for (int j = 0; j < numberPerRow; j++) {
         final position =
             Vector2(-14.75 + j * (29.5 / (numberPerRow - 1)), -27.7 + 5 * i);
-        add(DominoBrick(this, position));
+        add(DominoBrick(position));
       }
     }
   }
@@ -81,6 +79,6 @@ class DominoSample extends Forge2DGame with TapDetector {
     super.onTapDown(details);
     final Vector2 screenPosition =
         Vector2(details.localPosition.dx, details.localPosition.dy);
-    add(Ball(screenPosition, this, radius: 1.0));
+    add(Ball(screenPosition, radius: 1.0));
   }
 }

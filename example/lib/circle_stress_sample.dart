@@ -10,8 +10,6 @@ import 'balls.dart';
 import 'boundaries.dart';
 
 class CirlcleShuffler extends BodyComponent {
-  CirlcleShuffler(Forge2DGame game) : super(game);
-
   @override
   Body createBody() {
     var bd = BodyDef()
@@ -53,8 +51,6 @@ class CirlcleShuffler extends BodyComponent {
 }
 
 class CornerRamp extends BodyComponent {
-  CornerRamp(Forge2DGame game) : super(game);
-
   @override
   Body createBody() {
     final ChainShape shape = ChainShape();
@@ -85,12 +81,10 @@ class CircleStressSample extends Forge2DGame with TapDetector {
           gravity: Vector2(0, -10.0),
         ) {
     viewport.resize(viewportSize);
-    // TODO: Fix bug with sleeping bodies midair
-    world.setAllowSleep(false);
-    final boundaries = createBoundaries(this);
+    final boundaries = createBoundaries(viewport);
     boundaries.forEach(add);
-    add(CirlcleShuffler(this));
-    add(CornerRamp(this));
+    add(CirlcleShuffler());
+    add(CornerRamp());
   }
 
   @override
@@ -102,8 +96,7 @@ class CircleStressSample extends Forge2DGame with TapDetector {
     List.generate(15, (i) {
       final Vector2 randomVector =
           (Vector2.random() - Vector2.all(-0.5)).normalized();
-      add(Ball(screenPosition + randomVector, this,
-          radius: random.nextDouble()));
+      add(Ball(screenPosition + randomVector, radius: random.nextDouble()));
     });
   }
 }

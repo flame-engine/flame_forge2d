@@ -6,7 +6,6 @@ import 'package:flame/extensions/vector2.dart';
 import 'package:flame/sprite.dart';
 
 import 'body_component.dart';
-import 'forge2d_game.dart';
 
 abstract class SpriteBodyComponent extends BodyComponent {
   SpriteComponent spriteComponent;
@@ -17,8 +16,7 @@ abstract class SpriteBodyComponent extends BodyComponent {
   SpriteBodyComponent(
     Sprite sprite,
     this.size,
-    Forge2DGame game,
-  ) : super(game) {
+  ) {
     spriteComponent = SpriteComponent.fromSprite(size, sprite)
       ..anchor = Anchor.center;
   }

@@ -12,8 +12,8 @@ import 'boundaries.dart';
 class Pizza extends SpriteBodyComponent {
   final Vector2 _position;
 
-  Pizza(this._position, Image image, Forge2DGame game)
-      : super(Sprite(image), Vector2(10, 15), game);
+  Pizza(this._position, Image image)
+      : super(Sprite(image), Vector2(10, 15));
 
   @override
   Body createBody() {
@@ -49,7 +49,7 @@ class SpriteBodySample extends Forge2DGame with TapDetector {
           gravity: Vector2(0, -10.0),
         ) {
     viewport.resize(viewportSize);
-    final boundaries = createBoundaries(this);
+    final boundaries = createBoundaries(viewport);
     boundaries.forEach(add);
   }
 
@@ -63,6 +63,6 @@ class SpriteBodySample extends Forge2DGame with TapDetector {
     super.onTapDown(details);
     final Vector2 position =
         Vector2(details.localPosition.dx, details.localPosition.dy);
-    add(Pizza(position, _pizzaImage, this));
+    add(Pizza(position, _pizzaImage));
   }
 }
