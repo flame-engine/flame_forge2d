@@ -38,8 +38,8 @@ class Forge2DGame extends BaseGame {
   }
 
   @override
-  void resize(Vector2 size) {
-    super.resize(size);
+  void onResize(Vector2 size) {
+    super.onResize(size);
     viewport.resize(size);
   }
 
