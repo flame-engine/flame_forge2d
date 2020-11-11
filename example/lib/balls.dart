@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:forge2d/forge2d.dart';
 import 'package:flame/palette.dart';
 import 'package:flame_forge2d/body_component.dart';
-import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame_forge2d/contact_callbacks.dart';
 import 'package:flutter/material.dart';
 
@@ -15,8 +14,7 @@ class Ball extends BodyComponent {
   final double radius;
   Vector2 _position;
 
-  Ball(this._position, Forge2DGame forge2d, {this.radius = 5.0})
-      : super(forge2d) {
+  Ball(this._position, {this.radius = 5.0}) {
     originalPaint = _randomPaint();
     currentPaint = originalPaint;
   }
@@ -82,7 +80,7 @@ class Ball extends BodyComponent {
 }
 
 class WhiteBall extends Ball {
-  WhiteBall(Vector2 position, Forge2DGame game) : super(position, game) {
+  WhiteBall(Vector2 position) : super(position) {
     originalPaint = BasicPalette.white.paint;
     currentPaint = originalPaint;
   }

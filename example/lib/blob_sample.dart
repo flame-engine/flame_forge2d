@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'boundaries.dart';
 
 class Ground extends BodyComponent {
-  Ground(Forge2DGame game) : super(game);
-
   @override
   Body createBody() {
     PolygonShape shape = PolygonShape();
@@ -33,10 +31,9 @@ class BlobPart extends BodyComponent {
   final int bodyNumber;
 
   BlobPart(
-    Forge2DGame game,
     this.bodyNumber,
     this.jointDef,
-  ) : super(game);
+  );
 
   @override
   Body createBody() {
@@ -74,7 +71,7 @@ class FallingBox extends BodyComponent {
   FallingBox(
     Forge2DGame game,
     this.position,
-  ) : super(game);
+  );
 
   @override
   Body createBody() {
@@ -95,11 +92,9 @@ class BlobSample extends Forge2DGame with TapDetector {
           gravity: Vector2(0, -10.0),
         ) {
     viewport.resize(viewportSize);
-    // TODO: Fix bug with sleeping bodies mid-air
-    world.setAllowSleep(false);
-    final boundaries = createBoundaries(this);
+    final boundaries = createBoundaries(viewport);
     boundaries.forEach(add);
-    add(Ground(this));
+    add(Ground());
     final jointDef = ConstantVolumeJointDef()
       ..frequencyHz = 10.0
       ..dampingRatio = 1.0
@@ -107,7 +102,7 @@ class BlobSample extends Forge2DGame with TapDetector {
 
     double nBodies = 20.0;
     for (int i = 0; i < nBodies; ++i) {
-      add(BlobPart(this, i, jointDef));
+      add(BlobPart(i, jointDef));
     }
     world.createJoint(jointDef);
   }
