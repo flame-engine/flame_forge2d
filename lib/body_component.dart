@@ -17,12 +17,10 @@ abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
   Color color;
   Paint get paint => Paint()..color = color;
 
-  BodyComponent({this.color = defaultColor}) {
-    body = createBody();
-  }
+  BodyComponent({this.color = defaultColor});
 
   /// You should create the [Body] in this method when you extend
-  /// the BodyComponent, or use the withBody factory.
+  /// the BodyComponent
   Body createBody();
 
   World get world => gameRef.world;
