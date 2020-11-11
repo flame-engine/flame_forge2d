@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flame/components/component.dart';
 import 'package:forge2d/forge2d.dart' hide Timer;
 import 'package:flame/game/base_game.dart';
 import 'package:flame/extensions/size.dart';
@@ -29,6 +30,14 @@ class Forge2DGame extends BaseGame {
     world = World(gravity);
     world.setContactListener(_contactCallbacks);
     viewport = Viewport(viewportSize, scale);
+  }
+
+  @override
+  void preAdd(Component c) {
+    super.preAdd(c);
+    if (c is BodyComponent) {
+      c.body = c.createBody();
+    }
   }
 
   @override
