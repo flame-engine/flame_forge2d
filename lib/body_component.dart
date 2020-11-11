@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flame/components/mixins/has_game_ref.dart';
 import 'package:forge2d/forge2d.dart' hide Timer, Vector2;
 import 'package:flame/components/component.dart';
 import 'package:flame/extensions/vector2.dart';
@@ -7,17 +8,16 @@ import 'package:flame/extensions/vector2.dart';
 import 'forge2d_game.dart';
 import 'viewport.dart';
 
-abstract class BodyComponent extends Component {
+abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
   static const maxPolygonVertices = 10;
   static const defaultColor = const Color.fromARGB(255, 255, 255, 255);
 
-  final Forge2DGame game;
   Body body;
   bool _shouldRemove = false;
   Color color;
   Paint get paint => Paint()..color = color;
 
-  BodyComponent(this.game, {this.color = defaultColor}) {
+  BodyComponent({this.color = defaultColor}) {
     body = createBody();
   }
 
@@ -25,8 +25,8 @@ abstract class BodyComponent extends Component {
   /// the BodyComponent, or use the withBody factory.
   Body createBody();
 
-  World get world => game.world;
-  Viewport get viewport => game.viewport;
+  World get world => gameRef.world;
+  Viewport get viewport => gameRef.viewport;
 
   void remove() => _shouldRemove = true;
 
@@ -68,6 +68,7 @@ abstract class BodyComponent extends Component {
   Vector2 get center => body.worldCenter;
 
   void _renderChain(Canvas canvas, Fixture fixture) {
+    assert(viewport != null, "Needs the viewport set to be able to render");
     final ChainShape chainShape = fixture.getShape();
     final List<Vector2> vertices = List<Vector2>(chainShape.vertexCount);
 
@@ -90,6 +91,7 @@ abstract class BodyComponent extends Component {
   }
 
   void _renderCircle(Canvas canvas, Fixture fixture) {
+    assert(viewport != null, "Needs the viewport set to be able to render");
     var center = Vector2.zero();
     final CircleShape circle = fixture.getShape();
     center = body.getWorldPoint(circle.position);
@@ -102,6 +104,7 @@ abstract class BodyComponent extends Component {
   }
 
   void _renderPolygon(Canvas canvas, Fixture fixture) {
+    assert(viewport != null, "Needs the viewport set to be able to render");
     final PolygonShape polygon = fixture.getShape();
     assert(polygon.count <= maxPolygonVertices);
     final List<Vector2> vertices = List<Vector2>(polygon.count);

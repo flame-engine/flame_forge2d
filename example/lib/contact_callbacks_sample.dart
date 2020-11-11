@@ -15,7 +15,7 @@ class ContactCallbacksSample extends Forge2DGame with TapDetector {
           gravity: Vector2(0, -10.0),
         ) {
     viewport.resize(viewportSize);
-    final boundaries = createBoundaries(this);
+    final boundaries = createBoundaries(viewport);
     boundaries.forEach(add);
     addContactCallback(BallContactCallback());
     addContactCallback(BallWallContactCallback());
@@ -28,9 +28,9 @@ class ContactCallbacksSample extends Forge2DGame with TapDetector {
     final Vector2 position =
         Vector2(details.localPosition.dx, details.localPosition.dy);
     if (math.Random().nextInt(10) < 2) {
-      add(WhiteBall(position, this));
+      add(WhiteBall(position));
     } else {
-      add(Ball(position, this));
+      add(Ball(position));
     }
   }
 }

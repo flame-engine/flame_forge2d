@@ -3,11 +3,9 @@ import 'dart:ui';
 import 'package:forge2d/forge2d.dart';
 import 'package:flame/palette.dart';
 import 'package:flame_forge2d/body_component.dart';
-import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame_forge2d/viewport.dart';
 
-List<Wall> createBoundaries(Forge2DGame game) {
-  final Viewport viewport = game.viewport;
+List<Wall> createBoundaries(Viewport viewport) {
   final Vector2 screenSize = viewport.size / viewport.scale;
   final Vector2 topLeft = (screenSize / 2) * -1;
   final Vector2 bottomRight = screenSize / 2;
@@ -15,10 +13,10 @@ List<Wall> createBoundaries(Forge2DGame game) {
   final Vector2 bottomLeft = Vector2(topLeft.x, bottomRight.y);
 
   return [
-    Wall(topLeft, topRight, game),
-    Wall(topRight, bottomRight, game),
-    Wall(bottomRight, bottomLeft, game),
-    Wall(bottomLeft, topLeft, game),
+    Wall(topLeft, topRight),
+    Wall(topRight, bottomRight),
+    Wall(bottomRight, bottomLeft),
+    Wall(bottomLeft, topLeft),
   ];
 }
 
@@ -27,7 +25,7 @@ class Wall extends BodyComponent {
   final Vector2 start;
   final Vector2 end;
 
-  Wall(this.start, this.end, Forge2DGame game) : super(game);
+  Wall(this.start, this.end);
 
   @override
   void renderPolygon(Canvas canvas, List<Offset> coordinates) {
