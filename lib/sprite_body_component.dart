@@ -22,12 +22,12 @@ abstract class SpriteBodyComponent extends BodyComponent {
   }
 
   @override
-  bool loaded() => body.isActive() && spriteComponent.loaded();
+  bool get loaded => body.isActive() && spriteComponent.loaded;
 
   @override
   void render(Canvas c) {
     super.render(c);
-    if (spriteComponent.loaded()) {
+    if (spriteComponent.loaded) {
       final screenPosition = viewport.getWorldToScreen(body.position);
       spriteComponent
         ..angle = -body.getAngle()
