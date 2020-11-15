@@ -13,7 +13,6 @@ abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
   static const defaultColor = const Color.fromARGB(255, 255, 255, 255);
 
   Body body;
-  bool _shouldRemove = false;
   Paint paint;
 
   BodyComponent({this.paint}) {
@@ -27,13 +26,8 @@ abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
   World get world => gameRef.world;
   Viewport get viewport => gameRef.viewport;
 
-  void remove() => _shouldRemove = true;
-
   @override
-  bool loaded() => body.isActive();
-
-  @override
-  bool shouldRemove() => _shouldRemove;
+  bool get loaded => body.isActive();
 
   @override
   void update(double dt) {
