@@ -9,7 +9,7 @@ import 'package:flutter/material.dart' hide Image;
 import 'balls.dart';
 import 'boundaries.dart';
 
-class CirlcleShuffler extends BodyComponent {
+class CircleShuffler extends BodyComponent {
   @override
   Body createBody() {
     var bd = BodyDef()
@@ -51,13 +51,19 @@ class CirlcleShuffler extends BodyComponent {
 }
 
 class CornerRamp extends BodyComponent {
+  final bool isMirrored;
+
+  CornerRamp({this.isMirrored = false});
+
   @override
   Body createBody() {
     final ChainShape shape = ChainShape();
+    final int mirrorFactor = isMirrored ? -1 : 1;
+    final double diff = 2.0 * mirrorFactor;
     List<Vector2> vertices = [
-      Vector2.zero(),
-      Vector2(20, 20),
-      Vector2(35, 35),
+      Vector2(diff, 0),
+      Vector2(diff + 20.0 * mirrorFactor, 20.0),
+      Vector2(diff + 35.0 * mirrorFactor, 30.0),
     ];
     shape.createLoop(vertices);
 
@@ -83,8 +89,9 @@ class CircleStressSample extends Forge2DGame with TapDetector {
     viewport.resize(viewportSize);
     final boundaries = createBoundaries(viewport);
     boundaries.forEach(add);
-    add(CirlcleShuffler());
-    add(CornerRamp());
+    add(CircleShuffler());
+    add(CornerRamp(isMirrored: true));
+    add(CornerRamp(isMirrored: false));
   }
 
   @override
