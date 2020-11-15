@@ -14,10 +14,11 @@ abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
 
   Body body;
   bool _shouldRemove = false;
-  Color color;
-  Paint get paint => Paint()..color = color;
+  Paint paint;
 
-  BodyComponent({this.color = defaultColor});
+  BodyComponent({this.paint}) {
+    paint ??= Paint()..color = defaultColor;
+  }
 
   /// You should create the [Body] in this method when you extend
   /// the BodyComponent
@@ -32,7 +33,7 @@ abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
   bool loaded() => body.isActive();
 
   @override
-  bool destroy() => _shouldRemove;
+  bool shouldRemove() => _shouldRemove;
 
   @override
   void update(double dt) {
@@ -124,4 +125,10 @@ abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
     final path = Path()..addPolygon(points, true);
     canvas.drawPath(path, paint);
   }
+
+  //void _renderEdge(Canvas canvas, Fixture fixture) {
+  //}
+
+  //void renderEdge(Canvas canvas, List<Offset> pointsList<Offset> points) {
+  //}
 }

@@ -33,10 +33,10 @@ class Forge2DGame extends BaseGame {
   }
 
   @override
-  void preAdd(Component c) {
-    super.preAdd(c);
-    if (c is BodyComponent) {
-      c.body = c.createBody();
+  void prepare(Component component) {
+    super.prepare(component);
+    if (component is BodyComponent) {
+      component.body = component.createBody();
     }
   }
 
@@ -68,9 +68,13 @@ class Forge2DGame extends BaseGame {
     }
   }
 
-  void remove(BodyComponent component) {
-    world.destroyBody(component.body);
-    component.remove();
+  @override
+  void remove(Component component) {
+    super.remove(component);
+    if (component is BodyComponent) {
+      world.destroyBody(component.body);
+      component.remove();
+    }
   }
 
   void addContactCallback(ContactCallback callback) {

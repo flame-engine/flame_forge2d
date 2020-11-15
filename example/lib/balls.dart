@@ -9,14 +9,14 @@ import 'package:flutter/material.dart';
 import 'boundaries.dart';
 
 class Ball extends BodyComponent {
-  Paint originalPaint, currentPaint;
+  Paint originalPaint;
   bool giveNudge = false;
   final double radius;
   Vector2 _position;
 
   Ball(this._position, {this.radius = 5.0}) {
     originalPaint = _randomPaint();
-    currentPaint = originalPaint;
+    this.paint = originalPaint;
   }
 
   Paint _randomPaint() {
@@ -53,20 +53,13 @@ class Ball extends BodyComponent {
   }
 
   @override
-  bool destroy() {
-    // Implement your logic for when the component should be removed
-    return false;
-  }
-
-  @override
-  void renderCircle(Canvas c, Offset p, double radius) {
-    final blue = const PaletteEntry(Colors.blue).paint;
-    c.drawCircle(p, radius, currentPaint);
-
+  void renderCircle(Canvas c, Offset center, double radius) {
+    super.renderCircle(c, center, radius);
     final angle = body.getAngle();
     final lineRotation =
         Offset(math.sin(angle) * radius, math.cos(angle) * radius);
-    c.drawLine(p, p + lineRotation, blue);
+    final blue = const PaletteEntry(Colors.blue).paint;
+    c.drawLine(center, center + lineRotation, blue);
   }
 
   @override
@@ -82,7 +75,7 @@ class Ball extends BodyComponent {
 class WhiteBall extends Ball {
   WhiteBall(Vector2 position) : super(position) {
     originalPaint = BasicPalette.white.paint;
-    currentPaint = originalPaint;
+    paint = originalPaint;
   }
 }
 
@@ -92,10 +85,10 @@ class BallContactCallback extends ContactCallback<Ball, Ball> {
     if (ball1 is WhiteBall || ball2 is WhiteBall) {
       return;
     }
-    if (ball1.currentPaint != ball1.originalPaint) {
-      ball1.currentPaint = ball2.currentPaint;
+    if (ball1.paint != ball1.originalPaint) {
+      ball1.paint = ball2.paint;
     } else {
-      ball2.currentPaint = ball1.currentPaint;
+      ball2.paint = ball1.paint;
     }
   }
 
@@ -116,7 +109,7 @@ class WhiteBallContactCallback extends ContactCallback<Ball, WhiteBall> {
 class BallWallContactCallback extends ContactCallback<Ball, Wall> {
   @override
   void begin(Ball ball, Wall wall, Contact contact) {
-    wall.paint = ball.currentPaint;
+    wall.paint = ball.paint;
   }
 
   @override
