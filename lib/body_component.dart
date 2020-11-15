@@ -55,7 +55,7 @@ abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
           _renderCircle(canvas, fixture);
           break;
         case ShapeType.EDGE:
-          throw Exception('not implemented');
+          _renderEdge(canvas, fixture);
           break;
         case ShapeType.POLYGON:
           _renderPolygon(canvas, fixture);
@@ -69,18 +69,10 @@ abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
   void _renderChain(Canvas canvas, Fixture fixture) {
     assert(viewport != null, "Needs the viewport set to be able to render");
     final ChainShape chainShape = fixture.getShape();
-    final List<Vector2> vertices = List<Vector2>(chainShape.vertexCount);
-
-    for (int i = 0; i < chainShape.vertexCount; ++i) {
-      vertices[i] = body.getWorldPoint(chainShape.getVertex(i));
-      vertices[i] = viewport.getWorldToScreen(vertices[i]);
-    }
-
     final List<Offset> points = [];
     for (int i = 0; i < chainShape.vertexCount; i++) {
-      points.add(Offset(vertices[i].x, vertices[i].y));
+      points.add(_vertexToScreen(chainShape.getVertex(i)));
     }
-
     renderChain(canvas, points);
   }
 
@@ -91,11 +83,9 @@ abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
 
   void _renderCircle(Canvas canvas, Fixture fixture) {
     assert(viewport != null, "Needs the viewport set to be able to render");
-    var center = Vector2.zero();
     final CircleShape circle = fixture.getShape();
-    center = body.getWorldPoint(circle.position);
-    center = viewport.getWorldToScreen(center);
-    renderCircle(canvas, center.toOffset(), circle.radius * viewport.scale);
+    final center = _vertexToScreen(circle.position);
+    renderCircle(canvas, center, circle.radius * viewport.scale);
   }
 
   void renderCircle(Canvas canvas, Offset center, double radius) {
@@ -106,16 +96,10 @@ abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
     assert(viewport != null, "Needs the viewport set to be able to render");
     final PolygonShape polygon = fixture.getShape();
     assert(polygon.count <= maxPolygonVertices);
-    final List<Vector2> vertices = List<Vector2>(polygon.count);
-
-    for (int i = 0; i < polygon.count; ++i) {
-      vertices[i] = body.getWorldPoint(polygon.vertices[i]);
-      vertices[i] = viewport.getWorldToScreen(vertices[i]);
-    }
 
     final List<Offset> points = [];
     for (int i = 0; i < polygon.count; i++) {
-      points.add(Offset(vertices[i].x, vertices[i].y));
+      points.add(_vertexToScreen(polygon.vertices[i]));
     }
 
     renderPolygon(canvas, points);
@@ -126,9 +110,18 @@ abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
     canvas.drawPath(path, paint);
   }
 
-  //void _renderEdge(Canvas canvas, Fixture fixture) {
-  //}
+  void _renderEdge(Canvas canvas, Fixture fixture) {
+    final edge = fixture.getShape() as EdgeShape;
+    final p1 = _vertexToScreen(edge.vertex1);
+    final p2 = _vertexToScreen(edge.vertex2);
+    renderEdge(canvas, p1, p2);
+  }
 
-  //void renderEdge(Canvas canvas, List<Offset> pointsList<Offset> points) {
-  //}
+  void renderEdge(Canvas canvas, Offset p1, Offset p2) {
+    canvas.drawLine(p1, p2, paint);
+  }
+
+  Offset _vertexToScreen(Vector2 vertex) {
+    return viewport.getWorldToScreen(body.getWorldPoint(vertex)).toOffset();
+  }
 }
