@@ -11,8 +11,14 @@ import 'boundaries.dart';
 
 class Pizza extends SpriteBodyComponent {
   final Vector2 _position;
+  final Image image;
 
-  Pizza(this._position, Image image) : super(Sprite(image), Vector2(10, 15));
+  Pizza(this._position, this.image) : super(Vector2(10, 15));
+
+  @override
+  Sprite createSprite() {
+    return Sprite(image);
+  }
 
   @override
   Body createBody() {
