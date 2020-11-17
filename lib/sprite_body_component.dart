@@ -13,13 +13,12 @@ abstract class SpriteBodyComponent extends BodyComponent {
 
   /// Make sure that the [size] of the sprite matches the bounding shape of the
   /// body that is create in createBody()
-  SpriteBodyComponent(
-    Sprite sprite,
-    this.size,
-  ) {
-    spriteComponent = SpriteComponent.fromSprite(size, sprite)
+  SpriteBodyComponent(this.size) {
+    spriteComponent = SpriteComponent.fromSprite(size, createSprite())
       ..anchor = Anchor.center;
   }
+
+  Sprite createSprite();
 
   @override
   bool get loaded => body.isActive() && spriteComponent.loaded;
