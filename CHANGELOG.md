@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## [next]
+## [0.5.0]
  - Initial move of box2d related files
  - Move over to refactored box2d
 
