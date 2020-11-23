@@ -1,6 +1,8 @@
 name: forge2d_samples
 description: Flame Forge2D (box2d) samples
 
+publish_to: 'none'
+
 version: 1.0.0+1
 
 environment:
