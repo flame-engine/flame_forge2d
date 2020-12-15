@@ -1,19 +1,27 @@
 import 'dart:ui';
 
 import 'package:flame/components/mixins/has_game_ref.dart';
+import 'package:flutter/gestures.dart';
 import 'package:forge2d/forge2d.dart' hide Timer, Vector2;
-import 'package:flame/components/component.dart';
+import 'package:flame/components/base_component.dart';
+import 'package:flame/extensions/offset.dart';
 import 'package:flame/extensions/vector2.dart';
 
 import 'forge2d_game.dart';
 import 'viewport.dart';
 
-abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
-  static const maxPolygonVertices = 10;
+abstract class BodyComponent extends BaseComponent
+    with HasGameRef<Forge2DGame> {
+  static const maxPolygonVertices = 8;
   static const defaultColor = const Color.fromARGB(255, 255, 255, 255);
 
   Body body;
   Paint paint;
+
+  /// Since a pure BodyComponent doesn't have anything drawn on top of it,
+  /// debudMode is true by default so that the bodies can be seen
+  @override
+  bool debugMode = true;
 
   BodyComponent({this.paint}) {
     paint ??= Paint()..color = defaultColor;
@@ -27,9 +35,6 @@ abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
   Viewport get viewport => gameRef.viewport;
 
   @override
-  bool get loaded => body.isActive();
-
-  @override
   void update(double dt) {
     super.update(dt);
     // usually all update will be handled by the world physics
@@ -37,23 +42,26 @@ abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
 
   @override
   void render(Canvas canvas) {
-    body.getFixtureList();
-    for (Fixture fixture = body.getFixtureList();
-        fixture != null;
-        fixture = fixture.getNext()) {
-      switch (fixture.getType()) {
-        case ShapeType.CHAIN:
-          _renderChain(canvas, fixture);
-          break;
-        case ShapeType.CIRCLE:
-          _renderCircle(canvas, fixture);
-          break;
-        case ShapeType.EDGE:
-          _renderEdge(canvas, fixture);
-          break;
-        case ShapeType.POLYGON:
-          _renderPolygon(canvas, fixture);
-          break;
+    super.render(canvas);
+    if (debugMode) {
+      body.getFixtureList();
+      for (Fixture fixture = body.getFixtureList();
+          fixture != null;
+          fixture = fixture.getNext()) {
+        switch (fixture.getType()) {
+          case ShapeType.CHAIN:
+            _renderChain(canvas, fixture);
+            break;
+          case ShapeType.CIRCLE:
+            _renderCircle(canvas, fixture);
+            break;
+          case ShapeType.EDGE:
+            _renderEdge(canvas, fixture);
+            break;
+          case ShapeType.POLYGON:
+            _renderPolygon(canvas, fixture);
+            break;
+        }
       }
     }
   }
@@ -101,6 +109,7 @@ abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
 
   void renderPolygon(Canvas canvas, List<Offset> points) {
     final path = Path()..addPolygon(points, true);
+
     canvas.drawPath(path, paint);
   }
 
@@ -117,5 +126,16 @@ abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
 
   Offset _vertexToScreen(Vector2 vertex) {
     return viewport.getWorldToScreen(body.getWorldPoint(vertex)).toOffset();
+  }
+
+  @override
+  bool checkOverlap(Vector2 point) {
+    final worldPoint = viewport.getScreenToWorld(point);
+    for (Fixture f = body.getFixtureList(); f != null; f = f.getNext()) {
+      if (f.testPoint(worldPoint)) {
+        return true;
+      }
+    }
+    return false;
   }
 }
