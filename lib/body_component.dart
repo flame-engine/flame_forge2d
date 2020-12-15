@@ -41,27 +41,24 @@ abstract class BodyComponent extends BaseComponent
   }
 
   @override
-  void render(Canvas canvas) {
-    super.render(canvas);
-    if (debugMode) {
-      body.getFixtureList();
-      for (Fixture fixture = body.getFixtureList();
-          fixture != null;
-          fixture = fixture.getNext()) {
-        switch (fixture.getType()) {
-          case ShapeType.CHAIN:
-            _renderChain(canvas, fixture);
-            break;
-          case ShapeType.CIRCLE:
-            _renderCircle(canvas, fixture);
-            break;
-          case ShapeType.EDGE:
-            _renderEdge(canvas, fixture);
-            break;
-          case ShapeType.POLYGON:
-            _renderPolygon(canvas, fixture);
-            break;
-        }
+  void renderDebugMode(Canvas canvas) {
+    body.getFixtureList();
+    for (Fixture fixture = body.getFixtureList();
+    fixture != null;
+    fixture = fixture.getNext()) {
+      switch (fixture.getType()) {
+        case ShapeType.CHAIN:
+          _renderChain(canvas, fixture);
+          break;
+        case ShapeType.CIRCLE:
+          _renderCircle(canvas, fixture);
+          break;
+        case ShapeType.EDGE:
+          _renderEdge(canvas, fixture);
+          break;
+        case ShapeType.POLYGON:
+          _renderPolygon(canvas, fixture);
+          break;
       }
     }
   }
