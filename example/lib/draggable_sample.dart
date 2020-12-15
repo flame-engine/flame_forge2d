@@ -43,17 +43,18 @@ class DraggableBall extends Ball with Dragable {
     }
     return false;
   }
-  
+
   @override
   bool onReceiveDrag(DragEvent event) {
     paint = randomPaint();
     event.onUpdate = (DragUpdateDetails details) {
       // This is needed since the y-axis is flipped for gravity to make sense
-      final worldDelta = details.delta.toVector2()..multiply(Vector2(1.0, -1.0));
+      final worldDelta = details.delta.toVector2()
+        ..multiply(Vector2(1.0, -1.0));
       body.applyLinearImpulse(
-          worldDelta * 1000,
-          body.getLocalCenter(),
-          true,
+        worldDelta * 1000,
+        body.getLocalCenter(),
+        true,
       );
     };
     return true;

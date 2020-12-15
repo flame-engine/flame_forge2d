@@ -43,11 +43,11 @@ void main() async {
     )
     ..add(
       'Tapable Body',
-          (DashbookContext ctx) => GameWidget(game: TapableSample(ctxSize(ctx))),
+      (DashbookContext ctx) => GameWidget(game: TapableSample(ctxSize(ctx))),
     )
     ..add(
       'Draggable Body',
-          (DashbookContext ctx) => GameWidget(game: DraggableSample(ctxSize(ctx))),
+      (DashbookContext ctx) => GameWidget(game: DraggableSample(ctxSize(ctx))),
     );
   runApp(dashbook);
 }
