@@ -46,6 +46,7 @@ class Ball extends BodyComponent {
     final bodyDef = BodyDef()
       // To be able to determine object in collision
       ..setUserData(this)
+      ..angularDamping = 0.8
       ..position = worldPosition
       ..type = BodyType.DYNAMIC;
 
