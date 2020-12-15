@@ -27,10 +27,11 @@ class TapableBall extends Ball with Tapable {
     originalPaint = BasicPalette.white.paint;
     paint = originalPaint;
   }
-  
+
   @override
   bool onTapDown(TapDownDetails details) {
-    body.applyLinearImpulse(Vector2.random() * 10000, body.getLocalCenter(), true);
+    body.applyLinearImpulse(
+        Vector2.random() * 10000, body.getLocalCenter(), true);
     paint = randomPaint();
     return false;
   }
