@@ -21,11 +21,6 @@ class DraggableSample extends Forge2DGame with HasDragableComponents {
     boundaries.forEach(add);
     add(DraggableBall(viewport.size / 2));
   }
-
-  @override
-  void onReceiveDrag(DragEvent event) {
-    super.onReceiveDrag(event);
-  }
 }
 
 class DraggableBall extends Ball with Dragable {
@@ -34,6 +29,8 @@ class DraggableBall extends Ball with Dragable {
     paint = originalPaint;
   }
 
+  // TODO: Remove this override once the initial position in draggable is solved
+  // on the flame side
   @override
   bool handleReceiveDrag(DragEvent event) {
     // In v1.0.0-rc3 initialPosition doesn't take padding outside
