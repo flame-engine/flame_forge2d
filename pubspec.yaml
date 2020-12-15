@@ -3,12 +3,14 @@ description: Forge2D (Box2D) support for the Flame game engine. This uses the fo
 version: 0.5.0-rc1
 homepage: https://github.com/flame-engine/flame_forge2d
 
+publish_to: none
+
 environment:
   sdk: ">=2.7.0 <3.0.0"
   flutter: ">=1.17.0 <2.0.0"
 
 dependencies:
-  flame: ^1.0.0-rc2
+  flame: "1.0.0-rc3"
   forge2d: ^0.5.0
 
   flutter:
