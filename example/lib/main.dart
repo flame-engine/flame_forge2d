@@ -3,6 +3,7 @@ import 'package:flame/game.dart';
 import 'package:flame/extensions/size.dart';
 import 'package:flame/extensions/vector2.dart';
 import 'package:flutter/material.dart';
+import 'package:forge2d_samples/draggable_sample.dart';
 import 'package:forge2d_samples/tapable_sample.dart';
 
 import './sprite_body_sample.dart';
@@ -41,8 +42,12 @@ void main() async {
       (DashbookContext ctx) => GameWidget(game: SpriteBodySample(ctxSize(ctx))),
     )
     ..add(
-      'Tapable Bodies',
+      'Tapable Body',
           (DashbookContext ctx) => GameWidget(game: TapableSample(ctxSize(ctx))),
+    )
+    ..add(
+      'Draggable Body',
+          (DashbookContext ctx) => GameWidget(game: DraggableSample(ctxSize(ctx))),
     );
   runApp(dashbook);
 }
