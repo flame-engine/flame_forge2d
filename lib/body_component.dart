@@ -44,8 +44,8 @@ abstract class BodyComponent extends BaseComponent
   void renderDebugMode(Canvas canvas) {
     body.getFixtureList();
     for (Fixture fixture = body.getFixtureList();
-    fixture != null;
-    fixture = fixture.getNext()) {
+        fixture != null;
+        fixture = fixture.getNext()) {
       switch (fixture.getType()) {
         case ShapeType.CHAIN:
           _renderChain(canvas, fixture);
