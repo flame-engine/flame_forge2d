@@ -1,16 +1,16 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:forge2d/forge2d.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame/palette.dart';
 import 'package:flame/gestures.dart';
 import 'package:flame/extensions/offset.dart';
-import 'package:flame/components/mixins/dragable.dart';
+import 'package:flame/components/mixins/draggable.dart';
 
 import 'balls.dart';
 import 'boundaries.dart';
 
-class DraggableSample extends Forge2DGame with HasDragableComponents {
+class DraggableSample extends Forge2DGame with HasDraggableComponents {
   DraggableSample(Vector2 viewportSize)
       : super(
           scale: 4.0,
@@ -23,7 +23,7 @@ class DraggableSample extends Forge2DGame with HasDragableComponents {
   }
 }
 
-class DraggableBall extends Ball with Dragable {
+class DraggableBall extends Ball with Draggable {
   DraggableBall(Vector2 position) : super(position, radius: 20) {
     originalPaint = BasicPalette.white.paint;
     paint = originalPaint;
