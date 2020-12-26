@@ -41,8 +41,8 @@ class ContactCallbacks extends ContactListener {
   }
 
   void _maybeCallback(Contact contact, ContactCallback callback, Function f) {
-    final Object a = contact.fixtureA.getBody().userData;
-    final Object b = contact.fixtureB.getBody().userData;
+    final Object a = contact.fixtureA.body.userData;
+    final Object b = contact.fixtureB.body.userData;
     final ContactTypes wanted = callback.types;
 
     if (wanted.match(a, b) ||

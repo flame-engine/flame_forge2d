@@ -45,7 +45,7 @@ class Ball extends BodyComponent {
 
     final bodyDef = BodyDef()
       // To be able to determine object in collision
-      ..setUserData(this)
+      ..userData = this
       ..angularDamping = 0.8
       ..position = worldPosition
       ..type = BodyType.DYNAMIC;
@@ -67,7 +67,7 @@ class Ball extends BodyComponent {
   void update(double t) {
     super.update(t);
     if (giveNudge) {
-      body.applyLinearImpulse(Vector2(0, 10000), body.getLocalCenter(), true);
+      body.applyLinearImpulse(Vector2(0, 10000));
       giveNudge = false;
     }
   }
