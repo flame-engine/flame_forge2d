@@ -48,11 +48,7 @@ class DraggableBall extends Ball with Dragable {
       // This is needed since the y-axis is flipped for gravity to make sense
       final worldDelta = details.delta.toVector2()
         ..multiply(Vector2(1.0, -1.0));
-      body.applyLinearImpulse(
-        worldDelta * 1000,
-        body.getLocalCenter(),
-        true,
-      );
+      body.applyLinearImpulse(worldDelta * 1000);
     };
     return true;
   }

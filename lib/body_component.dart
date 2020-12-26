@@ -42,10 +42,7 @@ abstract class BodyComponent extends BaseComponent
 
   @override
   void renderDebugMode(Canvas canvas) {
-    body.getFixtureList();
-    for (Fixture fixture = body.getFixtureList();
-        fixture != null;
-        fixture = fixture.getNext()) {
+    for (Fixture fixture in body.fixtures) {
       switch (fixture.getType()) {
         case ShapeType.CHAIN:
           _renderChain(canvas, fixture);
@@ -67,7 +64,7 @@ abstract class BodyComponent extends BaseComponent
 
   void _renderChain(Canvas canvas, Fixture fixture) {
     assert(viewport != null, "Needs the viewport set to be able to render");
-    final ChainShape chainShape = fixture.getShape();
+    final ChainShape chainShape = fixture.shape;
     final List<Offset> points = [];
     for (int i = 0; i < chainShape.vertexCount; i++) {
       points.add(_vertexToScreen(chainShape.getVertex(i)));
@@ -82,7 +79,7 @@ abstract class BodyComponent extends BaseComponent
 
   void _renderCircle(Canvas canvas, Fixture fixture) {
     assert(viewport != null, "Needs the viewport set to be able to render");
-    final CircleShape circle = fixture.getShape();
+    final CircleShape circle = fixture.shape;
     final center = _vertexToScreen(circle.position);
     renderCircle(canvas, center, circle.radius * viewport.scale);
   }
@@ -93,7 +90,7 @@ abstract class BodyComponent extends BaseComponent
 
   void _renderPolygon(Canvas canvas, Fixture fixture) {
     assert(viewport != null, "Needs the viewport set to be able to render");
-    final PolygonShape polygon = fixture.getShape();
+    final PolygonShape polygon = fixture.shape;
     assert(polygon.count <= maxPolygonVertices);
 
     final List<Offset> points = [];
@@ -111,7 +108,7 @@ abstract class BodyComponent extends BaseComponent
   }
 
   void _renderEdge(Canvas canvas, Fixture fixture) {
-    final edge = fixture.getShape() as EdgeShape;
+    final edge = fixture.shape as EdgeShape;
     final p1 = _vertexToScreen(edge.vertex1);
     final p2 = _vertexToScreen(edge.vertex2);
     renderEdge(canvas, p1, p2);
@@ -128,8 +125,8 @@ abstract class BodyComponent extends BaseComponent
   @override
   bool checkOverlap(Vector2 point) {
     final worldPoint = viewport.getScreenToWorld(point);
-    for (Fixture f = body.getFixtureList(); f != null; f = f.getNext()) {
-      if (f.testPoint(worldPoint)) {
+    for (Fixture fixture in body.fixtures) {
+      if (fixture.testPoint(worldPoint)) {
         return true;
       }
     }

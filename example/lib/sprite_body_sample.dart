@@ -25,7 +25,7 @@ class Pizza extends SpriteBodyComponent {
     shape.set(vertices, vertices.length);
 
     final fixtureDef = FixtureDef();
-    fixtureDef.setUserData(this); // To be able to determine object in collision
+    fixtureDef.userData = this; // To be able to determine object in collision
     fixtureDef.shape = shape;
     fixtureDef.restitution = 0.3;
     fixtureDef.density = 1.0;

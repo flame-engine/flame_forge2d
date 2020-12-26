@@ -45,7 +45,7 @@ class Wall extends BodyComponent {
       ..friction = 0.1;
 
     final bodyDef = BodyDef()
-      ..setUserData(this) // To be able to determine object in collision
+      ..userData = this // To be able to determine object in collision
       ..position = Vector2.zero()
       ..type = BodyType.STATIC;
 

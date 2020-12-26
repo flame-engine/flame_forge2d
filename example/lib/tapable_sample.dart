@@ -30,8 +30,7 @@ class TapableBall extends Ball with Tapable {
 
   @override
   bool onTapDown(TapDownDetails details) {
-    body.applyLinearImpulse(
-        Vector2.random() * 10000, body.getLocalCenter(), true);
+    body.applyLinearImpulse(Vector2.random() * 10000);
     paint = randomPaint();
     return false;
   }
