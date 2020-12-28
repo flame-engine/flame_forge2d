@@ -11,6 +11,9 @@ abstract class SpriteBodyComponent extends BodyComponent {
   SpriteComponent spriteComponent;
   Vector2 size;
 
+  @override
+  bool debugMode = false;
+
   /// Make sure that the [size] of the sprite matches the bounding shape of the
   /// body that is create in createBody()
   SpriteBodyComponent(
@@ -22,20 +25,15 @@ abstract class SpriteBodyComponent extends BodyComponent {
   }
 
   @override
-  bool get loaded => body.isActive() && spriteComponent.loaded;
-
-  @override
   void render(Canvas c) {
     super.render(c);
-    if (spriteComponent.loaded) {
-      final screenPosition = viewport.getWorldToScreen(body.position);
-      spriteComponent
-        ..angle = -body.getAngle()
-        ..size = size * viewport.scale
-        ..x = screenPosition.x
-        ..y = screenPosition.y;
+    final screenPosition = viewport.getWorldToScreen(body.position);
+    spriteComponent
+      ..angle = -body.getAngle()
+      ..size = size * viewport.scale
+      ..x = screenPosition.x
+      ..y = screenPosition.y;
 
-      spriteComponent.render(c);
-    }
+    spriteComponent.render(c);
   }
 }

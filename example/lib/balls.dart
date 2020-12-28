@@ -15,11 +15,11 @@ class Ball extends BodyComponent {
   Vector2 _position;
 
   Ball(this._position, {this.radius = 5.0}) {
-    originalPaint = _randomPaint();
+    originalPaint = randomPaint();
     this.paint = originalPaint;
   }
 
-  Paint _randomPaint() {
+  Paint randomPaint() {
     final rng = math.Random();
     return PaletteEntry(
       Color.fromARGB(
@@ -41,11 +41,12 @@ class Ball extends BodyComponent {
       ..shape = shape
       ..restitution = 0.8
       ..density = 1.0
-      ..friction = 0.1;
+      ..friction = 0.4;
 
     final bodyDef = BodyDef()
       // To be able to determine object in collision
-      ..setUserData(this)
+      ..userData = this
+      ..angularDamping = 0.8
       ..position = worldPosition
       ..type = BodyType.DYNAMIC;
 
@@ -66,7 +67,7 @@ class Ball extends BodyComponent {
   void update(double t) {
     super.update(t);
     if (giveNudge) {
-      body.applyLinearImpulse(Vector2(0, 10000), body.getLocalCenter(), true);
+      body.applyLinearImpulse(Vector2(0, 10000));
       giveNudge = false;
     }
   }

@@ -1,19 +1,27 @@
 import 'dart:ui';
 
 import 'package:flame/components/mixins/has_game_ref.dart';
+import 'package:flutter/gestures.dart';
 import 'package:forge2d/forge2d.dart' hide Timer, Vector2;
-import 'package:flame/components/component.dart';
+import 'package:flame/components/base_component.dart';
+import 'package:flame/extensions/offset.dart';
 import 'package:flame/extensions/vector2.dart';
 
 import 'forge2d_game.dart';
 import 'viewport.dart';
 
-abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
-  static const maxPolygonVertices = 10;
+abstract class BodyComponent extends BaseComponent
+    with HasGameRef<Forge2DGame> {
+  static const maxPolygonVertices = 8;
   static const defaultColor = const Color.fromARGB(255, 255, 255, 255);
 
   Body body;
   Paint paint;
+
+  /// Since a pure BodyComponent doesn't have anything drawn on top of it,
+  /// debudMode is true by default so that the bodies can be seen
+  @override
+  bool debugMode = true;
 
   BodyComponent({this.paint}) {
     paint ??= Paint()..color = defaultColor;
@@ -27,20 +35,14 @@ abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
   Viewport get viewport => gameRef.viewport;
 
   @override
-  bool get loaded => body.isActive();
-
-  @override
   void update(double dt) {
     super.update(dt);
     // usually all update will be handled by the world physics
   }
 
   @override
-  void render(Canvas canvas) {
-    body.getFixtureList();
-    for (Fixture fixture = body.getFixtureList();
-        fixture != null;
-        fixture = fixture.getNext()) {
+  void renderDebugMode(Canvas canvas) {
+    for (Fixture fixture in body.fixtures) {
       switch (fixture.getType()) {
         case ShapeType.CHAIN:
           _renderChain(canvas, fixture);
@@ -62,7 +64,7 @@ abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
 
   void _renderChain(Canvas canvas, Fixture fixture) {
     assert(viewport != null, "Needs the viewport set to be able to render");
-    final ChainShape chainShape = fixture.getShape();
+    final ChainShape chainShape = fixture.shape;
     final List<Offset> points = [];
     for (int i = 0; i < chainShape.vertexCount; i++) {
       points.add(_vertexToScreen(chainShape.getVertex(i)));
@@ -77,7 +79,7 @@ abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
 
   void _renderCircle(Canvas canvas, Fixture fixture) {
     assert(viewport != null, "Needs the viewport set to be able to render");
-    final CircleShape circle = fixture.getShape();
+    final CircleShape circle = fixture.shape;
     final center = _vertexToScreen(circle.position);
     renderCircle(canvas, center, circle.radius * viewport.scale);
   }
@@ -88,7 +90,7 @@ abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
 
   void _renderPolygon(Canvas canvas, Fixture fixture) {
     assert(viewport != null, "Needs the viewport set to be able to render");
-    final PolygonShape polygon = fixture.getShape();
+    final PolygonShape polygon = fixture.shape;
     assert(polygon.count <= maxPolygonVertices);
 
     final List<Offset> points = [];
@@ -101,11 +103,12 @@ abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
 
   void renderPolygon(Canvas canvas, List<Offset> points) {
     final path = Path()..addPolygon(points, true);
+
     canvas.drawPath(path, paint);
   }
 
   void _renderEdge(Canvas canvas, Fixture fixture) {
-    final edge = fixture.getShape() as EdgeShape;
+    final edge = fixture.shape as EdgeShape;
     final p1 = _vertexToScreen(edge.vertex1);
     final p2 = _vertexToScreen(edge.vertex2);
     renderEdge(canvas, p1, p2);
@@ -117,5 +120,16 @@ abstract class BodyComponent extends Component with HasGameRef<Forge2DGame> {
 
   Offset _vertexToScreen(Vector2 vertex) {
     return viewport.getWorldToScreen(body.getWorldPoint(vertex)).toOffset();
+  }
+
+  @override
+  bool checkOverlap(Vector2 point) {
+    final worldPoint = viewport.getScreenToWorld(point);
+    for (Fixture fixture in body.fixtures) {
+      if (fixture.testPoint(worldPoint)) {
+        return true;
+      }
+    }
+    return false;
   }
 }
