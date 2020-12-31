@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## [0.6.0-rc2]
+ - Align with Flame 1.0.0-rc5
+
 ## [0.6.0-rc1]
  - Align with Flame 1.0.0-rc4
  - Align with Forge2D 0.6.0
