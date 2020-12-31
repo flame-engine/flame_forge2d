@@ -19,13 +19,13 @@ Add the following to the dependencies section of your `pubspec.yaml` file:
 
 ```
 dependencies:
-  flame: ^1.0.0-rc4
-  flame_forge2d: ^0.6.0-rc1
+  flame: ^1.0.0-rc5
+  flame_forge2d: ^0.6.0-rc2
 ```
 
 ## Examples
 In the example folder of the repository you can find some [examples](https://github.com/flame-engine/flame_forge2d/tree/master/example), and you can also find some examples in the [Forge2D repository](https://github.com/flame-engine/forge2d/tree/master/example).
 
 ## Documentation
-Some more documentation can be found on https://flame-engine.org/docs/forge2d.md
+Some more documentation can be found on https://flame-engine.org/docs/#/docs/forge2d
 
