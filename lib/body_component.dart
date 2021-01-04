@@ -10,6 +10,8 @@ import 'package:flame/extensions/vector2.dart';
 import 'forge2d_game.dart';
 import 'viewport.dart';
 
+/// Since a pure BodyComponent doesn't have anything drawn on top of it,
+/// it is a good idea to turn on debudMode for it so that the bodies can be seen
 abstract class BodyComponent extends BaseComponent
     with HasGameRef<Forge2DGame> {
   static const maxPolygonVertices = 8;
@@ -17,11 +19,6 @@ abstract class BodyComponent extends BaseComponent
 
   Body body;
   Paint paint;
-
-  /// Since a pure BodyComponent doesn't have anything drawn on top of it,
-  /// debudMode is true by default so that the bodies can be seen
-  @override
-  bool debugMode = true;
 
   BodyComponent({this.paint}) {
     paint ??= Paint()..color = defaultColor;
@@ -33,12 +30,6 @@ abstract class BodyComponent extends BaseComponent
 
   World get world => gameRef.world;
   Viewport get viewport => gameRef.viewport;
-
-  @override
-  void update(double dt) {
-    super.update(dt);
-    // usually all update will be handled by the world physics
-  }
 
   @override
   void renderDebugMode(Canvas canvas) {
