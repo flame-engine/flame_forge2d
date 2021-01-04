@@ -37,6 +37,7 @@ class Forge2DGame extends BaseGame {
     super.prepare(component);
     if (component is BodyComponent) {
       component.body = component.createBody();
+      component.debugMode = debugMode();
     }
   }
 
