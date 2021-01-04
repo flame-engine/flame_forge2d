@@ -10,6 +10,9 @@ import 'balls.dart';
 import 'boundaries.dart';
 
 class TapableSample extends Forge2DGame with HasTapableComponents {
+  @override
+  bool debugMode() => true;
+
   TapableSample(Vector2 viewportSize)
       : super(
           scale: 4.0,
