@@ -82,6 +82,9 @@ class CornerRamp extends BodyComponent {
 }
 
 class CircleStressSample extends Forge2DGame with TapDetector {
+  @override
+  bool debugMode() => true;
+
   CircleStressSample(Vector2 viewportSize)
       : super(
           scale: 8.0,

@@ -11,6 +11,9 @@ import 'balls.dart';
 import 'boundaries.dart';
 
 class DraggableSample extends Forge2DGame with HasDraggableComponents {
+  @override
+  bool debugMode() => true;
+
   DraggableSample(Vector2 viewportSize)
       : super(
           scale: 4.0,

@@ -9,6 +9,9 @@ import 'balls.dart';
 import 'boundaries.dart';
 
 class ContactCallbacksSample extends Forge2DGame with TapDetector {
+  @override
+  bool debugMode() => true;
+
   ContactCallbacksSample(Vector2 viewportSize)
       : super(
           scale: 4.0,
