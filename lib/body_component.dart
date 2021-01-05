@@ -12,8 +12,9 @@ import 'viewport.dart';
 
 /// Since a pure BodyComponent doesn't have anything drawn on top of it,
 /// it is a good idea to turn on debudMode for it so that the bodies can be seen
-abstract class BodyComponent extends BaseComponent
-    with HasGameRef<Forge2DGame> {
+
+abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
+    with HasGameRef<T> {
   static const maxPolygonVertices = 8;
   static const defaultColor = const Color.fromARGB(255, 255, 255, 255);
 
