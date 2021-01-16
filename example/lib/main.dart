@@ -11,6 +11,7 @@ import './contact_callbacks_sample.dart';
 import './domino_sample.dart';
 import 'blob_sample.dart';
 import 'circle_stress_sample.dart';
+import 'sprite_anim_body_component_sample.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,6 +49,10 @@ void main() async {
     ..add(
       'Draggable Body',
       (DashbookContext ctx) => GameWidget(game: DraggableSample(ctxSize(ctx))),
+    )
+    ..add(
+      'SpriteAnimatedBodyComponent',
+      (_) => GameWidget(game: LamaGame()),
     );
   runApp(dashbook);
 }
