@@ -1,11 +1,8 @@
 import 'dart:ui';
 
-import 'package:flame/components/mixins/has_game_ref.dart';
+import 'package:flame/components.dart';
 import 'package:flutter/gestures.dart';
 import 'package:forge2d/forge2d.dart' hide Timer, Vector2;
-import 'package:flame/components/base_component.dart';
-import 'package:flame/extensions/offset.dart';
-import 'package:flame/extensions/vector2.dart';
 
 import 'forge2d_game.dart';
 import 'viewport.dart';

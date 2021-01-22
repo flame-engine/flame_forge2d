@@ -1,9 +1,6 @@
 import 'dart:ui';
 
-import 'package:flame/anchor.dart';
-import 'package:flame/components/sprite_component.dart';
-import 'package:flame/extensions/vector2.dart';
-import 'package:flame/sprite.dart';
+import 'package:flame/components.dart';
 
 import 'body_component.dart';
 

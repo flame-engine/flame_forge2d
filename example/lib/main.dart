@@ -1,7 +1,6 @@
 import 'package:dashbook/dashbook.dart';
 import 'package:flame/game.dart';
-import 'package:flame/extensions/size.dart';
-import 'package:flame/extensions/vector2.dart';
+import 'package:flame/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:forge2d_samples/draggable_sample.dart';
 import 'package:forge2d_samples/tapable_sample.dart';

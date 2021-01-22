@@ -1,9 +1,11 @@
 # CHANGELOG
 
-## [next]
+## [0.6.2-rc3]
  - BodyComponent should follow Forge2D game debug mode
  - Fix generics for BodyComponent
- 
+ - Align with Flame 1.0.0-rc6
+ - Update to forge2d 0.6.2
+
 ## [0.6.0-rc2]
  - Align with Flame 1.0.0-rc5
 
