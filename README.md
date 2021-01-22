@@ -14,13 +14,13 @@
 
 This library acts as a bridge between [Forge2D](https://github.com/flame-engine/forge2d) (our port of Box2D) and the Flame game engine.
 
-## Installation
+# Installation
 Add the following to the dependencies section of your `pubspec.yaml` file:
 
 ```
 dependencies:
-  flame: ^1.0.0-rc5
-  flame_forge2d: ^0.6.0-rc2
+  flame: ^1.0.0-rc6
+  flame_forge2d: ^0.6.2-rc3
 ```
 
 ## Examples

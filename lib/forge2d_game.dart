@@ -1,9 +1,9 @@
 import 'dart:ui';
 
-import 'package:flame/components/component.dart';
+import 'package:flame/components.dart';
+import 'package:flame/extensions.dart';
+import 'package:flame/game.dart';
 import 'package:forge2d/forge2d.dart' hide Timer;
-import 'package:flame/game/base_game.dart';
-import 'package:flame/extensions/size.dart';
 
 import 'body_component.dart';
 import 'contact_callbacks.dart';
@@ -37,7 +37,7 @@ class Forge2DGame extends BaseGame {
     super.prepare(component);
     if (component is BodyComponent) {
       component.body = component.createBody();
-      component.debugMode = debugMode();
+      component.debugMode = debugMode;
     }
   }
 

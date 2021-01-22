@@ -50,7 +50,7 @@ class DominoBrick extends BodyComponent {
 
 class DominoSample extends Forge2DGame with TapDetector {
   @override
-  bool debugMode() => true;
+  bool debugMode = true;
 
   DominoSample(Vector2 viewportSize)
       : super(
