@@ -91,11 +91,10 @@ class BlobSample extends Forge2DGame with TapDetector {
 
   BlobSample(Vector2 viewportSize)
       : super(
-          scale: 20.0,
+          scale: 8.0,
           gravity: Vector2(0, -10.0),
         ) {
     viewport.resize(viewportSize);
-    print("viewport: ${viewport.center}");
     final boundaries = createBoundaries(viewport);
     boundaries.forEach(add);
     add(Ground());
@@ -111,25 +110,12 @@ class BlobSample extends Forge2DGame with TapDetector {
     world.createJoint(jointDef);
   }
 
-  FallingBox box;
-  @override
-  void update(double dt) {
-    super.update(dt);
-    if (box != null) {
-      viewport.cameraFollow(box, horizontal: 1.0, vertical: 1.0);
-      print("box: ${box.body.position}");
-      print("world: ${viewport.getScreenToWorld(viewport.center)}");
-      print("viewport: ${viewport.center}");
-    }
-  }
-
   @override
   void onTapDown(TapDownDetails details) {
     super.onTapDown(details);
     final Vector2 screenPosition =
         Vector2(details.localPosition.dx, details.localPosition.dy);
     final Vector2 worldPosition = viewport.getScreenToWorld(screenPosition);
-    box = FallingBox(this, worldPosition);
-    add(box);
+    add(FallingBox(this, worldPosition));
   }
 }
