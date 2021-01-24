@@ -3,6 +3,7 @@ import 'package:flame/game.dart';
 import 'package:flame/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:forge2d_samples/draggable_sample.dart';
+import 'package:forge2d_samples/mouse_joint_sample.dart';
 import 'package:forge2d_samples/tapable_sample.dart';
 
 import './sprite_body_sample.dart';
@@ -47,6 +48,10 @@ void main() async {
     ..add(
       'Draggable Body',
       (DashbookContext ctx) => GameWidget(game: DraggableSample(ctxSize(ctx))),
+    )
+    ..add(
+      'Mouse Joint',
+      (DashbookContext ctx) => GameWidget(game: MouseJointSample(ctxSize(ctx))),
     );
   runApp(dashbook);
 }

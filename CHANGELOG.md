@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## next
+ - Added an example for MouseJoint
+
 ## [0.6.2-rc3]
  - BodyComponent should follow Forge2D game debug mode
  - Fix generics for BodyComponent
