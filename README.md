@@ -27,5 +27,5 @@ dependencies:
 In the example folder of the repository you can find some [examples](https://github.com/flame-engine/flame_forge2d/tree/master/example), and you can also find some examples in the [Forge2D repository](https://github.com/flame-engine/forge2d/tree/master/example).
 
 ## Documentation
-Some more documentation can be found on https://flame-engine.org/docs/#/docs/forge2d
+Some more documentation can be found on https://flame-engine.org/docs/#/forge2d
 
