@@ -1,7 +1,8 @@
 # CHANGELOG
 
-## next
+## [0.6.3-rc3]
  - Added an example for MouseJoint
+ - Update to forge2d 0.6.3
 
 ## [0.6.2-rc3]
  - BodyComponent should follow Forge2D game debug mode
