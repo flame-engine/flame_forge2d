@@ -1,5 +1,9 @@
 # CHANGELOG
 
+
+## [0.6.3-rc3]
+ - Changed so that Forge2DGame calls createBody from add instead of prepare
+
 ## [0.6.3-rc3]
  - Added an example for MouseJoint
  - Update to forge2d 0.6.3

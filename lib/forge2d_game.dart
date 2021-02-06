@@ -33,8 +33,8 @@ class Forge2DGame extends BaseGame {
   }
 
   @override
-  void prepare(Component component) {
-    super.prepare(component);
+  Future<void> add(Component component) async {
+    super.add(component);
     if (component is BodyComponent) {
       component.body = component.createBody();
       component.debugMode = debugMode;
