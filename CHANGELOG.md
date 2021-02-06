@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## [0.6.3-rc3]
+## [0.6.3-rc4]
  - Changed so that Forge2DGame calls createBody from add instead of prepare
 
 ## [0.6.3-rc3]
