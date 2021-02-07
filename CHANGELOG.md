@@ -2,7 +2,7 @@
 
 
 ## [0.6.3-rc4]
- - Changed so that Forge2DGame calls createBody from add instead of prepare
+ - Renamed the `prepare` method to `add` to be more inline with Flame Game naming.
 
 ## [0.6.3-rc3]
  - Added an example for MouseJoint
