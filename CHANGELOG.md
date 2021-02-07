@@ -1,5 +1,9 @@
 # CHANGELOG
 
+
+## [0.6.3-rc4]
+ - Renamed the `prepare` method to `add` to be more inline with Flame Game naming.
+
 ## [0.6.3-rc3]
  - Added an example for MouseJoint
  - Update to forge2d 0.6.3
