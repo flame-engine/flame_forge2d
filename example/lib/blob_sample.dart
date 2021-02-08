@@ -95,6 +95,10 @@ class BlobSample extends Forge2DGame with TapDetector {
           gravity: Vector2(0, -10.0),
         ) {
     viewport.resize(viewportSize);
+  }
+
+  @override
+  Future<void> onLoad() async {
     final boundaries = createBoundaries(viewport);
     boundaries.forEach(add);
     add(Ground());
@@ -105,7 +109,7 @@ class BlobSample extends Forge2DGame with TapDetector {
 
     double nBodies = 20.0;
     for (int i = 0; i < nBodies; ++i) {
-      add(BlobPart(i, jointDef));
+      await add(BlobPart(i, jointDef));
     }
     world.createJoint(jointDef);
   }
