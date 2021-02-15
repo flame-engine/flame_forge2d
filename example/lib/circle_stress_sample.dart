@@ -90,7 +90,7 @@ class CircleStressSample extends Forge2DGame with TapDetector {
           scale: 8.0,
           gravity: Vector2(0, -10.0),
         );
-  
+
   Future<void> onLoad() async {
     final boundaries = createBoundaries(viewport);
     boundaries.forEach(add);

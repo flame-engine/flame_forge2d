@@ -27,13 +27,11 @@ void main() async {
     )
     ..add(
       'Contact Callbacks',
-      (DashbookContext ctx) =>
-          GameWidget(game: ContactCallbacksSample()),
+      (DashbookContext ctx) => GameWidget(game: ContactCallbacksSample()),
     )
     ..add(
       'Circle stress sample',
-      (DashbookContext ctx) =>
-          GameWidget(game: CircleStressSample()),
+      (DashbookContext ctx) => GameWidget(game: CircleStressSample()),
     )
     ..add(
       'Sprite Bodies',

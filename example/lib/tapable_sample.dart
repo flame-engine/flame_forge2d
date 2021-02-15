@@ -18,7 +18,7 @@ class TapableSample extends Forge2DGame with HasTapableComponents {
           scale: 4.0,
           gravity: Vector2(0, -10.0),
         );
-  
+
   Future<void> onLoad() async {
     final boundaries = createBoundaries(viewport);
     boundaries.forEach(add);

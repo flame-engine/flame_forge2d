@@ -20,7 +20,7 @@ class DraggableSample extends Forge2DGame with HasDraggableComponents {
           gravity: Vector2(0, 0.0),
         );
 
-@override
+  @override
   Future<void> onLoad() async {
     final boundaries = createBoundaries(viewport);
     boundaries.forEach(add);
