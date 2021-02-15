@@ -85,12 +85,13 @@ class CircleStressSample extends Forge2DGame with TapDetector {
   @override
   bool debugMode = true;
 
-  CircleStressSample(Vector2 viewportSize)
+  CircleStressSample()
       : super(
           scale: 8.0,
           gravity: Vector2(0, -10.0),
-        ) {
-    viewport.resize(viewportSize);
+        );
+  
+  Future<void> onLoad() async {
     final boundaries = createBoundaries(viewport);
     boundaries.forEach(add);
     add(CircleShuffler());

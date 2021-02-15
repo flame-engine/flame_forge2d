@@ -16,12 +16,14 @@ class MouseJointSample extends Forge2DGame with MultiTouchDragDetector {
   Body groundBody;
   MouseJoint mouseJoint;
 
-  MouseJointSample(Vector2 viewportSize)
+  MouseJointSample()
       : super(
           scale: 8.0,
           gravity: Vector2(0, -10.0),
-        ) {
-    viewport.resize(viewportSize);
+        );
+
+  @override
+  Future<void> onLoad() async {
     final boundaries = createBoundaries(viewport);
     boundaries.forEach(add);
 

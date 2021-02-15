@@ -13,12 +13,13 @@ class TapableSample extends Forge2DGame with HasTapableComponents {
   @override
   bool debugMode = true;
 
-  TapableSample(Vector2 viewportSize)
+  TapableSample()
       : super(
           scale: 4.0,
           gravity: Vector2(0, -10.0),
-        ) {
-    viewport.resize(viewportSize);
+        );
+  
+  Future<void> onLoad() async {
     final boundaries = createBoundaries(viewport);
     boundaries.forEach(add);
     add(TapableBall(viewport.size / 2));

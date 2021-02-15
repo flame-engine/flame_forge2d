@@ -14,12 +14,14 @@ class DraggableSample extends Forge2DGame with HasDraggableComponents {
   @override
   bool debugMode = true;
 
-  DraggableSample(Vector2 viewportSize)
+  DraggableSample()
       : super(
           scale: 4.0,
           gravity: Vector2(0, 0.0),
-        ) {
-    viewport.resize(viewportSize);
+        );
+
+@override
+  Future<void> onLoad() async {
     final boundaries = createBoundaries(viewport);
     boundaries.forEach(add);
     add(DraggableBall(viewport.size / 2));

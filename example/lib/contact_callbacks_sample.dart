@@ -12,12 +12,14 @@ class ContactCallbacksSample extends Forge2DGame with TapDetector {
   @override
   bool debugMode = true;
 
-  ContactCallbacksSample(Vector2 viewportSize)
+  ContactCallbacksSample()
       : super(
           scale: 4.0,
           gravity: Vector2(0, -10.0),
-        ) {
-    viewport.resize(viewportSize);
+        );
+
+  @override
+  Future<void> onLoad() async {
     final boundaries = createBoundaries(viewport);
     boundaries.forEach(add);
     addContactCallback(BallContactCallback());

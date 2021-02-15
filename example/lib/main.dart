@@ -1,6 +1,5 @@
 import 'package:dashbook/dashbook.dart';
 import 'package:flame/game.dart';
-import 'package:flame/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:forge2d_samples/draggable_sample.dart';
 import 'package:forge2d_samples/mouse_joint_sample.dart';
@@ -17,26 +16,24 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final dashbook = Dashbook();
 
-  Vector2 ctxSize(DashbookContext ctx) => ctx.constraints.biggest.toVector2();
-
   dashbook.storiesOf('Flame with Forge2D').decorator(TopDecorator())
     ..add(
       'Blob sample',
-      (DashbookContext ctx) => GameWidget(game: BlobSample(ctxSize(ctx))),
+      (DashbookContext ctx) => GameWidget(game: BlobSample()),
     )
     ..add(
       'Domino sample',
-      (DashbookContext ctx) => GameWidget(game: DominoSample(ctxSize(ctx))),
+      (DashbookContext ctx) => GameWidget(game: DominoSample()),
     )
     ..add(
       'Contact Callbacks',
       (DashbookContext ctx) =>
-          GameWidget(game: ContactCallbacksSample(ctxSize(ctx))),
+          GameWidget(game: ContactCallbacksSample()),
     )
     ..add(
       'Circle stress sample',
       (DashbookContext ctx) =>
-          GameWidget(game: CircleStressSample(ctxSize(ctx))),
+          GameWidget(game: CircleStressSample()),
     )
     ..add(
       'Sprite Bodies',
@@ -48,15 +45,15 @@ void main() async {
     )
     ..add(
       'Tapable Body',
-      (DashbookContext ctx) => GameWidget(game: TapableSample(ctxSize(ctx))),
+      (DashbookContext ctx) => GameWidget(game: TapableSample()),
     )
     ..add(
       'Draggable Body',
-      (DashbookContext ctx) => GameWidget(game: DraggableSample(ctxSize(ctx))),
+      (DashbookContext ctx) => GameWidget(game: DraggableSample()),
     )
     ..add(
       'Mouse Joint',
-      (DashbookContext ctx) => GameWidget(game: MouseJointSample(ctxSize(ctx))),
+      (DashbookContext ctx) => GameWidget(game: MouseJointSample()),
     );
   runApp(dashbook);
 }

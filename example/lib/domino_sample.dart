@@ -52,12 +52,14 @@ class DominoSample extends Forge2DGame with TapDetector {
   @override
   bool debugMode = true;
 
-  DominoSample(Vector2 viewportSize)
+  DominoSample()
       : super(
           scale: 8.0,
           gravity: Vector2(0, -10.0),
-        ) {
-    viewport.resize(viewportSize);
+        );
+
+  @override
+  Future<void> onLoad() async {
     final boundaries = createBoundaries(viewport);
     boundaries.forEach(add);
 
