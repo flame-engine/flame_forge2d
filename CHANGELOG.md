@@ -1,5 +1,7 @@
 # CHANGELOG
 
+## [next]
+ - Add PositionBodyComponent, keeps a PositionComponent on top of a BodyComponent
 
 ## [0.6.3-rc4]
  - Renamed the `prepare` method to `add` to be more inline with Flame Game naming.
