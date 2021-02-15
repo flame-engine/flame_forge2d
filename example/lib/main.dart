@@ -4,6 +4,7 @@ import 'package:flame/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:forge2d_samples/draggable_sample.dart';
 import 'package:forge2d_samples/mouse_joint_sample.dart';
+import 'package:forge2d_samples/position_body_sample.dart';
 import 'package:forge2d_samples/tapable_sample.dart';
 
 import './sprite_body_sample.dart';
@@ -39,7 +40,11 @@ void main() async {
     )
     ..add(
       'Sprite Bodies',
-      (DashbookContext ctx) => GameWidget(game: SpriteBodySample(ctxSize(ctx))),
+      (DashbookContext ctx) => GameWidget(game: SpriteBodySample()),
+    )
+    ..add(
+      'PositionBodyComponent',
+      (DashbookContext ctx) => GameWidget(game: PositionBodySample()),
     )
     ..add(
       'Tapable Body',
