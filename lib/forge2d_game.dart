@@ -36,7 +36,7 @@ class Forge2DGame extends BaseGame {
   Future<void> add(Component component) async {
     await super.add(component);
     if (component is BodyComponent) {
-      component.body = component.createBody();
+      component.body ??= component.createBody();
       component.debugMode = debugMode;
     }
   }

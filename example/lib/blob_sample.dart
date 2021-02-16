@@ -89,13 +89,11 @@ class BlobSample extends Forge2DGame with TapDetector {
   @override
   bool debugMode = true;
 
-  BlobSample(Vector2 viewportSize)
+  BlobSample()
       : super(
           scale: 8.0,
           gravity: Vector2(0, -10.0),
-        ) {
-    viewport.resize(viewportSize);
-  }
+        );
 
   @override
   Future<void> onLoad() async {
