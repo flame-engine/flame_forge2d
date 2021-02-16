@@ -12,12 +12,12 @@ import './domino_sample.dart';
 import 'blob_sample.dart';
 import 'circle_stress_sample.dart';
 
-String link(String example) => 'https://github.com/flame-engine/flame_forge2d/tree/master/example/lib/$example';
+String link(String example) =>
+    'https://github.com/flame-engine/flame_forge2d/tree/master/example/lib/$example';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final dashbook = Dashbook(theme: ThemeData.dark());
-
 
   dashbook.storiesOf('Flame with Forge2D').decorator(TopDecorator())
     ..add(
