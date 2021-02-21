@@ -1,7 +1,8 @@
 # CHANGELOG
 
-## [next]
+## [0.6.4-rc4]
  - Add PositionBodyComponent, keeps a PositionComponent on top of a BodyComponent
+ - Update to forge2d 0.6.4
 
 ## [0.6.3-rc4]
  - Renamed the `prepare` method to `add` to be more inline with Flame Game naming.
