@@ -30,6 +30,7 @@ class Forge2DGame extends BaseGame {
     world = World(gravity);
     world.setContactListener(_contactCallbacks);
     viewport = Viewport(viewportSize, scale);
+    viewport.yFlip = true;
   }
 
   @override

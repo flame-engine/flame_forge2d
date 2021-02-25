@@ -74,7 +74,9 @@ class Viewport extends ViewportTransform {
       final focus = size.y / 2 - temp.y;
 
       if (focus.abs() > margin) {
-        y = size.y / 2 + (position.y * scale) + (focus < 0 ? margin : -margin);
+        y = size.y / 2 +
+            (yFlip ? -1 : 1) *
+                ((position.y * scale) + (focus < 0 ? margin : -margin));
       }
     }
 

@@ -19,7 +19,7 @@ Add the following to the dependencies section of your `pubspec.yaml` file:
 
 ```
 dependencies:
-  flame: ^1.0.0-rc6
+  flame: ^1.0.0-rc7
   flame_forge2d: ^0.6.2-rc3
 ```
 
