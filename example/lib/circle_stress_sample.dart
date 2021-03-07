@@ -14,7 +14,7 @@ class CircleShuffler extends BodyComponent {
   @override
   Body createBody() {
     var bd = BodyDef()
-      ..type = BodyType.DYNAMIC
+      ..type = BodyType.dynamic
       ..position = Vector2(0.0, -25.0);
     double numPieces = 5;
     double radius = 6.0;
@@ -28,8 +28,7 @@ class CircleShuffler extends BodyComponent {
         ..radius = 1.2
         ..position.setValues(xPos, yPos);
 
-      final fixtureDef = FixtureDef()
-        ..shape = shape
+      final fixtureDef = FixtureDef(shape: shape)
         ..density = 50.0
         ..friction = .1
         ..restitution = .9;
@@ -68,14 +67,13 @@ class CornerRamp extends BodyComponent {
     ];
     shape.createLoop(vertices);
 
-    final fixtureDef = FixtureDef()
-      ..shape = shape
+    final fixtureDef = FixtureDef(shape: shape)
       ..restitution = 0.0
       ..friction = 0.1;
 
     final bodyDef = BodyDef()
       ..position = Vector2.zero()
-      ..type = BodyType.STATIC;
+      ..type = BodyType.static;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
@@ -92,7 +90,7 @@ class CircleStressSample extends Forge2DGame with TapDetector {
         );
 
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(viewport);
+    final boundaries = createBoundaries(worldViewport);
     boundaries.forEach(add);
     add(CircleShuffler());
     add(CornerRamp(isMirrored: true));

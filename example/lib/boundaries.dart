@@ -5,8 +5,8 @@ import 'package:flame/palette.dart';
 import 'package:flame_forge2d/body_component.dart';
 import 'package:flame_forge2d/viewport.dart';
 
-List<Wall> createBoundaries(Viewport viewport) {
-  final Vector2 screenSize = viewport.size / viewport.scale;
+List<Wall> createBoundaries(WorldViewport viewport) {
+  final Vector2 screenSize = viewport.effectiveSize / viewport.scale;
   final Vector2 topLeft = (screenSize / 2) * -1;
   final Vector2 bottomRight = screenSize / 2;
   final Vector2 topRight = Vector2(bottomRight.x, topLeft.y);
@@ -39,15 +39,14 @@ class Wall extends BodyComponent {
     final PolygonShape shape = PolygonShape();
     shape.setAsEdge(start, end);
 
-    final fixtureDef = FixtureDef()
-      ..shape = shape
+    final fixtureDef = FixtureDef(shape: shape)
       ..restitution = 0.0
       ..friction = 0.1;
 
     final bodyDef = BodyDef()
       ..userData = this // To be able to determine object in collision
       ..position = Vector2.zero()
-      ..type = BodyType.STATIC;
+      ..type = BodyType.static;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }

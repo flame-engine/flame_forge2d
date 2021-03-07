@@ -20,7 +20,7 @@ abstract class PositionBodyComponent extends BodyComponent {
   @mustCallSuper
   @override
   Future<void> onLoad() async {
-    body = createBody();
+    await super.onLoad();
     updatePositionComponent();
     positionComponent..anchor = Anchor.center;
     gameRef.add(positionComponent);
@@ -28,7 +28,7 @@ abstract class PositionBodyComponent extends BodyComponent {
 
   void updatePositionComponent() {
     positionComponent
-      ..position = viewport.getWorldToScreen(body.position)
+      ..position = viewport.worldToScreen(body.position)
       ..angle = -body.getAngle()
       ..size = size * viewport.scale;
   }

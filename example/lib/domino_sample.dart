@@ -14,10 +14,8 @@ class Platform extends BodyComponent {
 
   @override
   Body createBody() {
-    FixtureDef fd = FixtureDef();
-    PolygonShape sd = PolygonShape();
-    sd.setAsBoxXY(14.8, 0.125);
-    fd.shape = sd;
+    PolygonShape shape = PolygonShape()..setAsBoxXY(14.8, 0.125);
+    FixtureDef fd = FixtureDef(shape: shape);
 
     BodyDef bd = BodyDef();
     bd.position = position;
@@ -33,18 +31,16 @@ class DominoBrick extends BodyComponent {
 
   @override
   Body createBody() {
-    FixtureDef fd = FixtureDef();
-    PolygonShape sd = PolygonShape();
-    sd.setAsBoxXY(0.125, 2.0);
-    fd.shape = sd;
-    fd.density = 25.0;
+    final shape = PolygonShape()..setAsBoxXY(0.125, 2.0);
+    FixtureDef fixtureDef = FixtureDef(shape: shape)
+      ..density = 25.0
+      ..friction = .5;
 
-    BodyDef bd = BodyDef();
-    bd.type = BodyType.DYNAMIC;
-    bd.position = position;
+    BodyDef bodyDef = BodyDef()
+      ..type = BodyType.dynamic
+      ..position = position;
 
-    fd.friction = .5;
-    return world.createBody(bd)..createFixture(fd);
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 
@@ -60,7 +56,7 @@ class DominoSample extends Forge2DGame with TapDetector {
 
   @override
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(viewport);
+    final boundaries = createBoundaries(worldViewport);
     boundaries.forEach(add);
 
     for (int i = 0; i < 8; i++) {

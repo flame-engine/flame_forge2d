@@ -51,12 +51,11 @@ class BlobPart extends BodyComponent {
     double x = cx + rx * math.sin(angle);
     double y = cy + ry * math.cos(angle);
     bodyDef.position.setFrom(Vector2(x, y));
-    bodyDef.type = BodyType.DYNAMIC;
+    bodyDef.type = BodyType.dynamic;
     Body body = world.createBody(bodyDef);
 
-    FixtureDef fixtureDef = FixtureDef();
     CircleShape shape = CircleShape()..radius = bodyRadius;
-    fixtureDef.shape = shape;
+    FixtureDef fixtureDef = FixtureDef(shape: shape);
     fixtureDef.density = 1.0;
     fixtureDef.filter.groupIndex = -2;
     body.createFixture(fixtureDef);
@@ -76,7 +75,7 @@ class FallingBox extends BodyComponent {
   @override
   Body createBody() {
     BodyDef bodyDef = BodyDef()
-      ..type = BodyType.DYNAMIC
+      ..type = BodyType.dynamic
       ..position = position;
     PolygonShape shape = PolygonShape()..setAsBoxXY(2, 4);
     Body body = world.createBody(bodyDef);
@@ -97,7 +96,7 @@ class BlobSample extends Forge2DGame with TapDetector {
 
   @override
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(viewport);
+    final boundaries = createBoundaries(worldViewport);
     boundaries.forEach(add);
     add(Ground());
     final jointDef = ConstantVolumeJointDef()
@@ -117,7 +116,7 @@ class BlobSample extends Forge2DGame with TapDetector {
     super.onTapDown(details);
     final Vector2 screenPosition =
         Vector2(details.localPosition.dx, details.localPosition.dy);
-    final Vector2 worldPosition = viewport.getScreenToWorld(screenPosition);
+    final Vector2 worldPosition = worldViewport.screenToWorld(screenPosition);
     add(FallingBox(this, worldPosition));
   }
 }

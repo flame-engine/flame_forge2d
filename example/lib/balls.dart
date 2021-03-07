@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'boundaries.dart';
 
 class Ball extends BodyComponent {
-  Paint originalPaint;
+  late Paint originalPaint;
   bool giveNudge = false;
   final double radius;
   Vector2 _position;
@@ -35,10 +35,9 @@ class Ball extends BodyComponent {
   Body createBody() {
     final CircleShape shape = CircleShape();
     shape.radius = radius;
-    Vector2 worldPosition = viewport.getScreenToWorld(_position);
+    Vector2 worldPosition = viewport.screenToWorld(_position);
 
-    final fixtureDef = FixtureDef()
-      ..shape = shape
+    final fixtureDef = FixtureDef(shape: shape)
       ..restitution = 0.8
       ..density = 1.0
       ..friction = 0.4;
@@ -48,7 +47,7 @@ class Ball extends BodyComponent {
       ..userData = this
       ..angularDamping = 0.8
       ..position = worldPosition
-      ..type = BodyType.DYNAMIC;
+      ..type = BodyType.dynamic;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }

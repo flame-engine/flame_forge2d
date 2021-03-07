@@ -15,28 +15,27 @@ class Forge2DGame extends BaseGame {
   final int velocityIterations = 10;
   final int positionIterations = 10;
 
-  World world;
-  Viewport viewport;
+  late World world;
+  late Viewport viewport;
+
+  WorldViewport get worldViewport => viewport as WorldViewport;
 
   final ContactCallbacks _contactCallbacks = ContactCallbacks();
 
   Forge2DGame({
-    Vector2 viewportSize,
-    Vector2 gravity,
+    Vector2? gravity,
     double scale = defaultScale,
-  }) {
-    viewportSize ??= window.physicalSize.toVector2();
+    WorldViewport? viewport,
+  }) : this.viewport = viewport ?? Forge2DDefaultViewport(scale) {
     gravity ??= defaultGravity;
     world = World(gravity);
     world.setContactListener(_contactCallbacks);
-    viewport = Viewport(viewportSize, scale);
   }
 
   @override
   Future<void> add(Component component) async {
     await super.add(component);
     if (component is BodyComponent) {
-      component.body ??= component.createBody();
       component.debugMode = debugMode;
     }
   }
@@ -92,10 +91,10 @@ class Forge2DGame extends BaseGame {
 
   void cameraFollow(
     BodyComponent component, {
-    double horizontal,
-    double vertical,
+    double horizontal = -1,
+    double vertical = -1,
   }) {
-    viewport.cameraFollow(
+    (viewport as WorldViewport).cameraFollow(
       component,
       horizontal: horizontal,
       vertical: vertical,

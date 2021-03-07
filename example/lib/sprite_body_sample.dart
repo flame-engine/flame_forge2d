@@ -21,33 +21,31 @@ class Pizza extends SpriteBodyComponent {
     final v1 = Vector2(0, size.y / 2);
     final v2 = Vector2(size.x / 2, -size.y / 2);
     final v3 = Vector2(-size.x / 2, -size.y / 2);
-    final vertices = [v1, v2, v3];
-    shape.set(vertices, vertices.length);
+    shape.set([v1, v2, v3]);
 
-    final fixtureDef = FixtureDef();
+    final fixtureDef = FixtureDef(shape: shape);
     fixtureDef.userData = this; // To be able to determine object in collision
-    fixtureDef.shape = shape;
     fixtureDef.restitution = 0.3;
     fixtureDef.density = 1.0;
     fixtureDef.friction = 0.2;
 
     final bodyDef = BodyDef();
-    bodyDef.position = viewport.getScreenToWorld(_position);
+    bodyDef.position = viewport.screenToWorld(_position);
     bodyDef.angle = (_position.x + _position.y) / 2 * 3.14;
-    bodyDef.type = BodyType.DYNAMIC;
+    bodyDef.type = BodyType.dynamic;
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 
 class SpriteBodySample extends Forge2DGame with TapDetector {
-  Image _pizzaImage;
+  late Image _pizzaImage;
 
   SpriteBodySample() : super(scale: 4.0, gravity: Vector2(0, -10.0));
 
   @override
   Future<void> onLoad() async {
     _pizzaImage = await images.load('pizza.png');
-    final boundaries = createBoundaries(viewport);
+    final boundaries = createBoundaries(worldViewport);
     boundaries.forEach(add);
   }
 

@@ -12,9 +12,9 @@ class MouseJointSample extends Forge2DGame with MultiTouchDragDetector {
   @override
   bool debugMode = true;
 
-  Ball ball;
-  Body groundBody;
-  MouseJoint mouseJoint;
+  late Ball ball;
+  late Body groundBody;
+  MouseJoint? mouseJoint;
 
   MouseJointSample()
       : super(
@@ -24,39 +24,43 @@ class MouseJointSample extends Forge2DGame with MultiTouchDragDetector {
 
   @override
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(viewport);
+    final boundaries = createBoundaries(worldViewport);
     boundaries.forEach(add);
 
     groundBody = world.createBody(BodyDef());
-    ball = Ball(viewport.getWorldToScreen(Vector2(0, 0)), radius: 5);
+    ball = Ball(worldViewport.worldToScreen(Vector2(0, 0)), radius: 5);
     add(ball);
     add(CornerRamp());
     add(CornerRamp(isMirrored: true));
   }
 
   @override
-  void onReceiveDrag(DragEvent drag) {
-    drag.onUpdate = (DragUpdateDetails details) {
-      MouseJointDef mouseJointDef = MouseJointDef()
-        ..maxForce = 3000 * ball.body.mass * 10
-        ..dampingRatio = 0.1
-        ..frequencyHz = 5
-        ..target.setFrom(ball.body.position)
-        ..collideConnected = false
-        ..bodyA = groundBody
-        ..bodyB = ball.body;
+  bool onDragUpdate(int pointerId, DragUpdateDetails details) {
+    MouseJointDef mouseJointDef = MouseJointDef()
+      ..maxForce = 3000 * ball.body.mass * 10
+      ..dampingRatio = 0.1
+      ..frequencyHz = 5
+      ..target.setFrom(ball.body.position)
+      ..collideConnected = false
+      ..bodyA = groundBody
+      ..bodyB = ball.body;
 
-      mouseJoint ??= world.createJoint(mouseJointDef);
+    mouseJoint ??= world.createJoint(mouseJointDef) as MouseJoint;
 
-      mouseJoint.setTarget(
-          viewport.getScreenToWorld(details.globalPosition.toVector2()));
-    };
+    mouseJoint?.setTarget(
+      worldViewport.screenToWorld(
+        details.globalPosition.toVector2(),
+      ),
+    );
+    return false;
+  }
 
-    drag.onEnd = (DragEndDetails details) {
-      world.destroyJoint(mouseJoint);
-      mouseJoint = null;
-    };
-
-    super.onReceiveDrag(drag);
+  bool onDragEnd(int pointerId, DragEndDetails details) {
+    if (mouseJoint == null) {
+      return true;
+    }
+    world.destroyJoint(mouseJoint!);
+    mouseJoint = null;
+    return false;
   }
 }

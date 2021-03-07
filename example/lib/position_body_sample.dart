@@ -15,25 +15,24 @@ class ChopperBody extends PositionBodyComponent {
   @override
   Body createBody() {
     final shape = CircleShape()..radius = size.x / 4;
-    final fixtureDef = FixtureDef();
-    fixtureDef.userData = this; // To be able to determine object in collision
-    fixtureDef.shape = shape;
-    fixtureDef.restitution = 0.3;
-    fixtureDef.density = 1.0;
-    fixtureDef.friction = 0.2;
+    final fixtureDef = FixtureDef(shape: shape)
+      ..userData = this // To be able to determine object in collision
+      ..restitution = 0.3
+      ..density = 1.0
+      ..friction = 0.2;
 
     final bodyDef = BodyDef()
-      ..position = viewport.getScreenToWorld(positionComponent.position)
+      ..position = viewport.screenToWorld(positionComponent.position)
       ..angle = positionComponent.x / 2 * 3.14
       ..linearVelocity = (Vector2.all(0.5) - Vector2.random()) * 200
-      ..type = BodyType.DYNAMIC;
+      ..type = BodyType.dynamic;
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 
 class PositionBodySample extends Forge2DGame with TapDetector {
-  Image chopper;
-  SpriteAnimation animation;
+  late Image chopper;
+  late SpriteAnimation animation;
 
   PositionBodySample() : super(scale: 10.0, gravity: Vector2.zero());
 
@@ -51,7 +50,7 @@ class PositionBodySample extends Forge2DGame with TapDetector {
       ),
     );
 
-    final boundaries = createBoundaries(viewport);
+    final boundaries = createBoundaries(worldViewport);
     boundaries.forEach(add);
   }
 
@@ -61,8 +60,10 @@ class PositionBodySample extends Forge2DGame with TapDetector {
     final Vector2 position =
         Vector2(details.localPosition.dx, details.localPosition.dy);
     final spriteSize = Vector2.all(10);
-    final animationComponent =
-        SpriteAnimationComponent.fromSpriteAnimation(spriteSize, animation);
+    final animationComponent = SpriteAnimationComponent(
+      animation: animation,
+      size: spriteSize,
+    );
     animationComponent.position = position;
     add(ChopperBody(animationComponent));
   }

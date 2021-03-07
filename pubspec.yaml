@@ -4,12 +4,15 @@ version: 0.6.5-rc7
 homepage: https://github.com/flame-engine/flame_forge2d
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
   flutter: ">=1.17.0 <2.0.0"
 
 dependencies:
   flame: ^1.0.0-rc7
-  forge2d: ^0.6.5
+  forge2d:
+    git:
+      url: https://github.com/flame-engine/forge2d.git
+      ref: 0llie.null-safety
 
   flutter:
     sdk: flutter
