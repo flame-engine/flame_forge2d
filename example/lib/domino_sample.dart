@@ -15,7 +15,7 @@ class Platform extends BodyComponent {
   @override
   Body createBody() {
     PolygonShape shape = PolygonShape()..setAsBoxXY(14.8, 0.125);
-    FixtureDef fd = FixtureDef(shape: shape);
+    FixtureDef fd = FixtureDef(shape);
 
     BodyDef bd = BodyDef();
     bd.position = position;
@@ -32,7 +32,7 @@ class DominoBrick extends BodyComponent {
   @override
   Body createBody() {
     final shape = PolygonShape()..setAsBoxXY(0.125, 2.0);
-    FixtureDef fixtureDef = FixtureDef(shape: shape)
+    FixtureDef fixtureDef = FixtureDef(shape)
       ..density = 25.0
       ..friction = .5;
 

@@ -39,7 +39,7 @@ class Wall extends BodyComponent {
     final PolygonShape shape = PolygonShape();
     shape.setAsEdge(start, end);
 
-    final fixtureDef = FixtureDef(shape: shape)
+    final fixtureDef = FixtureDef(shape)
       ..restitution = 0.0
       ..friction = 0.1;
 

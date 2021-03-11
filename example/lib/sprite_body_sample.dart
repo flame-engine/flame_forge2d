@@ -23,7 +23,7 @@ class Pizza extends SpriteBodyComponent {
     final v3 = Vector2(-size.x / 2, -size.y / 2);
     shape.set([v1, v2, v3]);
 
-    final fixtureDef = FixtureDef(shape: shape);
+    final fixtureDef = FixtureDef(shape);
     fixtureDef.userData = this; // To be able to determine object in collision
     fixtureDef.restitution = 0.3;
     fixtureDef.density = 1.0;

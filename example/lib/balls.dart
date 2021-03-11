@@ -37,7 +37,7 @@ class Ball extends BodyComponent {
     shape.radius = radius;
     Vector2 worldPosition = viewport.screenToWorld(_position);
 
-    final fixtureDef = FixtureDef(shape: shape)
+    final fixtureDef = FixtureDef(shape)
       ..restitution = 0.8
       ..density = 1.0
       ..friction = 0.4;

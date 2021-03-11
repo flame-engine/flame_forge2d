@@ -15,7 +15,7 @@ class ChopperBody extends PositionBodyComponent {
   @override
   Body createBody() {
     final shape = CircleShape()..radius = size.x / 4;
-    final fixtureDef = FixtureDef(shape: shape)
+    final fixtureDef = FixtureDef(shape)
       ..userData = this // To be able to determine object in collision
       ..restitution = 0.3
       ..density = 1.0

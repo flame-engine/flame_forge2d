@@ -28,7 +28,7 @@ class CircleShuffler extends BodyComponent {
         ..radius = 1.2
         ..position.setValues(xPos, yPos);
 
-      final fixtureDef = FixtureDef(shape: shape)
+      final fixtureDef = FixtureDef(shape)
         ..density = 50.0
         ..friction = .1
         ..restitution = .9;
@@ -67,7 +67,7 @@ class CornerRamp extends BodyComponent {
     ];
     shape.createLoop(vertices);
 
-    final fixtureDef = FixtureDef(shape: shape)
+    final fixtureDef = FixtureDef(shape)
       ..restitution = 0.0
       ..friction = 0.1;
 

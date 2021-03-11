@@ -9,10 +9,7 @@ environment:
 
 dependencies:
   flame: ^1.0.0-rc7
-  forge2d:
-    git:
-      url: https://github.com/flame-engine/forge2d.git
-      ref: 0llie.null-safety
+  forge2d: ^0.7.0
 
   flutter:
     sdk: flutter

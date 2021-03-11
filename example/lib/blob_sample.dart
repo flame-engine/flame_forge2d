@@ -55,7 +55,7 @@ class BlobPart extends BodyComponent {
     Body body = world.createBody(bodyDef);
 
     CircleShape shape = CircleShape()..radius = bodyRadius;
-    FixtureDef fixtureDef = FixtureDef(shape: shape);
+    FixtureDef fixtureDef = FixtureDef(shape);
     fixtureDef.density = 1.0;
     fixtureDef.filter.groupIndex = -2;
     body.createFixture(fixtureDef);
