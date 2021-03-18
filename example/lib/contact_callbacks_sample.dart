@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:flame_forge2d/viewport.dart';
 import 'package:forge2d/forge2d.dart';
 import 'package:flame/gestures.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
@@ -20,7 +21,7 @@ class ContactCallbacksSample extends Forge2DGame with TapDetector {
 
   @override
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(worldViewport);
+    final boundaries = createBoundaries(viewport as Forge2DViewport);
     boundaries.forEach(add);
     addContactCallback(BallContactCallback());
     addContactCallback(BallWallContactCallback());

@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame/geometry.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'body_component.dart';
@@ -23,14 +24,7 @@ abstract class PositionBodyComponent extends BodyComponent {
     await super.onLoad();
     updatePositionComponent();
     positionComponent..anchor = Anchor.center;
-    gameRef.add(positionComponent);
-  }
-
-  void updatePositionComponent() {
-    positionComponent
-      ..position = viewport.worldToScreen(body.position)
-      ..angle = -body.getAngle()
-      ..size = size * viewport.scale;
+    gameRef!.add(positionComponent);
   }
 
   @override
@@ -45,5 +39,43 @@ abstract class PositionBodyComponent extends BodyComponent {
     // Since the PositionComponent was added to the game in this class it should
     // also be removed by this class when the BodyComponent is removed.
     positionComponent.remove();
+  }
+
+  final Vector2 _lastPosition = Vector2.zero();
+  final Vector2 _lastScreenPosition = Vector2.zero();
+  final Vector2 _lastSize = Vector2.zero();
+  double _lastAngle = 0;
+  final Vector2 _lastScaledSize = Vector2.zero();
+  double _lastScale = 0;
+
+  bool maybeUpdateState() {
+    bool stateUpdated = false;
+    if (body.position != _lastPosition) {
+      _lastPosition.setFrom(body.position);
+      _lastScreenPosition.setFrom(
+        gameRef!.camera.worldToScreen(body.position),
+      );
+      stateUpdated = true;
+    }
+    if (_lastScale != gameRef!.camera.scale || size != _lastSize) {
+      _lastScale = gameRef!.camera.scale;
+      _lastScaledSize.setFrom(size * _lastScale);
+      _lastSize.setFrom(size);
+      stateUpdated = true;
+    }
+    if (-body.getAngle() != _lastAngle) {
+      _lastAngle = -body.getAngle();
+      stateUpdated = true;
+    }
+    return stateUpdated;
+  }
+
+  void updatePositionComponent() {
+    if (maybeUpdateState()) {
+      positionComponent
+        ..position = _lastScreenPosition
+        ..angle = _lastAngle
+        ..size = _lastScaledSize;
+    }
   }
 }

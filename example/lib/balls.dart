@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'boundaries.dart';
 
 class Ball extends BodyComponent {
-  late Paint originalPaint;
+  Paint originalPaint;
   bool giveNudge = false;
   final double radius;
   Vector2 _position;
@@ -35,7 +35,7 @@ class Ball extends BodyComponent {
   Body createBody() {
     final CircleShape shape = CircleShape();
     shape.radius = radius;
-    Vector2 worldPosition = viewport.screenToWorld(_position);
+    Vector2 worldPosition = camera.screenToWorld(_position);
 
     final fixtureDef = FixtureDef(shape)
       ..restitution = 0.8

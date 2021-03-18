@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:flame_forge2d/viewport.dart';
+import 'package:flame_forge2d/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:forge2d/forge2d.dart' hide Timer, Vector2;
@@ -35,8 +35,8 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
     body = createBody();
   }
 
-  World get world => gameRef.world;
-  WorldViewport get viewport => gameRef.viewport as WorldViewport;
+  World get world => gameRef!.world;
+  Forge2DCamera get camera => gameRef!.camera;
 
   @override
   void renderDebugMode(Canvas canvas) {
@@ -77,7 +77,7 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
   void _renderCircle(Canvas canvas, Fixture fixture) {
     final CircleShape circle = fixture.shape as CircleShape;
     final center = _vertexToScreen(circle.position);
-    renderCircle(canvas, center, circle.radius * viewport.scale);
+    renderCircle(canvas, center, circle.radius * camera.scale);
   }
 
   void renderCircle(Canvas canvas, Offset center, double radius) {
@@ -114,12 +114,16 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
   }
 
   Offset _vertexToScreen(Vector2 vertex) {
-    return viewport.worldToScreen(body.getWorldPoint(vertex)).toOffset();
+    return camera
+        .worldToScreen(
+          body.getWorldPoint(vertex),
+        )
+        .toOffset();
   }
 
   @override
   bool containsPoint(Vector2 point) {
-    final worldPoint = viewport.screenToWorld(point);
+    final worldPoint = camera.screenToWorld(point);
     for (Fixture fixture in body.fixtures) {
       if (fixture.testPoint(worldPoint)) {
         return true;

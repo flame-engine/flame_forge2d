@@ -1,11 +1,11 @@
 import 'dart:ui';
 
+import 'package:flame_forge2d/viewport.dart';
 import 'package:forge2d/forge2d.dart';
 import 'package:flame/palette.dart';
 import 'package:flame_forge2d/body_component.dart';
-import 'package:flame_forge2d/viewport.dart';
 
-List<Wall> createBoundaries(WorldViewport viewport) {
+List<Wall> createBoundaries(Forge2DViewport viewport) {
   final Vector2 screenSize = viewport.effectiveSize / viewport.scale;
   final Vector2 topLeft = (screenSize / 2) * -1;
   final Vector2 bottomRight = screenSize / 2;

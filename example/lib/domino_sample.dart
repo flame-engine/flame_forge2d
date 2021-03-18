@@ -1,11 +1,54 @@
+import 'dart:ui';
+
 import 'package:flame_forge2d/body_component.dart';
+import 'package:flame_forge2d/sprite_body_component.dart';
+import 'package:flame_forge2d/viewport.dart';
 import 'package:forge2d/forge2d.dart';
+import 'package:flame/components.dart';
 import 'package:flame/gestures.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flutter/material.dart' hide Image;
 
-import 'balls.dart';
 import 'boundaries.dart';
+
+class Pizza extends SpriteBodyComponent {
+  final Vector2 _position;
+
+  Pizza(this._position, Image image) : super(Sprite(image), Vector2(2, 3));
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    debugMode = false;
+  }
+
+  @override
+  void renderDebugMode(Canvas canvas) {}
+
+  @override
+  Body createBody() {
+    final PolygonShape shape = PolygonShape();
+
+    final vertices = [
+      Vector2(-size.x / 2, -size.y / 2),
+      Vector2(size.x / 2, -size.y / 2),
+      Vector2(0, size.y / 2),
+    ];
+    shape.set(vertices);
+
+    final fixtureDef = FixtureDef(shape)
+      ..userData = this // To be able to determine object in collision
+      ..restitution = 0.4
+      ..density = 1.0
+      ..friction = 0.3;
+
+    final bodyDef = BodyDef()
+      ..position = camera.screenToWorld(_position)
+      ..angle = (_position.x + _position.y) / 2 * 3.14
+      ..type = BodyType.dynamic;
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
+  }
+}
 
 class Platform extends BodyComponent {
   final Vector2 position;
@@ -48,16 +91,19 @@ class DominoSample extends Forge2DGame with TapDetector {
   @override
   bool debugMode = true;
 
+  Image _pizzaImage;
+
   DominoSample()
       : super(
-          scale: 8.0,
+          scale: 20.0,
           gravity: Vector2(0, -10.0),
         );
 
   @override
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(worldViewport);
+    final boundaries = createBoundaries(viewport as Forge2DViewport);
     boundaries.forEach(add);
+    _pizzaImage = await images.load('pizza.png');
 
     for (int i = 0; i < 8; i++) {
       final position = Vector2(0.0, -30.0 + 5 * i);
@@ -80,6 +126,8 @@ class DominoSample extends Forge2DGame with TapDetector {
     super.onTapDown(details);
     final Vector2 screenPosition =
         Vector2(details.localPosition.dx, details.localPosition.dy);
-    add(Ball(screenPosition, radius: 1.0));
+    final pizza = Pizza(screenPosition, _pizzaImage);
+    add(pizza);
+    camera.followObject(pizza.positionComponent);
   }
 }

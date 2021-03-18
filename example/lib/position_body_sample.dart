@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flame_forge2d/position_body_component.dart';
+import 'package:flame_forge2d/viewport.dart';
 import 'package:forge2d/forge2d.dart';
 import 'package:flame/components.dart';
 import 'package:flame/gestures.dart';
@@ -22,7 +23,7 @@ class ChopperBody extends PositionBodyComponent {
       ..friction = 0.2;
 
     final bodyDef = BodyDef()
-      ..position = viewport.screenToWorld(positionComponent.position)
+      ..position = camera.screenToWorld(positionComponent.position)
       ..angle = positionComponent.x / 2 * 3.14
       ..linearVelocity = (Vector2.all(0.5) - Vector2.random()) * 200
       ..type = BodyType.dynamic;
@@ -31,14 +32,14 @@ class ChopperBody extends PositionBodyComponent {
 }
 
 class PositionBodySample extends Forge2DGame with TapDetector {
-  late Image chopper;
-  late SpriteAnimation animation;
+  Image chopper;
+  SpriteAnimation animation;
 
   PositionBodySample() : super(scale: 10.0, gravity: Vector2.zero());
 
   @override
   Future<void> onLoad() async {
-    chopper = await images.load('animations/chopper.png');
+    chopper = await images.load('chopper.png');
 
     animation = SpriteAnimation.fromFrameData(
       chopper,
@@ -50,7 +51,7 @@ class PositionBodySample extends Forge2DGame with TapDetector {
       ),
     );
 
-    final boundaries = createBoundaries(worldViewport);
+    final boundaries = createBoundaries(viewport as Forge2DViewport);
     boundaries.forEach(add);
   }
 

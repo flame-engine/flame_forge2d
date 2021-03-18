@@ -1,4 +1,5 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flame_forge2d/viewport.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:forge2d/forge2d.dart';
@@ -20,7 +21,7 @@ class TapableSample extends Forge2DGame with HasTapableComponents {
         );
 
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(worldViewport);
+    final boundaries = createBoundaries(viewport as Forge2DViewport);
     boundaries.forEach(add);
     add(TapableBall(viewport.effectiveSize / 2));
   }

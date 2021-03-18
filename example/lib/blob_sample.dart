@@ -1,6 +1,8 @@
 import 'dart:math' as math;
 import 'package:flame_forge2d/body_component.dart';
+import 'package:flame_forge2d/viewport.dart';
 import 'package:forge2d/forge2d.dart';
+import 'package:flame/game.dart';
 import 'package:flame/gestures.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +98,7 @@ class BlobSample extends Forge2DGame with TapDetector {
 
   @override
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(worldViewport);
+    final boundaries = createBoundaries(viewport as Forge2DViewport);
     boundaries.forEach(add);
     add(Ground());
     final jointDef = ConstantVolumeJointDef()
@@ -116,7 +118,7 @@ class BlobSample extends Forge2DGame with TapDetector {
     super.onTapDown(details);
     final Vector2 screenPosition =
         Vector2(details.localPosition.dx, details.localPosition.dy);
-    final Vector2 worldPosition = worldViewport.screenToWorld(screenPosition);
+    final Vector2 worldPosition = camera.screenToWorld(screenPosition);
     add(FallingBox(this, worldPosition));
   }
 }

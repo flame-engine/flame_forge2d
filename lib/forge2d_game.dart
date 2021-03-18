@@ -6,6 +6,7 @@ import 'package:flame/game.dart';
 import 'package:forge2d/forge2d.dart' hide Timer;
 
 import 'body_component.dart';
+import 'camera.dart';
 import 'contact_callbacks.dart';
 import 'viewport.dart';
 
@@ -16,18 +17,21 @@ class Forge2DGame extends BaseGame {
   final int positionIterations = 10;
 
   late World world;
-  late Viewport viewport;
 
-  WorldViewport get worldViewport => viewport as WorldViewport;
+  @override
+  final Forge2DCamera camera = Forge2DCamera();
 
   final ContactCallbacks _contactCallbacks = ContactCallbacks();
 
   Forge2DGame({
     Vector2? gravity,
     double scale = defaultScale,
-    WorldViewport? viewport,
-  }) : this.viewport = viewport ?? Forge2DDefaultViewport(scale) {
+  }) {
     gravity ??= defaultGravity;
+    final forge2DViewport = Forge2DDefaultViewport(scale);
+    camera.viewportTransform = forge2DViewport.viewportTransform;
+    this.viewport = forge2DViewport;
+
     world = World(gravity);
     world.setContactListener(_contactCallbacks);
   }
@@ -87,17 +91,5 @@ class Forge2DGame extends BaseGame {
 
   void clearContactCallbacks() {
     _contactCallbacks.clear();
-  }
-
-  void cameraFollow(
-    BodyComponent component, {
-    double horizontal = -1,
-    double vertical = -1,
-  }) {
-    (viewport as WorldViewport).cameraFollow(
-      component,
-      horizontal: horizontal,
-      vertical: vertical,
-    );
   }
 }

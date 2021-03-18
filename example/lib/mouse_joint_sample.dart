@@ -1,6 +1,7 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame/gestures.dart';
+import 'package:flame_forge2d/viewport.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/extensions.dart';
 
@@ -12,9 +13,9 @@ class MouseJointSample extends Forge2DGame with MultiTouchDragDetector {
   @override
   bool debugMode = true;
 
-  late Ball ball;
-  late Body groundBody;
-  MouseJoint? mouseJoint;
+  Ball ball;
+  Body groundBody;
+  MouseJoint mouseJoint;
 
   MouseJointSample()
       : super(
@@ -24,11 +25,11 @@ class MouseJointSample extends Forge2DGame with MultiTouchDragDetector {
 
   @override
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(worldViewport);
+    final boundaries = createBoundaries(viewport as Forge2DViewport);
     boundaries.forEach(add);
 
     groundBody = world.createBody(BodyDef());
-    ball = Ball(worldViewport.worldToScreen(Vector2(0, 0)), radius: 5);
+    ball = Ball(camera.worldToScreen(Vector2(0, 0)), radius: 5);
     add(ball);
     add(CornerRamp());
     add(CornerRamp(isMirrored: true));
@@ -48,7 +49,7 @@ class MouseJointSample extends Forge2DGame with MultiTouchDragDetector {
     mouseJoint ??= world.createJoint(mouseJointDef) as MouseJoint;
 
     mouseJoint?.setTarget(
-      worldViewport.screenToWorld(
+      camera.screenToWorld(
         details.globalPosition.toVector2(),
       ),
     );
@@ -59,7 +60,7 @@ class MouseJointSample extends Forge2DGame with MultiTouchDragDetector {
     if (mouseJoint == null) {
       return true;
     }
-    world.destroyJoint(mouseJoint!);
+    world.destroyJoint(mouseJoint);
     mouseJoint = null;
     return false;
   }

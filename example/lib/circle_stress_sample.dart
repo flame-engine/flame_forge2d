@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flame_forge2d/body_component.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flame_forge2d/viewport.dart';
 import 'package:forge2d/forge2d.dart';
 import 'package:flame/gestures.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
@@ -90,7 +91,7 @@ class CircleStressSample extends Forge2DGame with TapDetector {
         );
 
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(worldViewport);
+    final boundaries = createBoundaries(viewport as Forge2DViewport);
     boundaries.forEach(add);
     add(CircleShuffler());
     add(CornerRamp(isMirrored: true));
