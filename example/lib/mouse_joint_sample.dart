@@ -13,9 +13,9 @@ class MouseJointSample extends Forge2DGame with MultiTouchDragDetector {
   @override
   bool debugMode = true;
 
-  Ball ball;
-  Body groundBody;
-  MouseJoint mouseJoint;
+  late Ball ball;
+  late Body groundBody;
+  MouseJoint? mouseJoint;
 
   MouseJointSample()
       : super(
@@ -60,7 +60,7 @@ class MouseJointSample extends Forge2DGame with MultiTouchDragDetector {
     if (mouseJoint == null) {
       return true;
     }
-    world.destroyJoint(mouseJoint);
+    world.destroyJoint(mouseJoint!);
     mouseJoint = null;
     return false;
   }

@@ -91,7 +91,7 @@ class DominoSample extends Forge2DGame with TapDetector {
   @override
   bool debugMode = true;
 
-  Image _pizzaImage;
+  late Image _pizzaImage;
 
   DominoSample()
       : super(

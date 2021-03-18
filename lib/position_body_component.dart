@@ -1,5 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:flame/geometry.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'body_component.dart';

@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'boundaries.dart';
 
 class Ball extends BodyComponent {
-  Paint originalPaint;
+  late Paint originalPaint;
   bool giveNudge = false;
   final double radius;
   Vector2 _position;

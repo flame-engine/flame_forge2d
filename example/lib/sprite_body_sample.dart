@@ -41,7 +41,7 @@ class Pizza extends SpriteBodyComponent {
 }
 
 class SpriteBodySample extends Forge2DGame with TapDetector {
-  Image _pizzaImage;
+  late Image _pizzaImage;
 
   SpriteBodySample() : super(scale: 4.0, gravity: Vector2(0, -10.0));
 

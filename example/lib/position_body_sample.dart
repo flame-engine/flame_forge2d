@@ -32,8 +32,8 @@ class ChopperBody extends PositionBodyComponent {
 }
 
 class PositionBodySample extends Forge2DGame with TapDetector {
-  Image chopper;
-  SpriteAnimation animation;
+  late Image chopper;
+  late SpriteAnimation animation;
 
   PositionBodySample() : super(scale: 10.0, gravity: Vector2.zero());
 

@@ -1,9 +1,10 @@
 # CHANGELOG
 
-## [Next]
+## [0.7.1-rc8]
  - Take viewport yFlip into consideration on `cameraFollow`
- - Update to forge2d 0.6.5
- - Update to flame 1.0.0-rc7
+ - Update to forge2d 0.7.1
+ - Update to flame 1.0.0-rc8
+ - Integrate Flame viewport and camera to replace own viewport
 
 ## [0.6.4-rc4]
  - Add PositionBodyComponent, keeps a PositionComponent on top of a BodyComponent
