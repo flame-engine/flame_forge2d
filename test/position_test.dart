@@ -9,7 +9,7 @@ class TestGame extends Forge2DGame {
 void main() {
   group(
     'Test corresponding position on screen and in the Forge2D world',
-        () {
+    () {
       test('Zero positioned camera should be zero in world', () {
         expect(TestGame().camera.screenToWorld(Vector2.zero()), Vector2.zero());
       });
