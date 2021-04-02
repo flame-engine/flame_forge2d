@@ -19,7 +19,7 @@ class Forge2DGame extends BaseGame {
   late World world;
 
   @override
-  final Forge2DCamera camera = Forge2DCamera();
+  late final Forge2DCamera camera;
 
   final ContactCallbacks _contactCallbacks = ContactCallbacks();
 
@@ -29,9 +29,8 @@ class Forge2DGame extends BaseGame {
   }) {
     gravity ??= defaultGravity;
     final forge2DViewport = Forge2DDefaultViewport(scale);
-    camera.viewportTransform = forge2DViewport.viewportTransform;
-    this.viewport = forge2DViewport;
-
+    camera = Forge2DCamera(forge2DViewport.viewportTransform);
+    viewport = forge2DViewport;
     world = World(gravity);
     world.setContactListener(_contactCallbacks);
   }

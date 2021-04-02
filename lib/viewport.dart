@@ -20,8 +20,9 @@ class Forge2DDefaultViewport extends DefaultViewport with Forge2DViewport {
   @override
   void resize(Vector2 size) {
     super.resize(size);
-    viewportTransform.extents.setFrom(effectiveSize / 2);
-    viewportTransform.center.setFrom(effectiveSize / 2);
+    final center = effectiveSize / 2;
+    viewportTransform.extents.setFrom(center);
+    viewportTransform.center.setFrom(center);
   }
 }
 
@@ -39,7 +40,8 @@ class Forge2DFixedResolutionViewport extends FixedResolutionViewport
   @override
   void resize(Vector2 size) {
     super.resize(size);
-    viewportTransform.extents.setFrom(effectiveSize / 2);
-    viewportTransform.center.setFrom(effectiveSize / 2);
+    final center = effectiveSize / 2;
+    viewportTransform.extents.setFrom(center);
+    viewportTransform.center.setFrom(center);
   }
 }

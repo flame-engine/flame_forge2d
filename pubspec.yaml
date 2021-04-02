@@ -5,10 +5,14 @@ homepage: https://github.com/flame-engine/flame_forge2d
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
-  flutter: ">=1.17.0 <2.0.0"
+  flutter: ">=1.24.0"
 
 dependencies:
-  flame: ^1.0.0-rc8
+  flame:
+    git:
+      url: git://github.com/flame-engine/flame.git
+      ref: spydon.follow-vector2-method
+      path: packages/flame
   forge2d: ^0.7.1
 
   flutter:
