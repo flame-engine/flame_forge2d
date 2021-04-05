@@ -35,8 +35,8 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
     body = createBody();
   }
 
-  World get world => gameRef!.world;
-  Forge2DCamera get camera => gameRef!.camera;
+  World get world => gameRef.world;
+  Forge2DCamera get camera => gameRef.camera;
 
   @override
   void renderDebugMode(Canvas canvas) {

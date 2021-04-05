@@ -23,7 +23,7 @@ abstract class PositionBodyComponent extends BodyComponent {
     await super.onLoad();
     updatePositionComponent();
     positionComponent..anchor = Anchor.center;
-    gameRef!.add(positionComponent);
+    gameRef.add(positionComponent);
   }
 
   @override
@@ -52,12 +52,12 @@ abstract class PositionBodyComponent extends BodyComponent {
     if (body.position != _lastPosition) {
       _lastPosition.setFrom(body.position);
       _lastScreenPosition.setFrom(
-        gameRef!.camera.worldToScreen(body.position),
+        gameRef.camera.worldToScreen(body.position),
       );
       stateUpdated = true;
     }
-    if (_lastScale != gameRef!.camera.scale || size != _lastSize) {
-      _lastScale = gameRef!.camera.scale;
+    if (_lastScale != gameRef.camera.scale || size != _lastSize) {
+      _lastScale = gameRef.camera.scale;
       _lastScaledSize.setFrom(size * _lastScale);
       _lastSize.setFrom(size);
       stateUpdated = true;
