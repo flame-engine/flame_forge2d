@@ -11,7 +11,7 @@ dependencies:
   flame:
     git:
       url: git://github.com/flame-engine/flame.git
-      ref: spydon.follow-vector2-method
+      ref: main
       path: packages/flame
   forge2d: ^0.7.1
 

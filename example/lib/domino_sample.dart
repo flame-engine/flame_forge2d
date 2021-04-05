@@ -128,6 +128,6 @@ class DominoSample extends Forge2DGame with TapDetector {
         Vector2(details.localPosition.dx, details.localPosition.dy);
     final pizza = Pizza(screenPosition, _pizzaImage);
     add(pizza);
-    camera.followObject(pizza.positionComponent);
+    camera.followComponent(pizza.positionComponent);
   }
 }

@@ -14,6 +14,8 @@ class Ball extends BodyComponent {
   final double radius;
   Vector2 _position;
 
+  final Paint _blue = BasicPalette.blue.paint();
+
   Ball(this._position, {this.radius = 5.0}) {
     originalPaint = randomPaint();
     this.paint = originalPaint;
@@ -28,7 +30,7 @@ class Ball extends BodyComponent {
         100 + rng.nextInt(155),
         255,
       ),
-    ).paint;
+    ).paint();
   }
 
   @override
@@ -58,8 +60,7 @@ class Ball extends BodyComponent {
     final angle = body.getAngle();
     final lineRotation =
         Offset(math.sin(angle) * radius, math.cos(angle) * radius);
-    final blue = const PaletteEntry(Colors.blue).paint;
-    c.drawLine(center, center + lineRotation, blue);
+    c.drawLine(center, center + lineRotation, _blue);
   }
 
   @override
@@ -74,7 +75,7 @@ class Ball extends BodyComponent {
 
 class WhiteBall extends Ball {
   WhiteBall(Vector2 position) : super(position) {
-    originalPaint = BasicPalette.white.paint;
+    originalPaint = BasicPalette.white.paint();
     paint = originalPaint;
   }
 }

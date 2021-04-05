@@ -29,7 +29,7 @@ class TapableSample extends Forge2DGame with HasTapableComponents {
 
 class TapableBall extends Ball with Tapable {
   TapableBall(Vector2 position) : super(position) {
-    originalPaint = BasicPalette.white.paint;
+    originalPaint = BasicPalette.white.paint();
     paint = originalPaint;
   }
 

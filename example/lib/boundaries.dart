@@ -21,7 +21,7 @@ List<Wall> createBoundaries(Forge2DViewport viewport) {
 }
 
 class Wall extends BodyComponent {
-  Paint paint = BasicPalette.white.paint;
+  Paint paint = BasicPalette.white.paint();
   final Vector2 start;
   final Vector2 end;
 
