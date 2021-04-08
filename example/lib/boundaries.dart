@@ -1,14 +1,14 @@
 import 'dart:ui';
 
-import 'package:flame_forge2d/viewport.dart';
+import 'package:flame_forge2d/camera.dart';
 import 'package:forge2d/forge2d.dart';
 import 'package:flame/palette.dart';
+import 'package:flame/game.dart';
 import 'package:flame_forge2d/body_component.dart';
 
-List<Wall> createBoundaries(Forge2DViewport viewport) {
-  final Vector2 screenSize = viewport.effectiveSize / viewport.scale;
-  final Vector2 topLeft = (screenSize / 2) * -1;
-  final Vector2 bottomRight = screenSize / 2;
+List<Wall> createBoundaries(Viewport viewport, Forge2DCamera camera) {
+  final Vector2 bottomRight = camera.screenToWorld(viewport.effectiveSize) / 2;
+  final Vector2 topLeft = -bottomRight;
   final Vector2 topRight = Vector2(bottomRight.x, topLeft.y);
   final Vector2 bottomLeft = Vector2(topLeft.x, bottomRight.y);
 

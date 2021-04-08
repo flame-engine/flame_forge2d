@@ -1,7 +1,6 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame/gestures.dart';
-import 'package:flame_forge2d/viewport.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/extensions.dart';
 
@@ -25,7 +24,7 @@ class MouseJointSample extends Forge2DGame with MultiTouchDragDetector {
 
   @override
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(viewport as Forge2DViewport);
+    final boundaries = createBoundaries(viewport, camera);
     boundaries.forEach(add);
 
     groundBody = world.createBody(BodyDef());

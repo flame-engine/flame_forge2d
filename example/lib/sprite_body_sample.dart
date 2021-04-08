@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:flame_forge2d/viewport.dart';
 import 'package:forge2d/forge2d.dart';
 import 'package:flame/components.dart';
 import 'package:flame/gestures.dart';
@@ -48,7 +47,7 @@ class SpriteBodySample extends Forge2DGame with TapDetector {
   @override
   Future<void> onLoad() async {
     _pizzaImage = await images.load('pizza.png');
-    final boundaries = createBoundaries(viewport as Forge2DViewport);
+    final boundaries = createBoundaries(viewport, camera);
     boundaries.forEach(add);
   }
 

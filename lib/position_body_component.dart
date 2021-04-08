@@ -44,8 +44,8 @@ abstract class PositionBodyComponent extends BodyComponent {
   final Vector2 _lastScreenPosition = Vector2.zero();
   final Vector2 _lastSize = Vector2.zero();
   double _lastAngle = 0;
-  final Vector2 _lastScaledSize = Vector2.zero();
-  double _lastScale = 0;
+  final Vector2 _lastZoomedSize = Vector2.zero();
+  double _lastZoom = 0;
 
   bool maybeUpdateState() {
     bool stateUpdated = false;
@@ -56,9 +56,9 @@ abstract class PositionBodyComponent extends BodyComponent {
       );
       stateUpdated = true;
     }
-    if (_lastScale != gameRef.camera.scale || size != _lastSize) {
-      _lastScale = gameRef.camera.scale;
-      _lastScaledSize.setFrom(size * _lastScale);
+    if (_lastZoom != gameRef.camera.zoom || size != _lastSize) {
+      _lastZoom = gameRef.camera.zoom;
+      _lastZoomedSize.setFrom(size * _lastZoom);
       _lastSize.setFrom(size);
       stateUpdated = true;
     }
@@ -74,7 +74,7 @@ abstract class PositionBodyComponent extends BodyComponent {
       positionComponent
         ..position = _lastScreenPosition
         ..angle = _lastAngle
-        ..size = _lastScaledSize;
+        ..size = _lastZoomedSize;
     }
   }
 }

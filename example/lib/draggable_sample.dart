@@ -1,5 +1,4 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flame_forge2d/viewport.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart' hide Draggable;
 import 'package:forge2d/forge2d.dart';
@@ -22,7 +21,7 @@ class DraggableSample extends Forge2DGame with HasDraggableComponents {
 
   @override
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(viewport as Forge2DViewport);
+    final boundaries = createBoundaries(viewport, camera);
     boundaries.forEach(add);
     add(DraggableBall(viewport.effectiveSize / 2));
   }

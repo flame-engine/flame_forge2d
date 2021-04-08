@@ -8,11 +8,7 @@ environment:
   flutter: ">=1.24.0"
 
 dependencies:
-  flame:
-    git:
-      url: git://github.com/flame-engine/flame.git
-      ref: main
-      path: packages/flame
+  flame: 1.0.0-rc9
   forge2d: ^0.7.1
 
   flutter:

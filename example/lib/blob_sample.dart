@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'package:flame_forge2d/body_component.dart';
-import 'package:flame_forge2d/viewport.dart';
 import 'package:forge2d/forge2d.dart';
+import 'package:flame/extensions.dart';
 import 'package:flame/game.dart';
 import 'package:flame/gestures.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
@@ -39,19 +39,19 @@ class BlobPart extends BodyComponent {
 
   @override
   Body createBody() {
-    double cx = 0.0;
-    double cy = 10.0;
-    double rx = 5.0;
-    double ry = 5.0;
-    double nBodies = 20.0;
-    double bodyRadius = 0.5;
-    double angle = (bodyNumber / nBodies) * math.pi * 2;
+    final cx = 0.0;
+    final cy = 10.0;
+    final rx = 5.0;
+    final ry = 5.0;
+    final nBodies = 20.0;
+    final bodyRadius = 0.5;
+    final angle = (bodyNumber / nBodies) * math.pi * 2;
 
     BodyDef bodyDef = BodyDef();
     bodyDef.fixedRotation = true;
 
-    double x = cx + rx * math.sin(angle);
-    double y = cy + ry * math.cos(angle);
+    final x = cx + rx * math.sin(angle);
+    final y = cy + ry * math.cos(angle);
     bodyDef.position.setFrom(Vector2(x, y));
     bodyDef.type = BodyType.dynamic;
     Body body = world.createBody(bodyDef);
@@ -69,10 +69,7 @@ class BlobPart extends BodyComponent {
 class FallingBox extends BodyComponent {
   final Vector2 position;
 
-  FallingBox(
-    Forge2DGame game,
-    this.position,
-  );
+  FallingBox(this.position);
 
   @override
   Body createBody() {
@@ -92,13 +89,13 @@ class BlobSample extends Forge2DGame with TapDetector {
 
   BlobSample()
       : super(
-          scale: 8.0,
+          scale: 1.0,
           gravity: Vector2(0, -10.0),
         );
 
   @override
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(viewport as Forge2DViewport);
+    final boundaries = createBoundaries(viewport, camera);
     boundaries.forEach(add);
     add(Ground());
     final jointDef = ConstantVolumeJointDef()
@@ -116,9 +113,8 @@ class BlobSample extends Forge2DGame with TapDetector {
   @override
   void onTapDown(TapDownDetails details) {
     super.onTapDown(details);
-    final Vector2 screenPosition =
-        Vector2(details.localPosition.dx, details.localPosition.dy);
+    final Vector2 screenPosition = details.localPosition.toVector2();
     final Vector2 worldPosition = camera.screenToWorld(screenPosition);
-    add(FallingBox(this, worldPosition));
+    add(FallingBox(worldPosition));
   }
 }

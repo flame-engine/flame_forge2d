@@ -8,29 +8,26 @@ import 'package:forge2d/forge2d.dart' hide Timer;
 import 'body_component.dart';
 import 'camera.dart';
 import 'contact_callbacks.dart';
-import 'viewport.dart';
 
 class Forge2DGame extends BaseGame {
   static final Vector2 defaultGravity = Vector2(0.0, -10.0);
-  static const double defaultScale = 1.0;
+  static const double defaultZoom = 1.0;
   final int velocityIterations = 10;
   final int positionIterations = 10;
 
   late World world;
 
   @override
-  late final Forge2DCamera camera;
+  final Forge2DCamera camera = Forge2DCamera();
 
   final ContactCallbacks _contactCallbacks = ContactCallbacks();
 
   Forge2DGame({
     Vector2? gravity,
-    double scale = defaultScale,
+    double scale = defaultZoom,
   }) {
     gravity ??= defaultGravity;
-    final forge2DViewport = Forge2DDefaultViewport(scale);
-    camera = Forge2DCamera(forge2DViewport.viewportTransform);
-    viewport = forge2DViewport;
+    camera.zoom = defaultZoom;
     world = World(gravity);
     world.setContactListener(_contactCallbacks);
   }
@@ -43,10 +40,17 @@ class Forge2DGame extends BaseGame {
     }
   }
 
+  bool once = true;
   @override
   void update(double dt) {
     super.update(dt);
     world.stepDt(dt, velocityIterations, positionIterations);
+    if(once) {
+      camera.zoom = 1.0;
+      //camera.moveTo(-viewport.effectiveSize/4/camera.zoom);
+      camera.snapTo(-viewport.effectiveSize/4);
+      once = false;
+    }
   }
 
   @override

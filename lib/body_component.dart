@@ -2,16 +2,16 @@ import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:flame_forge2d/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:forge2d/forge2d.dart' hide Timer, Vector2;
 
+import 'camera.dart';
 import 'forge2d_game.dart';
 
 /// Since a pure BodyComponent doesn't have anything drawn on top of it,
-/// it is a good idea to turn on debudMode for it so that the bodies can be seen
-
+/// it is a good idea to turn on [debugMode] for it so that the bodies can be
+/// seen
 abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
     with HasGameRef<T> {
   static const maxPolygonVertices = 8;
@@ -63,8 +63,8 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
   void _renderChain(Canvas canvas, Fixture fixture) {
     final ChainShape chainShape = fixture.shape as ChainShape;
     final List<Offset> points = [];
-    for (int i = 0; i < chainShape.vertexCount; i++) {
-      points.add(_vertexToScreen(chainShape.getVertex(i)));
+    for (final vertex in chainShape.vertices) {
+      points.add(_vertexToScreen(vertex));
     }
     renderChain(canvas, points);
   }
@@ -77,7 +77,7 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
   void _renderCircle(Canvas canvas, Fixture fixture) {
     final CircleShape circle = fixture.shape as CircleShape;
     final center = _vertexToScreen(circle.position);
-    renderCircle(canvas, center, circle.radius * camera.scale);
+    renderCircle(canvas, center, circle.radius * camera.zoom);
   }
 
   void renderCircle(Canvas canvas, Offset center, double radius) {
