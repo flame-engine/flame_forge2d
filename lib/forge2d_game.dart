@@ -40,17 +40,10 @@ class Forge2DGame extends BaseGame {
     }
   }
 
-  bool once = true;
   @override
   void update(double dt) {
     super.update(dt);
     world.stepDt(dt, velocityIterations, positionIterations);
-    if(once) {
-      camera.zoom = 1.0;
-      //camera.moveTo(-viewport.effectiveSize/4/camera.zoom);
-      camera.snapTo(-viewport.effectiveSize/4);
-      once = false;
-    }
   }
 
   @override
