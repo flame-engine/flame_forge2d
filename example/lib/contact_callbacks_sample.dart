@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:forge2d/forge2d.dart';
 import 'package:flame/gestures.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
-import 'package:flutter/material.dart';
 
 import 'balls.dart';
 import 'boundaries.dart';
@@ -20,7 +19,8 @@ class ContactCallbacksSample extends Forge2DGame with TapDetector {
 
   @override
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(viewport, camera);
+    await super.onLoad();
+    final boundaries = createBoundaries(this);
     boundaries.forEach(add);
     addContactCallback(BallContactCallback());
     addContactCallback(BallWallContactCallback());
@@ -28,10 +28,9 @@ class ContactCallbacksSample extends Forge2DGame with TapDetector {
   }
 
   @override
-  void onTapDown(TapDownDetails details) {
+  void onTapDown(TapDownInfo details) {
     super.onTapDown(details);
-    final Vector2 position =
-        Vector2(details.localPosition.dx, details.localPosition.dy);
+    final Vector2 position = details.eventPosition.widget;
     if (math.Random().nextInt(10) < 2) {
       add(WhiteBall(position));
     } else {

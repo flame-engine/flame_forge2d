@@ -37,7 +37,7 @@ class Ball extends BodyComponent {
   Body createBody() {
     final CircleShape shape = CircleShape();
     shape.radius = radius;
-    Vector2 worldPosition = camera.screenToWorld(_position);
+    Vector2 worldPosition = gameRef.screenToWorld(_position);
 
     final fixtureDef = FixtureDef(shape)
       ..restitution = 0.8

@@ -11,7 +11,7 @@ void main() {
     'Test corresponding position on screen and in the Forge2D world',
     () {
       test('Zero positioned camera should be zero in world', () {
-        expect(TestGame().camera.screenToWorld(Vector2.zero()), Vector2.zero());
+        expect(TestGame().screenToWorld(Vector2.zero()), Vector2.zero());
       });
     },
   );

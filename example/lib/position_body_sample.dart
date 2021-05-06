@@ -5,7 +5,6 @@ import 'package:forge2d/forge2d.dart';
 import 'package:flame/components.dart';
 import 'package:flame/gestures.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
-import 'package:flutter/material.dart' hide Image;
 
 import 'boundaries.dart';
 
@@ -22,7 +21,7 @@ class ChopperBody extends PositionBodyComponent {
       ..friction = 0.2;
 
     final bodyDef = BodyDef()
-      ..position = camera.screenToWorld(positionComponent.position)
+      ..position = gameRef.screenToWorld(positionComponent.position)
       ..angle = positionComponent.x / 2 * 3.14
       ..linearVelocity = (Vector2.all(0.5) - Vector2.random()) * 200
       ..type = BodyType.dynamic;
@@ -38,6 +37,7 @@ class PositionBodySample extends Forge2DGame with TapDetector {
 
   @override
   Future<void> onLoad() async {
+    await super.onLoad();
     chopper = await images.load('chopper.png');
 
     animation = SpriteAnimation.fromFrameData(
@@ -50,15 +50,14 @@ class PositionBodySample extends Forge2DGame with TapDetector {
       ),
     );
 
-    final boundaries = createBoundaries(viewport, camera);
+    final boundaries = createBoundaries(this);
     boundaries.forEach(add);
   }
 
   @override
-  void onTapDown(TapDownDetails details) {
+  void onTapDown(TapDownInfo details) {
     super.onTapDown(details);
-    final Vector2 position =
-        Vector2(details.localPosition.dx, details.localPosition.dy);
+    final Vector2 position = details.eventPosition.widget;
     final spriteSize = Vector2.all(10);
     final animationComponent = SpriteAnimationComponent(
       animation: animation,

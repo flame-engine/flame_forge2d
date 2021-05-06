@@ -6,7 +6,6 @@ import 'package:flame/game.dart';
 import 'package:forge2d/forge2d.dart' hide Timer;
 
 import 'body_component.dart';
-import 'camera.dart';
 import 'contact_callbacks.dart';
 
 class Forge2DGame extends BaseGame {
@@ -17,9 +16,6 @@ class Forge2DGame extends BaseGame {
 
   late World world;
 
-  @override
-  final Forge2DCamera camera = Forge2DCamera();
-
   final ContactCallbacks _contactCallbacks = ContactCallbacks();
 
   Forge2DGame({
@@ -27,7 +23,7 @@ class Forge2DGame extends BaseGame {
     double scale = defaultZoom,
   }) {
     gravity ??= defaultGravity;
-    camera.zoom = defaultZoom;
+    camera.zoom = scale;
     world = World(gravity);
     world.setContactListener(_contactCallbacks);
   }
@@ -88,4 +84,7 @@ class Forge2DGame extends BaseGame {
   void clearContactCallbacks() {
     _contactCallbacks.clear();
   }
+  
+  Vector2 worldToScreen(Vector2 position) => projectVector(position);
+  Vector2 screenToWorld(Vector2 position) => unprojectVector(position);
 }

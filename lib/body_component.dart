@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:forge2d/forge2d.dart' hide Timer, Vector2;
 
-import 'camera.dart';
 import 'forge2d_game.dart';
 
 /// Since a pure BodyComponent doesn't have anything drawn on top of it,
@@ -36,7 +35,7 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
   }
 
   World get world => gameRef.world;
-  Forge2DCamera get camera => gameRef.camera;
+  Camera get camera => gameRef.camera;
 
   @override
   void renderDebugMode(Canvas canvas) {
@@ -114,16 +113,13 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
   }
 
   Offset _vertexToScreen(Vector2 vertex) {
-    return camera
-        .worldToScreen(
-          body.getWorldPoint(vertex),
-        )
-        .toOffset();
+    return gameRef.worldToScreen(body.getWorldPoint(vertex)).toOffset();
   }
 
   @override
   bool containsPoint(Vector2 point) {
-    final worldPoint = camera.screenToWorld(point);
+    // TODO: Already in game coordinates?
+    final worldPoint = gameRef.screenToWorld(point);
     for (Fixture fixture in body.fixtures) {
       if (fixture.testPoint(worldPoint)) {
         return true;

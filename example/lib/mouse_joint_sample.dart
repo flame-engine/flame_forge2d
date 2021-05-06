@@ -1,7 +1,6 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame/gestures.dart';
-import 'package:flutter/material.dart';
 import 'package:flame/extensions.dart';
 
 import 'balls.dart';
@@ -24,18 +23,19 @@ class MouseJointSample extends Forge2DGame with MultiTouchDragDetector {
 
   @override
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(viewport, camera);
+    await super.onLoad();
+    final boundaries = createBoundaries(this);
     boundaries.forEach(add);
 
     groundBody = world.createBody(BodyDef());
-    ball = Ball(camera.worldToScreen(Vector2(0, 0)), radius: 5);
+    ball = Ball(worldToScreen(Vector2(0, 0)), radius: 5);
     add(ball);
     add(CornerRamp());
     add(CornerRamp(isMirrored: true));
   }
 
   @override
-  bool onDragUpdate(int pointerId, DragUpdateDetails details) {
+  bool onDragUpdate(int pointerId, DragUpdateInfo details) {
     MouseJointDef mouseJointDef = MouseJointDef()
       ..maxForce = 3000 * ball.body.mass * 10
       ..dampingRatio = 0.1
@@ -48,14 +48,14 @@ class MouseJointSample extends Forge2DGame with MultiTouchDragDetector {
     mouseJoint ??= world.createJoint(mouseJointDef) as MouseJoint;
 
     mouseJoint?.setTarget(
-      camera.screenToWorld(
-        details.globalPosition.toVector2(),
+      screenToWorld(
+        details.eventPosition.widget,
       ),
     );
     return false;
   }
 
-  bool onDragEnd(int pointerId, DragEndDetails details) {
+  bool onDragEnd(int pointerId, DragEndInfo details) {
     if (mouseJoint == null) {
       return true;
     }

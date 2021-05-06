@@ -95,7 +95,8 @@ class BlobSample extends Forge2DGame with TapDetector {
 
   @override
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(viewport, camera);
+    await super.onLoad();
+    final boundaries = createBoundaries(this);
     boundaries.forEach(add);
     add(Ground());
     final jointDef = ConstantVolumeJointDef()
@@ -111,10 +112,10 @@ class BlobSample extends Forge2DGame with TapDetector {
   }
 
   @override
-  void onTapDown(TapDownDetails details) {
+  void onTapDown(TapDownInfo details) {
     super.onTapDown(details);
-    final Vector2 screenPosition = details.localPosition.toVector2();
-    final Vector2 worldPosition = camera.screenToWorld(screenPosition);
+    final Vector2 screenPosition = details.eventPosition.widget;
+    final Vector2 worldPosition = screenToWorld(screenPosition);
     add(FallingBox(worldPosition));
   }
 }

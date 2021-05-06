@@ -42,7 +42,7 @@ class Pizza extends SpriteBodyComponent {
       ..friction = 0.3;
 
     final bodyDef = BodyDef()
-      ..position = camera.screenToWorld(_position)
+      ..position = gameRef.screenToWorld(_position)
       ..angle = (_position.x + _position.y) / 2 * 3.14
       ..type = BodyType.dynamic;
     return world.createBody(bodyDef)..createFixture(fixtureDef);
@@ -100,7 +100,8 @@ class DominoSample extends Forge2DGame with TapDetector {
 
   @override
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(viewport, camera);
+    await super.onLoad();
+    final boundaries = createBoundaries(this);
     boundaries.forEach(add);
     _pizzaImage = await images.load('pizza.png');
 
@@ -121,10 +122,9 @@ class DominoSample extends Forge2DGame with TapDetector {
   }
 
   @override
-  void onTapDown(TapDownDetails details) {
+  void onTapDown(TapDownInfo details) {
     super.onTapDown(details);
-    final Vector2 screenPosition =
-        Vector2(details.localPosition.dx, details.localPosition.dy);
+    final Vector2 screenPosition = details.eventPosition.widget;
     final pizza = Pizza(screenPosition, _pizzaImage);
     add(pizza);
     camera.followComponent(pizza.positionComponent);

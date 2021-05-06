@@ -52,7 +52,7 @@ abstract class PositionBodyComponent extends BodyComponent {
     if (body.position != _lastPosition) {
       _lastPosition.setFrom(body.position);
       _lastScreenPosition.setFrom(
-        gameRef.camera.worldToScreen(body.position),
+        gameRef.worldToScreen(body.position),
       );
       stateUpdated = true;
     }
