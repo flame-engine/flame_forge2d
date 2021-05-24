@@ -11,8 +11,8 @@ import 'contact_callbacks.dart';
 class Forge2DGame extends BaseGame {
   static final Vector2 defaultGravity = Vector2(0.0, -10.0);
   static const double defaultZoom = 1.0;
-  final int velocityIterations = 10;
-  final int positionIterations = 10;
+  final int velocityIterations;
+  final int positionIterations;
 
   late World world;
 
@@ -21,6 +21,8 @@ class Forge2DGame extends BaseGame {
   Forge2DGame({
     Vector2? gravity,
     double scale = defaultZoom,
+    this.velocityIterations = 10,
+    this.positionIterations = 10,
   }) {
     gravity ??= defaultGravity;
     camera.zoom = scale;
