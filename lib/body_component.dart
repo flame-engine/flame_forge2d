@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flame/components.dart';
+import 'package:flame/extensions.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -13,7 +14,6 @@ import 'forge2d_game.dart';
 /// seen
 abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
     with HasGameRef<T> {
-  static const maxPolygonVertices = 8;
   static const defaultColor = const Color.fromARGB(255, 255, 255, 255);
 
   late Body body;
@@ -24,7 +24,7 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
       ..color = defaultColor;
   }
 
-  /// You should create the [Body] in this method when you extend
+  /// You should create the Forge2D [Body] in this method when you extend
   /// the BodyComponent
   Body createBody();
 
@@ -36,6 +36,14 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
 
   World get world => gameRef.world;
   Camera get camera => gameRef.camera;
+  Vector2 get center => body.worldCenter;
+  double get angle => body.getAngle();
+
+  @override
+  void prepareCanvas(Canvas canvas) {
+    canvas.translateVector(center.clone()..y *= -1);
+    canvas.rotate(-angle);
+  }
 
   @override
   void renderDebugMode(Canvas canvas) {
@@ -57,15 +65,12 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
     }
   }
 
-  Vector2 get center => body.worldCenter;
-
   void _renderChain(Canvas canvas, Fixture fixture) {
     final ChainShape chainShape = fixture.shape as ChainShape;
-    final List<Offset> points = [];
-    for (final vertex in chainShape.vertices) {
-      points.add(_vertexToScreen(vertex));
-    }
-    renderChain(canvas, points);
+    renderChain(
+      canvas,
+      chainShape.vertices.map((v) => v.toOffset()).toList(growable: false),
+    );
   }
 
   void renderChain(Canvas canvas, List<Offset> points) {
@@ -75,8 +80,7 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
 
   void _renderCircle(Canvas canvas, Fixture fixture) {
     final CircleShape circle = fixture.shape as CircleShape;
-    final center = _vertexToScreen(circle.position);
-    renderCircle(canvas, center, circle.radius * camera.zoom);
+    renderCircle(canvas, circle.position.toOffset(), circle.radius);
   }
 
   void renderCircle(Canvas canvas, Offset center, double radius) {
@@ -85,46 +89,28 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
 
   void _renderPolygon(Canvas canvas, Fixture fixture) {
     final PolygonShape polygon = fixture.shape as PolygonShape;
-    assert(polygon.vertices.length <= maxPolygonVertices);
-
-    final List<Offset> points = [];
-    for (final vertex in polygon.vertices) {
-      points.add(_vertexToScreen(vertex));
-    }
-
-    renderPolygon(canvas, points);
+    renderPolygon(
+      canvas,
+      polygon.vertices.map((v) => v.toOffset()).toList(growable: false),
+    );
   }
 
   void renderPolygon(Canvas canvas, List<Offset> points) {
     final path = Path()..addPolygon(points, true);
-
     canvas.drawPath(path, paint);
   }
 
   void _renderEdge(Canvas canvas, Fixture fixture) {
     final edge = fixture.shape as EdgeShape;
-    final p1 = _vertexToScreen(edge.vertex1);
-    final p2 = _vertexToScreen(edge.vertex2);
-    renderEdge(canvas, p1, p2);
+    renderEdge(canvas, edge.vertex1.toOffset(), edge.vertex2.toOffset());
   }
 
   void renderEdge(Canvas canvas, Offset p1, Offset p2) {
     canvas.drawLine(p1, p2, paint);
   }
 
-  Offset _vertexToScreen(Vector2 vertex) {
-    return gameRef.worldToScreen(body.getWorldPoint(vertex)).toOffset();
-  }
-
   @override
   bool containsPoint(Vector2 point) {
-    // TODO: Already in game coordinates?
-    final worldPoint = gameRef.screenToWorld(point);
-    for (Fixture fixture in body.fixtures) {
-      if (fixture.testPoint(worldPoint)) {
-        return true;
-      }
-    }
-    return false;
+    return body.fixtures.any((fixture) => fixture.testPoint(point));
   }
 }

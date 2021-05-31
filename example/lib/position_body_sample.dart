@@ -33,7 +33,7 @@ class PositionBodySample extends Forge2DGame with TapDetector {
   late Image chopper;
   late SpriteAnimation animation;
 
-  PositionBodySample() : super(scale: 10.0, gravity: Vector2.zero());
+  PositionBodySample() : super(gravity: Vector2.zero());
 
   @override
   Future<void> onLoad() async {
@@ -57,7 +57,7 @@ class PositionBodySample extends Forge2DGame with TapDetector {
   @override
   void onTapDown(TapDownInfo details) {
     super.onTapDown(details);
-    final Vector2 position = details.eventPosition.widget;
+    final Vector2 position = details.eventPosition.game;
     final spriteSize = Vector2.all(10);
     final animationComponent = SpriteAnimationComponent(
       animation: animation,

@@ -3,7 +3,7 @@ import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:test/test.dart';
 
 class TestGame extends Forge2DGame {
-  TestGame() : super(scale: 4.0, gravity: Vector2(0, -10.0));
+  TestGame() : super(zoom: 4.0, gravity: Vector2(0, -10.0));
 }
 
 void main() {

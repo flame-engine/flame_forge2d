@@ -16,7 +16,7 @@ class Ball extends BodyComponent {
 
   final Paint _blue = BasicPalette.blue.paint();
 
-  Ball(this._position, {this.radius = 5.0}) {
+  Ball(this._position, {this.radius = 2}) {
     originalPaint = randomPaint();
     this.paint = originalPaint;
   }

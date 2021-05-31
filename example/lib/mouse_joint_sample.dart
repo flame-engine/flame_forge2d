@@ -15,11 +15,7 @@ class MouseJointSample extends Forge2DGame with MultiTouchDragDetector {
   late Body groundBody;
   MouseJoint? mouseJoint;
 
-  MouseJointSample()
-      : super(
-          scale: 8.0,
-          gravity: Vector2(0, -10.0),
-        );
+  MouseJointSample() : super(gravity: Vector2(0, -10.0));
 
   @override
   Future<void> onLoad() async {

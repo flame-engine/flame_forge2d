@@ -83,11 +83,7 @@ class CircleStressSample extends Forge2DGame with TapDetector {
   @override
   bool debugMode = true;
 
-  CircleStressSample()
-      : super(
-          scale: 8.0,
-          gravity: Vector2(0, -10.0),
-        );
+  CircleStressSample() : super(gravity: Vector2(0, -10.0));
 
   Future<void> onLoad() async {
     await super.onLoad();
@@ -96,17 +92,18 @@ class CircleStressSample extends Forge2DGame with TapDetector {
     add(CircleShuffler());
     add(CornerRamp(isMirrored: true));
     add(CornerRamp(isMirrored: false));
+    camera.moveTo(-size / 2);
   }
 
   @override
   void onTapDown(TapDownInfo details) {
     super.onTapDown(details);
-    final Vector2 screenPosition = details.eventPosition.widget;
+    final Vector2 tapPosition = details.eventPosition.game;
     final Random random = Random();
     List.generate(15, (i) {
       final Vector2 randomVector =
           (Vector2.random() - Vector2.all(-0.5)).normalized();
-      add(Ball(screenPosition + randomVector, radius: random.nextDouble()));
+      add(Ball(tapPosition + randomVector, radius: random.nextDouble()));
     });
   }
 }

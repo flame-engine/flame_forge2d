@@ -3,13 +3,14 @@ import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/game.dart';
+import 'package:flame_forge2d/forge2d_camera.dart';
 import 'package:forge2d/forge2d.dart' hide Timer;
 
 import 'body_component.dart';
 import 'contact_callbacks.dart';
 
 class Forge2DGame extends BaseGame {
-  static final Vector2 defaultGravity = Vector2(0.0, -10.0);
+  static final Vector2 defaultGravity = Vector2(0, -10.0);
   static const double defaultZoom = 1.0;
   final int velocityIterations = 10;
   final int positionIterations = 10;
@@ -18,12 +19,15 @@ class Forge2DGame extends BaseGame {
 
   final ContactCallbacks _contactCallbacks = ContactCallbacks();
 
+  @override
+  final Forge2DCamera camera = Forge2DCamera();
+
   Forge2DGame({
     Vector2? gravity,
-    double scale = defaultZoom,
+    double zoom = defaultZoom,
   }) {
     gravity ??= defaultGravity;
-    camera.zoom = scale;
+    camera.zoom = zoom;
     world = World(gravity);
     world.setContactListener(_contactCallbacks);
   }
@@ -40,12 +44,6 @@ class Forge2DGame extends BaseGame {
   void update(double dt) {
     super.update(dt);
     world.stepDt(dt, velocityIterations, positionIterations);
-  }
-
-  @override
-  void onResize(Vector2 size) {
-    super.onResize(size);
-    viewport.resize(size);
   }
 
   @override
@@ -84,7 +82,7 @@ class Forge2DGame extends BaseGame {
   void clearContactCallbacks() {
     _contactCallbacks.clear();
   }
-  
+
   Vector2 worldToScreen(Vector2 position) => projectVector(position);
   Vector2 screenToWorld(Vector2 position) => unprojectVector(position);
 }

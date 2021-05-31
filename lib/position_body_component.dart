@@ -40,41 +40,14 @@ abstract class PositionBodyComponent extends BodyComponent {
     positionComponent.remove();
   }
 
-  final Vector2 _lastPosition = Vector2.zero();
-  final Vector2 _lastScreenPosition = Vector2.zero();
-  final Vector2 _lastSize = Vector2.zero();
-  double _lastAngle = 0;
-  final Vector2 _lastZoomedSize = Vector2.zero();
-  double _lastZoom = 0;
-
-  bool maybeUpdateState() {
-    bool stateUpdated = false;
-    if (body.position != _lastPosition) {
-      _lastPosition.setFrom(body.position);
-      _lastScreenPosition.setFrom(
-        gameRef.worldToScreen(body.position),
-      );
-      stateUpdated = true;
-    }
-    if (_lastZoom != gameRef.camera.zoom || size != _lastSize) {
-      _lastZoom = gameRef.camera.zoom;
-      _lastZoomedSize.setFrom(size * _lastZoom);
-      _lastSize.setFrom(size);
-      stateUpdated = true;
-    }
-    if (-body.getAngle() != _lastAngle) {
-      _lastAngle = -body.getAngle();
-      stateUpdated = true;
-    }
-    return stateUpdated;
-  }
+  final Vector2 _positionBuffer = Vector2.zero();
 
   void updatePositionComponent() {
-    if (maybeUpdateState()) {
-      positionComponent
-        ..position = _lastScreenPosition
-        ..angle = _lastAngle
-        ..size = _lastZoomedSize;
-    }
+    _positionBuffer
+      ..setFrom(body.position);
+    positionComponent
+      ..position = _positionBuffer
+      ..angle = body.getAngle() // TODO: Should this be negative still?
+      ..size = size;
   }
 }

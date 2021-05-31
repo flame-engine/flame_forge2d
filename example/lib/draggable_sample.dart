@@ -13,11 +13,7 @@ class DraggableSample extends Forge2DGame with HasDraggableComponents {
   @override
   bool debugMode = true;
 
-  DraggableSample()
-      : super(
-          scale: 4.0,
-          gravity: Vector2(0, 0.0),
-        );
+  DraggableSample() : super(gravity: Vector2(0, 0.0));
 
   @override
   Future<void> onLoad() async {

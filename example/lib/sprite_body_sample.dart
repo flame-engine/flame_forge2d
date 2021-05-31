@@ -5,7 +5,6 @@ import 'package:flame/components.dart';
 import 'package:flame/gestures.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame_forge2d/sprite_body_component.dart';
-import 'package:flutter/material.dart' hide Image;
 
 import 'boundaries.dart';
 
@@ -32,7 +31,7 @@ class Pizza extends SpriteBodyComponent {
       ..friction = 0.2;
 
     final bodyDef = BodyDef()
-      ..position = gameRef.screenToWorld(_position)
+      ..position = _position
       ..angle = (_position.x + _position.y) / 2 * 3.14
       ..type = BodyType.dynamic;
     return world.createBody(bodyDef)..createFixture(fixtureDef);
@@ -42,19 +41,19 @@ class Pizza extends SpriteBodyComponent {
 class SpriteBodySample extends Forge2DGame with TapDetector {
   late Image _pizzaImage;
 
-  SpriteBodySample() : super(scale: 4.0, gravity: Vector2(0, -10.0));
+  SpriteBodySample() : super(zoom: 5, gravity: Vector2(0, -10.0));
 
   @override
   Future<void> onLoad() async {
     _pizzaImage = await images.load('pizza.png');
-    final boundaries = createBoundaries(this);
-    boundaries.forEach(add);
+    debugMode = true;
+    addAll(createBoundaries(this));
   }
 
   @override
   void onTapDown(TapDownInfo details) {
     super.onTapDown(details);
-    final Vector2 position = details.eventPosition.widget;
+    final Vector2 position = details.eventPosition.game;
     add(Pizza(position, _pizzaImage));
   }
 }
