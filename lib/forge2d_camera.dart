@@ -1,12 +1,7 @@
-import 'dart:ui';
-
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/game.dart';
 import 'package:forge2d/forge2d.dart' hide Timer;
-
-import 'body_component.dart';
-import 'contact_callbacks.dart';
 
 class Forge2DCamera extends Camera {
   @override

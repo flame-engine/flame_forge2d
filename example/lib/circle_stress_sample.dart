@@ -5,7 +5,6 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:forge2d/forge2d.dart';
 import 'package:flame/gestures.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
-import 'package:flutter/material.dart' hide Image;
 
 import 'balls.dart';
 import 'boundaries.dart';

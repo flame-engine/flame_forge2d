@@ -35,7 +35,7 @@ class Pizza extends SpriteBodyComponent {
       ..userData = this // To be able to determine object in collision
       ..restitution = 0.4
       ..density = 1.0
-      ..friction = 0.3;
+      ..friction = 0.5;
 
     final bodyDef = BodyDef()
       ..position = position
