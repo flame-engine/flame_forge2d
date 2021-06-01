@@ -94,7 +94,7 @@ class DominoSample extends Forge2DGame with TapDetector {
     final boundaries = createBoundaries(this);
     boundaries.forEach(add);
     _pizzaImage = await images.load('pizza.png');
-    final center = screenToWorld(size/2);
+    final center = screenToWorld(size / 2);
 
     for (int i = 0; i < 8; i++) {
       final position = center + Vector2(0.0, -30.0 + 5 * i);

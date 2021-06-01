@@ -47,8 +47,8 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
 
   @override
   void prepareCanvas(Canvas canvas) {
-    canvas.translateVector(center.clone()..y *= -1);
-    canvas.rotate(pi + angle); //TODO: Not correct angle, seems to need +pi
+    canvas.translate(body.position.x, body.position.y * -1);
+    canvas.rotate(-angle); // TODO: Something is off here
   }
 
   @override
