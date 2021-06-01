@@ -86,9 +86,6 @@ class FallingBox extends BodyComponent {
 }
 
 class BlobSample extends Forge2DGame with TapDetector {
-  @override
-  bool debugMode = true;
-
   BlobSample() : super(zoom: 8.0, gravity: Vector2(0, -10.0));
 
   @override

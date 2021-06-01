@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
@@ -15,7 +16,6 @@ import 'forge2d_game.dart';
 abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
     with HasGameRef<T> {
   static const defaultColor = const Color.fromARGB(255, 255, 255, 255);
-
   late Body body;
   late Paint paint;
 
@@ -31,6 +31,12 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
   @mustCallSuper
   @override
   Future<void> onLoad() async {
+    /// [debugMode] is true by default for body component since otherwise
+    /// nothing is rendered for it, if you render something on top of the
+    /// [BodyComponent], or doesn't want it to be seen, just set it to false.
+    /// [SpriteBodyComponent] and [PositionBodyComponent] has it set to false by
+    /// default.
+    debugMode = true;
     body = createBody();
   }
 
@@ -42,7 +48,7 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
   @override
   void prepareCanvas(Canvas canvas) {
     canvas.translateVector(center.clone()..y *= -1);
-    canvas.rotate(-angle);
+    canvas.rotate(pi + angle); //TODO: Not correct angle, seems to need +pi
   }
 
   @override

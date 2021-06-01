@@ -9,6 +9,8 @@ import 'body_component.dart';
 abstract class PositionBodyComponent extends BodyComponent {
   PositionComponent positionComponent;
   Vector2 size;
+  @override
+  bool debugMode = false;
 
   /// Make sure that the [size] of the position component matches the bounding
   /// shape of the body that is create in createBody()
@@ -44,7 +46,8 @@ abstract class PositionBodyComponent extends BodyComponent {
 
   void updatePositionComponent() {
     _positionBuffer
-      ..setFrom(body.position);
+      ..setFrom(body.position)
+      ..y *= -1;
     positionComponent
       ..position = _positionBuffer
       ..angle = body.getAngle() // TODO: Should this be negative still?

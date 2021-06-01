@@ -11,7 +11,7 @@ import 'contact_callbacks.dart';
 
 class Forge2DGame extends BaseGame {
   static final Vector2 defaultGravity = Vector2(0, -10.0);
-  static const double defaultZoom = 1.0;
+  static const double defaultZoom = 10.0;
   final int velocityIterations = 10;
   final int positionIterations = 10;
 
@@ -30,14 +30,6 @@ class Forge2DGame extends BaseGame {
     camera.zoom = zoom;
     world = World(gravity);
     world.setContactListener(_contactCallbacks);
-  }
-
-  @override
-  Future<void> add(Component component) async {
-    await super.add(component);
-    if (component is BodyComponent) {
-      component.debugMode = debugMode;
-    }
   }
 
   @override
