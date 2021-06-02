@@ -10,17 +10,15 @@ import 'balls.dart';
 import 'boundaries.dart';
 
 class DraggableSample extends Forge2DGame with HasDraggableComponents {
-  @override
-  bool debugMode = true;
-
-  DraggableSample() : super(gravity: Vector2(0, 0.0));
+  DraggableSample() : super(gravity: Vector2.all(0.0));
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
     final boundaries = createBoundaries(this);
     boundaries.forEach(add);
-    add(DraggableBall(viewport.effectiveSize / 2));
+    final center = screenToWorld(size/2);
+    add(DraggableBall(center));
   }
 }
 
@@ -38,7 +36,7 @@ class DraggableBall extends Ball with Draggable {
 
   @override
   bool onDragUpdate(int pointerId, DragUpdateInfo details) {
-    final worldDelta = details.delta.global..multiply(Vector2(1.0, -1.0));
+    final worldDelta = Vector2(1, -1)..multiply(details.delta.game);
     body.applyLinearImpulse(worldDelta * 1000);
     return true;
   }

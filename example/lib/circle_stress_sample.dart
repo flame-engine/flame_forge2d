@@ -10,11 +10,15 @@ import 'balls.dart';
 import 'boundaries.dart';
 
 class CircleShuffler extends BodyComponent {
+  final Vector2 _center;
+
+  CircleShuffler(this._center);
+
   @override
   Body createBody() {
     var bd = BodyDef()
       ..type = BodyType.dynamic
-      ..position = Vector2(0.0, -25.0);
+      ..position = _center + Vector2(0.0, -25.0);
     double numPieces = 5;
     double radius = 6.0;
     var body = world.createBody(bd);
@@ -51,8 +55,9 @@ class CircleShuffler extends BodyComponent {
 
 class CornerRamp extends BodyComponent {
   final bool isMirrored;
+  final Vector2 _center;
 
-  CornerRamp({this.isMirrored = false});
+  CornerRamp(this._center, {this.isMirrored = false});
 
   @override
   Body createBody() {
@@ -71,7 +76,7 @@ class CornerRamp extends BodyComponent {
       ..friction = 0.1;
 
     final bodyDef = BodyDef()
-      ..position = Vector2.zero()
+      ..position = _center
       ..type = BodyType.static;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
@@ -79,19 +84,16 @@ class CornerRamp extends BodyComponent {
 }
 
 class CircleStressSample extends Forge2DGame with TapDetector {
-  @override
-  bool debugMode = true;
-
   CircleStressSample() : super(gravity: Vector2(0, -10.0));
 
   Future<void> onLoad() async {
     await super.onLoad();
     final boundaries = createBoundaries(this);
     boundaries.forEach(add);
-    add(CircleShuffler());
-    add(CornerRamp(isMirrored: true));
-    add(CornerRamp(isMirrored: false));
-    camera.moveTo(-size / 2);
+    final center = screenToWorld(size / 2);
+    add(CircleShuffler(center));
+    add(CornerRamp(center, isMirrored: true));
+    add(CornerRamp(center, isMirrored: false));
   }
 
   @override

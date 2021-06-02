@@ -19,6 +19,14 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
   late Body body;
   late Paint paint;
 
+  /// [debugMode] is true by default for body component since otherwise
+  /// nothing is rendered for it, if you render something on top of the
+  /// [BodyComponent], or doesn't want it to be seen, just set it to false.
+  /// [SpriteBodyComponent] and [PositionBodyComponent] has it set to false by
+  /// default.
+  @override
+  bool debugMode = true;
+
   BodyComponent({Paint? paint}) {
     this.paint = paint ?? Paint()
       ..color = defaultColor;
@@ -31,12 +39,6 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
   @mustCallSuper
   @override
   Future<void> onLoad() async {
-    /// [debugMode] is true by default for body component since otherwise
-    /// nothing is rendered for it, if you render something on top of the
-    /// [BodyComponent], or doesn't want it to be seen, just set it to false.
-    /// [SpriteBodyComponent] and [PositionBodyComponent] has it set to false by
-    /// default.
-    debugMode = true;
     body = createBody();
   }
 
@@ -48,7 +50,7 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
   @override
   void prepareCanvas(Canvas canvas) {
     canvas.translate(body.position.x, body.position.y * -1);
-    canvas.rotate(-angle+pi); // TODO: Something is off here
+    canvas.rotate(-angle + pi); // TODO: Something is off here
   }
 
   @override

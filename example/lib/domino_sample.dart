@@ -15,12 +15,6 @@ class Pizza extends SpriteBodyComponent {
   Pizza(this.position, Image image) : super(Sprite(image), Vector2(2, 3));
 
   @override
-  Future<void> onLoad() async {
-    super.onLoad();
-    debugMode = false;
-  }
-
-  @override
   Body createBody() {
     final PolygonShape shape = PolygonShape();
 

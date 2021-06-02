@@ -8,9 +8,6 @@ import 'boundaries.dart';
 import 'circle_stress_sample.dart';
 
 class MouseJointSample extends Forge2DGame with MultiTouchDragDetector {
-  @override
-  bool debugMode = true;
-
   late Ball ball;
   late Body groundBody;
   MouseJoint? mouseJoint;
@@ -23,11 +20,12 @@ class MouseJointSample extends Forge2DGame with MultiTouchDragDetector {
     final boundaries = createBoundaries(this);
     boundaries.forEach(add);
 
+    final center = screenToWorld(size / 2);
     groundBody = world.createBody(BodyDef());
-    ball = Ball(worldToScreen(Vector2(0, 0)), radius: 5);
+    ball = Ball(center, radius: 5);
     add(ball);
-    add(CornerRamp());
-    add(CornerRamp(isMirrored: true));
+    add(CornerRamp(center));
+    add(CornerRamp(center, isMirrored: true));
   }
 
   @override
@@ -43,11 +41,7 @@ class MouseJointSample extends Forge2DGame with MultiTouchDragDetector {
 
     mouseJoint ??= world.createJoint(mouseJointDef) as MouseJoint;
 
-    mouseJoint?.setTarget(
-      screenToWorld(
-        details.eventPosition.widget,
-      ),
-    );
+    mouseJoint?.setTarget(details.eventPosition.game);
     return false;
   }
 

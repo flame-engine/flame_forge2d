@@ -13,6 +13,8 @@ class Ball extends BodyComponent {
   bool giveNudge = false;
   final double radius;
   Vector2 _position;
+  double _timeSinceNudge = 0.0;
+  static const double _minNudgeRest = 2.0;
 
   final Paint _blue = BasicPalette.blue.paint();
 
@@ -37,7 +39,6 @@ class Ball extends BodyComponent {
   Body createBody() {
     final CircleShape shape = CircleShape();
     shape.radius = radius;
-    Vector2 worldPosition = gameRef.screenToWorld(_position);
 
     final fixtureDef = FixtureDef(shape)
       ..restitution = 0.8
@@ -48,7 +49,7 @@ class Ball extends BodyComponent {
       // To be able to determine object in collision
       ..userData = this
       ..angularDamping = 0.8
-      ..position = worldPosition
+      ..position = _position
       ..type = BodyType.dynamic;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
@@ -66,9 +67,13 @@ class Ball extends BodyComponent {
   @override
   void update(double t) {
     super.update(t);
+    _timeSinceNudge += t;
     if (giveNudge) {
-      body.applyLinearImpulse(Vector2(0, 10000));
       giveNudge = false;
+      if (_timeSinceNudge > _minNudgeRest) {
+        body.applyLinearImpulse(Vector2(0, 1000));
+        _timeSinceNudge = 0.0;
+      }
     }
   }
 }

@@ -9,21 +9,27 @@ import 'package:flame_forge2d/forge2d_game.dart';
 import 'boundaries.dart';
 
 class ChopperBody extends PositionBodyComponent {
-  ChopperBody(PositionComponent component) : super(component, component.size);
+  final Vector2 position;
+
+  ChopperBody(
+    this.position,
+    PositionComponent component,
+  ) : super(component, component.size);
 
   @override
   Body createBody() {
     final shape = CircleShape()..radius = size.x / 4;
     final fixtureDef = FixtureDef(shape)
       ..userData = this // To be able to determine object in collision
-      ..restitution = 0.3
+      ..restitution = 0.8
       ..density = 1.0
       ..friction = 0.2;
 
+    final velocity = (Vector2.random() - Vector2.random()) * 200;
     final bodyDef = BodyDef()
-      ..position = gameRef.screenToWorld(positionComponent.position)
-      ..angle = positionComponent.x / 2 * 3.14
-      ..linearVelocity = (Vector2.all(0.5) - Vector2.random()) * 200
+      ..position = position
+      ..angle = velocity.angleTo(Vector2(1, 0))
+      ..linearVelocity = velocity
       ..type = BodyType.dynamic;
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
@@ -63,7 +69,6 @@ class PositionBodySample extends Forge2DGame with TapDetector {
       animation: animation,
       size: spriteSize,
     );
-    animationComponent.position = position;
-    add(ChopperBody(animationComponent));
+    add(ChopperBody(position, animationComponent));
   }
 }

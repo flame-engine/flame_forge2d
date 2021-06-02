@@ -8,15 +8,12 @@ import 'balls.dart';
 import 'boundaries.dart';
 
 class TapableSample extends Forge2DGame with HasTapableComponents {
-  @override
-  bool debugMode = true;
-
-  TapableSample() : super(gravity: Vector2(0, -10.0));
+  TapableSample() : super(zoom: 20, gravity: Vector2(0, -10.0));
 
   Future<void> onLoad() async {
     final boundaries = createBoundaries(this);
     boundaries.forEach(add);
-    final center = screenToWorld(viewport.effectiveSize / 2);
+    final center = screenToWorld(size / 2);
     add(TapableBall(center));
   }
 }
@@ -29,7 +26,7 @@ class TapableBall extends Ball with Tapable {
 
   @override
   bool onTapDown(_) {
-    body.applyLinearImpulse(Vector2.random() * 10000);
+    body.applyLinearImpulse(Vector2.random() * 1000);
     paint = randomPaint();
     return false;
   }

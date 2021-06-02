@@ -41,12 +41,11 @@ class Pizza extends SpriteBodyComponent {
 class SpriteBodySample extends Forge2DGame with TapDetector {
   late Image _pizzaImage;
 
-  SpriteBodySample() : super(zoom: 5, gravity: Vector2(0, -10.0));
+  SpriteBodySample() : super(gravity: Vector2(0, -10.0));
 
   @override
   Future<void> onLoad() async {
     _pizzaImage = await images.load('pizza.png');
-    debugMode = true;
     addAll(createBoundaries(this));
   }
 
