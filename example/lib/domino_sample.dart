@@ -17,7 +17,7 @@ class Pizza extends SpriteBodyComponent {
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    debugMode = true;
+    debugMode = false;
   }
 
   @override

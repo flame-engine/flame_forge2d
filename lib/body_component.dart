@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flame/components.dart';
@@ -47,7 +48,7 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
   @override
   void prepareCanvas(Canvas canvas) {
     canvas.translate(body.position.x, body.position.y * -1);
-    canvas.rotate(-angle); // TODO: Something is off here
+    canvas.rotate(-angle+pi); // TODO: Something is off here
   }
 
   @override

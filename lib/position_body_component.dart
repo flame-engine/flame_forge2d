@@ -9,6 +9,7 @@ import 'body_component.dart';
 abstract class PositionBodyComponent extends BodyComponent {
   PositionComponent positionComponent;
   Vector2 size;
+
   @override
   bool debugMode = false;
 
@@ -50,7 +51,7 @@ abstract class PositionBodyComponent extends BodyComponent {
       ..y *= -1;
     positionComponent
       ..position = _positionBuffer
-      ..angle = body.getAngle() // TODO: Should this be negative still?
+      ..angle = -angle
       ..size = size;
   }
 }
