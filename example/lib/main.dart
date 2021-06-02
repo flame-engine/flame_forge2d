@@ -10,6 +10,7 @@ import './sprite_body_sample.dart';
 import './contact_callbacks_sample.dart';
 import './domino_sample.dart';
 import 'blob_sample.dart';
+import 'camera_sample.dart';
 import 'circle_stress_sample.dart';
 
 String link(String example) =>
@@ -64,6 +65,11 @@ void main() async {
       'Mouse Joint',
       (DashbookContext ctx) => GameWidget(game: MouseJointSample()),
       codeLink: link('mouse_joint_sample.dart'),
+    )
+    ..add(
+      'Camera',
+      (DashbookContext ctx) => GameWidget(game: CameraSample()),
+      codeLink: link('camera_sample.dart'),
     );
   runApp(dashbook);
 }

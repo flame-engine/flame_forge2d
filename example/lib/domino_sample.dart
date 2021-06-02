@@ -78,16 +78,16 @@ class DominoBrick extends BodyComponent {
 }
 
 class DominoSample extends Forge2DGame with TapDetector {
-  late Image _pizzaImage;
+  late Image pizzaImage;
 
-  DominoSample() : super(gravity: Vector2(0, -10.0));
+  DominoSample() : super(zoom: 1.0, gravity: Vector2(0, -10.0));
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
     final boundaries = createBoundaries(this);
     boundaries.forEach(add);
-    _pizzaImage = await images.load('pizza.png');
+    pizzaImage = await images.load('pizza.png');
     final center = screenToWorld(size / 2);
 
     for (int i = 0; i < 8; i++) {
@@ -110,8 +110,7 @@ class DominoSample extends Forge2DGame with TapDetector {
   void onTapDown(TapDownInfo details) {
     super.onTapDown(details);
     final Vector2 position = details.eventPosition.game;
-    final pizza = Pizza(position, _pizzaImage);
+    final pizza = Pizza(position, pizzaImage);
     add(pizza);
-    //camera.followComponent(pizza.positionComponent);
   }
 }

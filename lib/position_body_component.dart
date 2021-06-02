@@ -43,14 +43,10 @@ abstract class PositionBodyComponent extends BodyComponent {
     positionComponent.remove();
   }
 
-  final Vector2 _positionBuffer = Vector2.zero();
-
   void updatePositionComponent() {
-    _positionBuffer
-      ..setFrom(body.position)
-      ..y *= -1;
+    positionComponent.position..setFrom(body.position);
+    positionComponent.position.y *= -1;
     positionComponent
-      ..position = _positionBuffer
       ..angle = -angle
       ..size = size;
   }
