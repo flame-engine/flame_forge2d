@@ -13,7 +13,7 @@ class TapableSample extends Forge2DGame with HasTapableComponents {
   Future<void> onLoad() async {
     final boundaries = createBoundaries(this);
     boundaries.forEach(add);
-    final center = screenToWorld(size / 2);
+    final center = screenToWorld(viewport.effectiveSize / 2);
     add(TapableBall(center));
   }
 }

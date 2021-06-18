@@ -86,12 +86,12 @@ class FallingBox extends BodyComponent {
 }
 
 class BlobSample extends Forge2DGame with TapDetector {
-  BlobSample() : super(zoom: 8.0, gravity: Vector2(0, -10.0));
+  BlobSample() : super(gravity: Vector2(0, -10.0));
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final worldCenter = screenToWorld(size / 2);
+    final worldCenter = screenToWorld(size * camera.zoom / 2);
     final blobCenter = worldCenter + Vector2(0, 10);
     final blobRadius = Vector2.all(6.0);
     addAll(createBoundaries(this));

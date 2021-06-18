@@ -5,30 +5,12 @@ import 'package:flame/gestures.dart';
 import 'package:forge2d_samples/domino_sample.dart';
 
 class CameraSample extends DominoSample {
-  bool isClicked = false;
-  PositionComponent? component;
-
   @override
   void onTapDown(TapDownInfo details) {
     final Vector2 position = details.eventPosition.game;
     final pizza = Pizza(position, pizzaImage);
     add(pizza);
-    //print(size);
-    //print(screenToWorld(size));
-    component = pizza.positionComponent;
-    isClicked = true;
-    //camera.followComponent(pizza.positionComponent, worldBounds: size.toRect());
-    //camera.moveTo(Vector2(50, 0));
-    //print(camera.position);
-  }
-
-  @override
-  void update(double dt) {
-    super.update(dt);
-    if (isClicked) {
-      isClicked = !isClicked;
-      camera.followComponent(component!);
-      print(component!.position);
-    }
+    final component = pizza.positionComponent;
+    camera.followComponent(component);
   }
 }

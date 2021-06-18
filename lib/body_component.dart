@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:ui';
 
 import 'package:flame/components.dart';
@@ -28,8 +27,7 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
   bool debugMode = true;
 
   BodyComponent({Paint? paint}) {
-    this.paint = paint ?? Paint()
-      ..color = defaultColor;
+    this.paint = paint ?? (Paint()..color = defaultColor);
   }
 
   /// You should create the Forge2D [Body] in this method when you extend
@@ -47,10 +45,22 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
   Vector2 get center => body.worldCenter;
   double get angle => body.getAngle();
 
+  /// The matrix used for preparing the canvas
+  final Matrix4 _transform = Matrix4.identity();
+  double? _lastAngle;
+
   @override
   void prepareCanvas(Canvas canvas) {
-    canvas.translate(body.position.x, body.position.y * -1);
-    canvas.rotate(-angle + pi); // TODO: Something is off here
+    if (_transform.m14 != body.position.x ||
+        _transform.m24 != body.position.y ||
+        _lastAngle != angle) {
+      _transform.setIdentity();
+      _transform.scale(1, -1);
+      _transform.translate2(body.position);
+      _transform.rotateZ(angle);
+      _lastAngle = angle;
+    }
+    canvas.transform(_transform.storage);
   }
 
   @override

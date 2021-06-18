@@ -17,13 +17,13 @@ class DraggableSample extends Forge2DGame with HasDraggableComponents {
     await super.onLoad();
     final boundaries = createBoundaries(this);
     boundaries.forEach(add);
-    final center = screenToWorld(size / 2);
+    final center = screenToWorld(viewport.effectiveSize / 2);
     add(DraggableBall(center));
   }
 }
 
 class DraggableBall extends Ball with Draggable {
-  DraggableBall(Vector2 position) : super(position, radius: 20) {
+  DraggableBall(Vector2 position) : super(position, radius: 5) {
     originalPaint = Paint()..color = Colors.amber;
     paint = originalPaint;
   }
