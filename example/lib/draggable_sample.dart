@@ -1,60 +1,49 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart' hide Draggable;
 import 'package:forge2d/forge2d.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
-import 'package:flame/palette.dart';
 import 'package:flame/gestures.dart';
 
 import 'balls.dart';
 import 'boundaries.dart';
 
 class DraggableSample extends Forge2DGame with HasDraggableComponents {
-  @override
-  bool debugMode = true;
-
-  DraggableSample()
-      : super(
-          scale: 4.0,
-          gravity: Vector2(0, 0.0),
-        );
+  DraggableSample() : super(gravity: Vector2.all(0.0));
 
   @override
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(viewport);
+    await super.onLoad();
+    final boundaries = createBoundaries(this);
     boundaries.forEach(add);
-    add(DraggableBall(viewport.size / 2));
+    final center = screenToWorld(viewport.effectiveSize / 2);
+    add(DraggableBall(center));
   }
 }
 
 class DraggableBall extends Ball with Draggable {
-  DraggableBall(Vector2 position) : super(position, radius: 20) {
-    originalPaint = BasicPalette.white.paint;
+  DraggableBall(Vector2 position) : super(position, radius: 5) {
+    originalPaint = Paint()..color = Colors.amber;
     paint = originalPaint;
   }
 
-  // TODO: Remove this override once the initial position in draggable is solved
-  // on the flame side
   @override
-  bool handleReceiveDrag(DragEvent event) {
-    // In v1.0.0-rc3 initialPosition doesn't take padding outside
-    // the widget into consideration, so the hitbox will be off.
-    if (checkOverlap(event.initialPosition.toVector2())) {
-      return onReceiveDrag(event);
-    }
-    return false;
+  bool onDragStart(int pointerId, DragStartInfo details) {
+    paint = randomPaint();
+    return true;
   }
 
   @override
-  bool onReceiveDrag(DragEvent event) {
-    paint = randomPaint();
-    event.onUpdate = (DragUpdateDetails details) {
-      // This is needed since the y-axis is flipped for gravity to make sense
-      final worldDelta = details.delta.toVector2()
-        ..multiply(Vector2(1.0, -1.0));
-      body.applyLinearImpulse(worldDelta * 1000);
-    };
+  bool onDragUpdate(int pointerId, DragUpdateInfo details) {
+    final worldDelta = Vector2(1, -1)..multiply(details.delta.game);
+    body.applyLinearImpulse(worldDelta * 1000);
+    return true;
+  }
+
+  @override
+  bool onDragEnd(int pointerId, DragEndInfo details) {
+    paint = originalPaint;
     return true;
   }
 }

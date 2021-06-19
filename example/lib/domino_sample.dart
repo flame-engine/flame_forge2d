@@ -1,11 +1,43 @@
+import 'dart:ui';
+
 import 'package:flame_forge2d/body_component.dart';
+import 'package:flame_forge2d/sprite_body_component.dart';
 import 'package:forge2d/forge2d.dart';
+import 'package:flame/components.dart';
 import 'package:flame/gestures.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
-import 'package:flutter/material.dart' hide Image;
 
-import 'balls.dart';
 import 'boundaries.dart';
+
+class Pizza extends SpriteBodyComponent {
+  final Vector2 position;
+
+  Pizza(this.position, Image image) : super(Sprite(image), Vector2(2, 3));
+
+  @override
+  Body createBody() {
+    final PolygonShape shape = PolygonShape();
+
+    final vertices = [
+      Vector2(-size.x / 2, -size.y / 2),
+      Vector2(size.x / 2, -size.y / 2),
+      Vector2(0, size.y / 2),
+    ];
+    shape.set(vertices);
+
+    final fixtureDef = FixtureDef(shape)
+      ..userData = this // To be able to determine object in collision
+      ..restitution = 0.4
+      ..density = 1.0
+      ..friction = 0.5;
+
+    final bodyDef = BodyDef()
+      ..position = position
+      ..angle = (position.x + position.y) / 2 * 3.14
+      ..type = BodyType.dynamic;
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
+  }
+}
 
 class Platform extends BodyComponent {
   final Vector2 position;
@@ -14,10 +46,8 @@ class Platform extends BodyComponent {
 
   @override
   Body createBody() {
-    FixtureDef fd = FixtureDef();
-    PolygonShape sd = PolygonShape();
-    sd.setAsBoxXY(14.8, 0.125);
-    fd.shape = sd;
+    PolygonShape shape = PolygonShape()..setAsBoxXY(14.8, 0.125);
+    FixtureDef fd = FixtureDef(shape);
 
     BodyDef bd = BodyDef();
     bd.position = position;
@@ -33,38 +63,35 @@ class DominoBrick extends BodyComponent {
 
   @override
   Body createBody() {
-    FixtureDef fd = FixtureDef();
-    PolygonShape sd = PolygonShape();
-    sd.setAsBoxXY(0.125, 2.0);
-    fd.shape = sd;
-    fd.density = 25.0;
+    final shape = PolygonShape()..setAsBoxXY(0.125, 2.0);
+    FixtureDef fixtureDef = FixtureDef(shape)
+      ..density = 25.0
+      ..restitution = 0.4
+      ..friction = 0.5;
 
-    BodyDef bd = BodyDef();
-    bd.type = BodyType.DYNAMIC;
-    bd.position = position;
+    BodyDef bodyDef = BodyDef()
+      ..type = BodyType.dynamic
+      ..position = position;
 
-    fd.friction = .5;
-    return world.createBody(bd)..createFixture(fd);
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 
 class DominoSample extends Forge2DGame with TapDetector {
-  @override
-  bool debugMode = true;
+  late Image pizzaImage;
 
-  DominoSample()
-      : super(
-          scale: 8.0,
-          gravity: Vector2(0, -10.0),
-        );
+  DominoSample() : super(gravity: Vector2(0, -10.0));
 
   @override
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(viewport);
+    await super.onLoad();
+    final boundaries = createBoundaries(this);
     boundaries.forEach(add);
+    pizzaImage = await images.load('pizza.png');
+    final center = screenToWorld(viewport.effectiveSize / 2);
 
     for (int i = 0; i < 8; i++) {
-      final position = Vector2(0.0, -30.0 + 5 * i);
+      final position = center + Vector2(0.0, -30.0 + 5 * i);
       add(Platform(position));
     }
 
@@ -72,7 +99,7 @@ class DominoSample extends Forge2DGame with TapDetector {
     final numberPerRow = 25;
     for (int i = 0; i < numberOfRows; ++i) {
       for (int j = 0; j < numberPerRow; j++) {
-        final position =
+        final position = center +
             Vector2(-14.75 + j * (29.5 / (numberPerRow - 1)), -27.7 + 5 * i);
         add(DominoBrick(position));
       }
@@ -80,10 +107,10 @@ class DominoSample extends Forge2DGame with TapDetector {
   }
 
   @override
-  void onTapDown(TapDownDetails details) {
+  void onTapDown(TapDownInfo details) {
     super.onTapDown(details);
-    final Vector2 screenPosition =
-        Vector2(details.localPosition.dx, details.localPosition.dy);
-    add(Ball(screenPosition, radius: 1.0));
+    final Vector2 position = details.eventPosition.game;
+    final pizza = Pizza(position, pizzaImage);
+    add(pizza);
   }
 }

@@ -8,5 +8,5 @@ abstract class SpriteBodyComponent extends PositionBodyComponent {
   SpriteBodyComponent(
     Sprite sprite,
     Vector2 spriteSize,
-  ) : super(SpriteComponent.fromSprite(spriteSize, sprite), spriteSize);
+  ) : super(SpriteComponent(size: spriteSize, sprite: sprite), spriteSize);
 }

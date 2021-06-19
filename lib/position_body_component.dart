@@ -10,6 +10,9 @@ abstract class PositionBodyComponent extends BodyComponent {
   PositionComponent positionComponent;
   Vector2 size;
 
+  @override
+  bool debugMode = false;
+
   /// Make sure that the [size] of the position component matches the bounding
   /// shape of the body that is create in createBody()
   PositionBodyComponent(
@@ -20,17 +23,10 @@ abstract class PositionBodyComponent extends BodyComponent {
   @mustCallSuper
   @override
   Future<void> onLoad() async {
-    body = createBody();
+    await super.onLoad();
     updatePositionComponent();
     positionComponent..anchor = Anchor.center;
     gameRef.add(positionComponent);
-  }
-
-  void updatePositionComponent() {
-    positionComponent
-      ..position = viewport.getWorldToScreen(body.position)
-      ..angle = -body.getAngle()
-      ..size = size * viewport.scale;
   }
 
   @override
@@ -45,5 +41,13 @@ abstract class PositionBodyComponent extends BodyComponent {
     // Since the PositionComponent was added to the game in this class it should
     // also be removed by this class when the BodyComponent is removed.
     positionComponent.remove();
+  }
+
+  void updatePositionComponent() {
+    positionComponent.position..setFrom(body.position);
+    positionComponent.position.y *= -1;
+    positionComponent
+      ..angle = -angle
+      ..size = size;
   }
 }

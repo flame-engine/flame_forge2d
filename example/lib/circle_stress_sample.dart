@@ -5,17 +5,20 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:forge2d/forge2d.dart';
 import 'package:flame/gestures.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
-import 'package:flutter/material.dart' hide Image;
 
 import 'balls.dart';
 import 'boundaries.dart';
 
 class CircleShuffler extends BodyComponent {
+  final Vector2 _center;
+
+  CircleShuffler(this._center);
+
   @override
   Body createBody() {
     var bd = BodyDef()
-      ..type = BodyType.DYNAMIC
-      ..position = Vector2(0.0, -25.0);
+      ..type = BodyType.dynamic
+      ..position = _center + Vector2(0.0, -25.0);
     double numPieces = 5;
     double radius = 6.0;
     var body = world.createBody(bd);
@@ -28,8 +31,7 @@ class CircleShuffler extends BodyComponent {
         ..radius = 1.2
         ..position.setValues(xPos, yPos);
 
-      final fixtureDef = FixtureDef()
-        ..shape = shape
+      final fixtureDef = FixtureDef(shape)
         ..density = 50.0
         ..friction = .1
         ..restitution = .9;
@@ -53,8 +55,9 @@ class CircleShuffler extends BodyComponent {
 
 class CornerRamp extends BodyComponent {
   final bool isMirrored;
+  final Vector2 _center;
 
-  CornerRamp({this.isMirrored = false});
+  CornerRamp(this._center, {this.isMirrored = false});
 
   @override
   Body createBody() {
@@ -68,47 +71,40 @@ class CornerRamp extends BodyComponent {
     ];
     shape.createLoop(vertices);
 
-    final fixtureDef = FixtureDef()
-      ..shape = shape
+    final fixtureDef = FixtureDef(shape)
       ..restitution = 0.0
       ..friction = 0.1;
 
     final bodyDef = BodyDef()
-      ..position = Vector2.zero()
-      ..type = BodyType.STATIC;
+      ..position = _center
+      ..type = BodyType.static;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 
 class CircleStressSample extends Forge2DGame with TapDetector {
-  @override
-  bool debugMode = true;
-
-  CircleStressSample()
-      : super(
-          scale: 8.0,
-          gravity: Vector2(0, -10.0),
-        );
+  CircleStressSample() : super(gravity: Vector2(0, -10.0));
 
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(viewport);
+    await super.onLoad();
+    final boundaries = createBoundaries(this);
     boundaries.forEach(add);
-    add(CircleShuffler());
-    add(CornerRamp(isMirrored: true));
-    add(CornerRamp(isMirrored: false));
+    final center = screenToWorld(viewport.effectiveSize / 2);
+    add(CircleShuffler(center));
+    add(CornerRamp(center, isMirrored: true));
+    add(CornerRamp(center, isMirrored: false));
   }
 
   @override
-  void onTapDown(TapDownDetails details) {
+  void onTapDown(TapDownInfo details) {
     super.onTapDown(details);
-    final Vector2 screenPosition =
-        Vector2(details.localPosition.dx, details.localPosition.dy);
+    final Vector2 tapPosition = details.eventPosition.game;
     final Random random = Random();
     List.generate(15, (i) {
       final Vector2 randomVector =
           (Vector2.random() - Vector2.all(-0.5)).normalized();
-      add(Ball(screenPosition + randomVector, radius: random.nextDouble()));
+      add(Ball(tapPosition + randomVector, radius: random.nextDouble()));
     });
   }
 }

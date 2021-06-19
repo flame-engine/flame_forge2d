@@ -3,54 +3,39 @@ import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/game.dart';
+import 'package:flame_forge2d/forge2d_camera.dart';
 import 'package:forge2d/forge2d.dart' hide Timer;
 
 import 'body_component.dart';
 import 'contact_callbacks.dart';
-import 'viewport.dart';
 
 class Forge2DGame extends BaseGame {
-  static final Vector2 defaultGravity = Vector2(0.0, -10.0);
-  static const double defaultScale = 1.0;
+  static final Vector2 defaultGravity = Vector2(0, -10.0);
+  static const double defaultZoom = 10.0;
   final int velocityIterations = 10;
   final int positionIterations = 10;
 
-  World world;
-  Viewport viewport;
+  late World world;
 
   final ContactCallbacks _contactCallbacks = ContactCallbacks();
 
+  @override
+  final Forge2DCamera camera = Forge2DCamera();
+
   Forge2DGame({
-    Vector2 viewportSize,
-    Vector2 gravity,
-    double scale = defaultScale,
+    Vector2? gravity,
+    double zoom = defaultZoom,
   }) {
-    viewportSize ??= window.physicalSize.toVector2();
     gravity ??= defaultGravity;
+    camera.zoom = zoom;
     world = World(gravity);
     world.setContactListener(_contactCallbacks);
-    viewport = Viewport(viewportSize, scale);
-  }
-
-  @override
-  Future<void> add(Component component) async {
-    await super.add(component);
-    if (component is BodyComponent) {
-      component.body ??= component.createBody();
-      component.debugMode = debugMode;
-    }
   }
 
   @override
   void update(double dt) {
     super.update(dt);
     world.stepDt(dt, velocityIterations, positionIterations);
-  }
-
-  @override
-  void onResize(Vector2 size) {
-    super.onResize(size);
-    viewport.resize(size);
   }
 
   @override
@@ -90,15 +75,6 @@ class Forge2DGame extends BaseGame {
     _contactCallbacks.clear();
   }
 
-  void cameraFollow(
-    BodyComponent component, {
-    double horizontal,
-    double vertical,
-  }) {
-    viewport.cameraFollow(
-      component,
-      horizontal: horizontal,
-      vertical: vertical,
-    );
-  }
+  Vector2 worldToScreen(Vector2 position) => projectVector(position);
+  Vector2 screenToWorld(Vector2 position) => unprojectVector(position);
 }

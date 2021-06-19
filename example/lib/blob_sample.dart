@@ -1,20 +1,25 @@
 import 'dart:math' as math;
 import 'package:flame_forge2d/body_component.dart';
 import 'package:forge2d/forge2d.dart';
+import 'package:flame/extensions.dart';
+import 'package:flame/game.dart';
 import 'package:flame/gestures.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
-import 'package:flutter/material.dart';
 
 import 'boundaries.dart';
 
 class Ground extends BodyComponent {
+  final Vector2 worldCenter;
+
+  Ground(this.worldCenter);
+
   @override
   Body createBody() {
     PolygonShape shape = PolygonShape();
     shape.setAsBoxXY(20.0, 0.4);
 
     BodyDef bodyDef = BodyDef();
-    bodyDef.position.setValues(0.0, -20.0);
+    bodyDef.position.setFrom(worldCenter);
     final ground = world.createBody(bodyDef);
     ground.createFixtureFromShape(shape);
 
@@ -29,36 +34,34 @@ class Ground extends BodyComponent {
 class BlobPart extends BodyComponent {
   final ConstantVolumeJointDef jointDef;
   final int bodyNumber;
+  final Vector2 blobRadius;
+  final Vector2 blobCenter;
 
   BlobPart(
     this.bodyNumber,
     this.jointDef,
+    this.blobRadius,
+    this.blobCenter,
   );
 
   @override
   Body createBody() {
-    double cx = 0.0;
-    double cy = 10.0;
-    double rx = 5.0;
-    double ry = 5.0;
-    double nBodies = 20.0;
-    double bodyRadius = 0.5;
-    double angle = (bodyNumber / nBodies) * math.pi * 2;
+    final nBodies = 20.0;
+    final bodyRadius = 0.5;
+    final angle = (bodyNumber / nBodies) * math.pi * 2;
+    final x = blobCenter.x + blobRadius.x * math.sin(angle);
+    final y = blobCenter.y + blobRadius.y * math.cos(angle);
 
-    BodyDef bodyDef = BodyDef();
-    bodyDef.fixedRotation = true;
-
-    double x = cx + rx * math.sin(angle);
-    double y = cy + ry * math.cos(angle);
-    bodyDef.position.setFrom(Vector2(x, y));
-    bodyDef.type = BodyType.DYNAMIC;
+    BodyDef bodyDef = BodyDef()
+      ..fixedRotation = true
+      ..position.setValues(x, y)
+      ..type = BodyType.dynamic;
     Body body = world.createBody(bodyDef);
 
-    FixtureDef fixtureDef = FixtureDef();
     CircleShape shape = CircleShape()..radius = bodyRadius;
-    fixtureDef.shape = shape;
-    fixtureDef.density = 1.0;
-    fixtureDef.filter.groupIndex = -2;
+    FixtureDef fixtureDef = FixtureDef(shape)
+      ..density = 1.0
+      ..filter.groupIndex = -2;
     body.createFixture(fixtureDef);
     jointDef.addBody(body);
     return body;
@@ -68,15 +71,12 @@ class BlobPart extends BodyComponent {
 class FallingBox extends BodyComponent {
   final Vector2 position;
 
-  FallingBox(
-    Forge2DGame game,
-    this.position,
-  );
+  FallingBox(this.position);
 
   @override
   Body createBody() {
     BodyDef bodyDef = BodyDef()
-      ..type = BodyType.DYNAMIC
+      ..type = BodyType.dynamic
       ..position = position;
     PolygonShape shape = PolygonShape()..setAsBoxXY(2, 4);
     Body body = world.createBody(bodyDef);
@@ -86,38 +86,31 @@ class FallingBox extends BodyComponent {
 }
 
 class BlobSample extends Forge2DGame with TapDetector {
-  @override
-  bool debugMode = true;
-
-  BlobSample()
-      : super(
-          scale: 8.0,
-          gravity: Vector2(0, -10.0),
-        );
+  BlobSample() : super(gravity: Vector2(0, -10.0));
 
   @override
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(viewport);
-    boundaries.forEach(add);
-    add(Ground());
+    await super.onLoad();
+    final worldCenter = screenToWorld(size * camera.zoom / 2);
+    final blobCenter = worldCenter + Vector2(0, 10);
+    final blobRadius = Vector2.all(6.0);
+    addAll(createBoundaries(this));
+    add(Ground(worldCenter));
     final jointDef = ConstantVolumeJointDef()
-      ..frequencyHz = 10.0
+      ..frequencyHz = 20.0
       ..dampingRatio = 1.0
       ..collideConnected = false;
 
-    double nBodies = 20.0;
-    for (int i = 0; i < nBodies; ++i) {
-      await add(BlobPart(i, jointDef));
-    }
+    await Future.wait(List.generate(
+      20,
+      (i) => add(BlobPart(i, jointDef, blobRadius, blobCenter)),
+    ));
     world.createJoint(jointDef);
   }
 
   @override
-  void onTapDown(TapDownDetails details) {
+  void onTapDown(TapDownInfo details) {
     super.onTapDown(details);
-    final Vector2 screenPosition =
-        Vector2(details.localPosition.dx, details.localPosition.dy);
-    final Vector2 worldPosition = viewport.getScreenToWorld(screenPosition);
-    add(FallingBox(this, worldPosition));
+    add(FallingBox(details.eventPosition.game));
   }
 }

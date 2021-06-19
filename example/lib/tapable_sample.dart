@@ -1,6 +1,4 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:forge2d/forge2d.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame/palette.dart';
@@ -10,31 +8,25 @@ import 'balls.dart';
 import 'boundaries.dart';
 
 class TapableSample extends Forge2DGame with HasTapableComponents {
-  @override
-  bool debugMode = true;
-
-  TapableSample()
-      : super(
-          scale: 4.0,
-          gravity: Vector2(0, -10.0),
-        );
+  TapableSample() : super(zoom: 20, gravity: Vector2(0, -10.0));
 
   Future<void> onLoad() async {
-    final boundaries = createBoundaries(viewport);
+    final boundaries = createBoundaries(this);
     boundaries.forEach(add);
-    add(TapableBall(viewport.size / 2));
+    final center = screenToWorld(viewport.effectiveSize / 2);
+    add(TapableBall(center));
   }
 }
 
 class TapableBall extends Ball with Tapable {
   TapableBall(Vector2 position) : super(position) {
-    originalPaint = BasicPalette.white.paint;
+    originalPaint = BasicPalette.white.paint();
     paint = originalPaint;
   }
 
   @override
-  bool onTapDown(TapDownDetails details) {
-    body.applyLinearImpulse(Vector2.random() * 10000);
+  bool onTapDown(_) {
+    body.applyLinearImpulse(Vector2.random() * 1000);
     paint = randomPaint();
     return false;
   }

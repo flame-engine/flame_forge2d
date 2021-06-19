@@ -9,12 +9,16 @@ import 'package:flutter/material.dart';
 import 'boundaries.dart';
 
 class Ball extends BodyComponent {
-  Paint originalPaint;
+  late Paint originalPaint;
   bool giveNudge = false;
   final double radius;
   Vector2 _position;
+  double _timeSinceNudge = 0.0;
+  static const double _minNudgeRest = 2.0;
 
-  Ball(this._position, {this.radius = 5.0}) {
+  final Paint _blue = BasicPalette.blue.paint();
+
+  Ball(this._position, {this.radius = 2}) {
     originalPaint = randomPaint();
     this.paint = originalPaint;
   }
@@ -28,17 +32,15 @@ class Ball extends BodyComponent {
         100 + rng.nextInt(155),
         255,
       ),
-    ).paint;
+    ).paint();
   }
 
   @override
   Body createBody() {
     final CircleShape shape = CircleShape();
     shape.radius = radius;
-    Vector2 worldPosition = viewport.getScreenToWorld(_position);
 
-    final fixtureDef = FixtureDef()
-      ..shape = shape
+    final fixtureDef = FixtureDef(shape)
       ..restitution = 0.8
       ..density = 1.0
       ..friction = 0.4;
@@ -47,8 +49,8 @@ class Ball extends BodyComponent {
       // To be able to determine object in collision
       ..userData = this
       ..angularDamping = 0.8
-      ..position = worldPosition
-      ..type = BodyType.DYNAMIC;
+      ..position = _position
+      ..type = BodyType.dynamic;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
@@ -56,26 +58,27 @@ class Ball extends BodyComponent {
   @override
   void renderCircle(Canvas c, Offset center, double radius) {
     super.renderCircle(c, center, radius);
-    final angle = body.getAngle();
-    final lineRotation =
-        Offset(math.sin(angle) * radius, math.cos(angle) * radius);
-    final blue = const PaletteEntry(Colors.blue).paint;
-    c.drawLine(center, center + lineRotation, blue);
+    final lineRotation = Offset(0, radius);
+    c.drawLine(center, center + lineRotation, _blue);
   }
 
   @override
   void update(double t) {
     super.update(t);
+    _timeSinceNudge += t;
     if (giveNudge) {
-      body.applyLinearImpulse(Vector2(0, 10000));
       giveNudge = false;
+      if (_timeSinceNudge > _minNudgeRest) {
+        body.applyLinearImpulse(Vector2(0, 1000));
+        _timeSinceNudge = 0.0;
+      }
     }
   }
 }
 
 class WhiteBall extends Ball {
   WhiteBall(Vector2 position) : super(position) {
-    originalPaint = BasicPalette.white.paint;
+    originalPaint = BasicPalette.white.paint();
     paint = originalPaint;
   }
 }
