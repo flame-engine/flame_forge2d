@@ -19,8 +19,8 @@ Add the following to the dependencies section of your `pubspec.yaml` file:
 
 ```
 dependencies:
-  flame: ^1.0.0-rc8
-  flame_forge2d: ^0.7.1-rc8
+  flame: ^1.0.0-releasecandidate.12
+  flame_forge2d: ^0.7.2-releasecandidate.12
 ```
 
 ## Examples
