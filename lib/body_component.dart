@@ -43,7 +43,7 @@ abstract class BodyComponent<T extends Forge2DGame> extends BaseComponent
   World get world => gameRef.world;
   Camera get camera => gameRef.camera;
   Vector2 get center => body.worldCenter;
-  double get angle => body.getAngle();
+  double get angle => body.angle;
 
   /// The matrix used for preparing the canvas
   final Matrix4 _transform = Matrix4.identity();
