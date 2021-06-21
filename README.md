@@ -1,3 +1,5 @@
+# This repostitory has moved to the [Flame monorepo](https://github.com/flame-engine/flame/tree/main/packages/flame_forge2d)
+
 <p align="center">
   <a href="https://flame-engine.org">
     <img alt="flame" width="300px" src="https://raw.githubusercontent.com/flame-engine/forge2d/main/design/with-text.png">
